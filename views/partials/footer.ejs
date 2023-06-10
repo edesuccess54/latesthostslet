@@ -1,0 +1,29 @@
+<footer aria-labelledby="footerHeading" class="_1boqbzp">
+</footer>
+        
+
+<!-- slick javascript  -->
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('.room-slides').slick({
+                speed: 300,
+                dots: true,
+                prevArrow: $('.prev-arrow'),
+                nextArrow: $('.next-arrow')
+            });
+        });
+
+        const prevArrow = documement.querySelector('.prev-arrow');
+
+        const preventDefaultFunction = (e) => {
+            e.preventDefault()
+        }
+        prevArrow.addEventListener('click', preventDefaultFunction)
+    </script>
+</body>
+</html>
