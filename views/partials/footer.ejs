@@ -8,22 +8,53 @@
 
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-    <script>
+    <!-- <script>
         $(document).ready(function(){
-            $('.room-slides').slick({
+            $('.room-slides').each(function() {
+                $(this).slick({
                 speed: 300,
-                dots: true,
-                prevArrow: $('.prev-arrow'),
+                autoplay: true,
+                prevArrow: $('.prev-arrow').each(function() {
+                    return $(this)
+                }),
                 nextArrow: $('.next-arrow')
-            });
+                });
+            })
+        });
+    </script> -->
+
+    <script>
+
+        $(document).ready(function(){
+            $('.room-slides').each(function() {
+                var carousel = $(this);
+
+                carousel.slick({
+                    speed: 300,
+                    // autoplay: true,
+                });
+
+                $('.prev-arrow').click(function() {
+                    carousel.slick('slickPrev');
+                });
+
+                // carousel.on('init', function(event, slick) {
+                //     var prevArrow = carousel.siblings('.prev-arrow');
+                //     var nextArrow = carousel.siblings('.next-arrow');
+
+                //     prevArrow.click(function() {
+                //         carousel.slick('slickPrev');
+                //     });
+
+                //     nextArrow.click(function() {
+                //         carousel.slick('slickNext');
+                //     });
+                // })
+            })
         });
 
-        const prevArrow = documement.querySelector('.prev-arrow');
-
-        const preventDefaultFunction = (e) => {
-            e.preventDefault()
-        }
-        prevArrow.addEventListener('click', preventDefaultFunction)
     </script>
+    </script>
+    
 </body>
 </html>
