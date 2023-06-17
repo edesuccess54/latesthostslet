@@ -1,0 +1,546 @@
+<%- include('./partials/head') %>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    li {
+        list-style: none;
+        margin-bottom: 25px;
+    }
+
+    .content-wrapper {
+        max-width: 1200px;
+        margin: auto;
+        height: 100vh;
+        padding: 10px;
+    }
+
+    .potos_container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: 200px 200px;
+        gap: 8px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .one {
+        background: red;
+        grid-column: 1/3;
+        grid-row: 1/3;
+    }
+    .two {
+        background: green;
+        grid-column: 3/4;
+        grid-row: 1/2;
+    }
+
+    .three {
+        background: blue;
+        grid-column: 4/5;
+        grid-row: 1/2;
+    }
+
+    .four {
+        background: pink;
+        grid-column: 3/4;
+        grid-row: 2/2;
+    }
+
+    .five {
+        background: pink;
+        grid-column: 4/5;
+        grid-row: 2/2;
+    }
+
+    .property_desc_section {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        border-bottom: 0.1px solid rgba(0 ,0, 0, 0.3);
+    }
+
+    .apartment_details {
+        flex-grow: 1;
+    }
+
+    .reservation_section {
+         flex-grow: 1;
+    }
+
+    .heading-section {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 5px;
+        border-bottom: 0.1px solid rgba(0 ,0, 0, 0.3);
+        /* background: purple; */
+    }
+
+    .heading-section h2 {
+        flex-grow: 1;
+    }
+
+    .heading-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: grey;
+    }
+
+    .reservation_section {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .schedule-box {
+        width: 400px;
+        height: 400px;
+        position: static;
+        right: 40px;
+        /* background: rgb(222, 222, 222); */
+        background: #fff;
+        box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.9);
+        padding: 10px 20px;
+        box-sizing: border-box;
+        border-radius: 10px;
+    }
+
+    .amount_review {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .input_inner label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .input_inner input[type=date] {
+        border-radius: 20px;
+        border: 1px solid black;
+        padding: 10px;
+    }
+
+    .amenities {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .show_amenities {
+        padding: 10px 0;
+        border: none;
+        border: 1px solid black;
+        border-radius: 5px;
+        outline: none;
+    }
+
+    /* reviews section styls  */
+    .reviews_section {
+        padding: 20px 0;
+    }
+
+    .rating_percent {
+        display: flex;
+        justify-content: space-between;
+        gap: 80px;
+        flex-wrap: wrap;
+    }
+
+    .rating_wrapper {
+        flex-grow: 1;
+    }
+
+    .rating_wrapper ul li {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* .rating_wrapper ul li span{
+        display: block;
+    } */
+
+    .progress {
+        display: inline-block;
+        width: 150px;
+        height: 3px;
+        background: #111;
+        border-radius: 5px;
+    }
+
+    .testimonies {
+        display: flex;
+        overflow-x:  scroll;
+        gap: 10px;
+        margin: 10px 0;
+    }
+
+    .testimony {
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    .bio {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .bio_detail p, .bio_detail h4 {
+        padding: 0;
+        margin: 0;
+    }
+
+    .testimony_date {
+        color: rgba(0 ,0, 0, 0.5);
+    }
+
+    .testifer_img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: gray;
+        overflow: hidden;
+    }
+
+    .testifer_img img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .actual_testimony {
+        margin-top: 10px;
+        height: 100%;
+        overflow: scroll;
+    }
+
+
+    @media screen and (min-width: 768px) {
+        .testimonies {
+             display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            column-gap: 80px;
+            row-gap: 60px;
+            overflow-x: unset;
+        }
+    }
+
+</style>
+<body>
+    <div class="content-wrapper">
+        <section class="image_grid">
+            <h2>Flea Windmill | The Mill</h2>
+            <div class="potos_container">
+                <div class="images one">1</div>
+                <div class="images two">2</div>
+                <div class="images three">3</div>
+                <div class="images four">4</div>
+                <div class="images five">5</div>
+            </div>
+        </section>
+
+        <section class="property_desc_section">
+            <div class="apartment_details">
+                <div class="heading-section">
+                    <h2>
+                        <p>Windmill hosted by Moinho</p>
+                        <span style="font-size: 14px; color: gray; font-weight: 300;">2 guests1 . bedroom1 . bed1 . bath</span>
+                    </h2>
+                        
+                    <img class="heading-img" src="/main/images/christopher.webp" alt="">
+                </div>
+                <ul style="margin: 20px 0; padding-bottom: 20px; border-bottom: 0.1px solid rgba(0 ,0, 0, 0.3);">
+                    <li>
+                        <span style="display: flex; align-items: center; gap: 10px;">
+                            <img src="/main/images/workspace.svg" alt="" style="width: 25px">
+                            <span>Dedicated workspace <br> A room with wifi that’s well-suited for working.</span>
+                        </span>
+                    </li>
+
+                    <li>
+                        <span style="display: flex; align-items: center; gap: 10px;">
+                            <img src="/main/images/checkin.svg" alt="" style="width: 25px">
+                            <span>Self Check-in <br>Check yourself in with the keypad.</span>
+                        </span>
+                    </li>
+
+                    <li>
+                        <span style="display: flex; align-items: center; gap: 10px;">
+                            <img src="/main/images/cancel.svg" alt="" style="width: 25px">
+                            <span>Free cancellation for 48 hours.</span>
+                        </span>
+                    </li>
+                </ul>
+
+                <div class="amenities_section">
+                    <h2>What this place offers</h2>
+
+                    <ul class="amenities" style="margin: 20px 0; padding-bottom: 20px;">
+                    <li>
+                        <span style="display: flex; align-items: center; gap: 10px;">
+                            <img src="/main/images/garden_view.svg" alt="" style="width: 25px">
+                            <span>Garden view</span>
+                        </span>
+                    </li>
+
+                    <li>
+                        <span style="display: flex; align-items: center; gap: 10px;">
+                            <img src="/main/images/mountain_view.svg" alt="" style="width: 25px">
+                            <span>Mountain view</span>
+                        </span>
+                    </li>
+
+                    <li>
+                        <span style="display: flex; align-items: center; gap: 10px;">
+                            <img src="/main/images/beach-access.svg" alt="" style="width: 25px">
+                            <span>Beach access – Beachfront</span>
+                        </span>
+                    </li>
+
+                    <li>
+                        <span style="display: flex; align-items: center; gap: 10px;">
+                            <img src="/main/images/kitchen.svg" alt="" style="width: 25px">
+                            <span>Kitchen</span>
+                        </span>
+                    </li>
+
+                    <li>
+                        <span style="display: flex; align-items: center; gap: 10px;">
+                            <img src="/main/images/wifi.svg" alt="" style="width: 25px">
+                            <span>Wifi</span>
+                        </span>
+                    </li>
+
+                    <li>
+                        <span style="display: flex; align-items: center; gap: 10px;">
+                            <img src="/main/images/cancel.svg" alt="" style="width: 25px">
+                            <span>Dedicated workspace</span>
+                        </span>
+                    </li>
+
+                    <li>
+                        <span style="display: flex; align-items: center; gap: 10px;">
+                            <img src="/main/images/car.svg" alt="" style="width: 25px">
+                            <span>Free parking on premises</span>
+                        </span>
+                    </li>
+
+                    <li>
+                        <span style="display: flex; align-items: center; gap: 10px;">
+                            <img src="/main/images/hdm_tv.svg" alt="" style="width: 25px">
+                            <span>HDTV with standard cable, premium cable</span>
+                        </span>
+                    </li>
+
+                    <li>
+                        <span style="display: flex; align-items: center; gap: 10px;">
+                            <img src="/main/images/ac.svg" alt="" style="width: 25px">
+                            <span>AC - split type ductless system</span>
+                        </span>
+                    </li>
+
+                    <li>
+                        <span style="display: flex; align-items: center; gap: 10px;">
+                            <img src="/main/images/backyard.svg" alt="" style="width: 25px">
+                            <span>Shared backyard – Fully fenced</span>
+                        </span>
+                    </li>
+                     <button class="show_amenities"> 59 other amenities</button>
+                </ul>
+               
+                </div>
+            </div>
+            
+
+            <div class="reservation_section">
+                <div class="schedule-box">
+                    <div class="amount_review">
+                        <p><span class="amount" style="font-weight: bold;">$156</span> night</p>
+                        <p style="font-weight: bold;"><img src="/main/images/rating.svg" alt="" style="width: 15px;"> 4.95 . <a href="" style="text-decoration: underline;">189 reviews</a></p>
+                    </div>
+                    <form action="" style="margin-top: 20px;">
+                        <div class="form_wrapper" style="border: 1px solid black; padding: 20px; border-radius: 10px;">
+                            <div class="input_group" style="display: flex; justify-content: space-between;">
+                                <div class="input_inner">
+                                    <label for="checkin">CHECK-IN</label>
+                                    <input id="checkin" type="date">
+                                </div>
+
+                                <div class="input_inner">
+                                    <label for="checkout">CHECK-OUT</label>
+                                    <input id="checkout" type="date">
+                                </div>
+                            </div>
+
+                            <div class="input_inner" style="margin: 10px 0;">
+                                <label for="checkout">GUEST</label>
+                                <select name="" id="" style="width: 100%; border-radius: 20px; padding: 10px; border: 1px solid black; outline: none;">
+                                    <option value="">
+                                        <span>Adults (Age 13+)</span>
+                                    </option>
+
+                                    <option value="" style="display: flex; justify-content: space-between;">
+                                        <span>Children (Age 2 - 12)</span>
+                                    </option>
+
+                                    <option value="" style="display: flex; justify-content: space-between;">
+                                        <span>Infants (under 2)</span>
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="btn_container" style="margin-top: 20px; text-align: center;"> 
+                            <button style="padding: 10px; width: 250px; background: red; color: #fff; border-radius: 10px; outline: none; border: none;">Reserve</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- reviews section starts here  -->
+        <section class="reviews_section">
+            <h2> <img src="/main/images/rating.svg" alt="rating"> 4.95 · 189 reviews</h2>
+            <div class="rating_percent">
+                <div class="rating_wrapper">
+                    <ul>
+                        <li>
+                            <span>Cleanliness</span>
+                            <span>
+                                <span class="progress"></span>
+                                <span class="rates"> &nbsp; 4.9</span>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span>Communication</span>
+                            <span>
+                                <span class="progress"></span>
+                                <span class="rates"> &nbsp; 5.0</span>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span>Check-in</span>
+                            <span>
+                                <span class="progress"></span>
+                                <span class="rates"> &nbsp; 5.0</span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="rating_wrapper">
+                    <ul>
+                        <li>
+                            <span>Accuracy</span>
+                            <span>
+                                <span class="progress"></span>
+                                <span class="rates"> &nbsp; 4.9</span>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span>Location</span>
+                            <span>
+                                <span class="progress"></span>
+                                <span class="rates"> &nbsp; 4.9</span>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span>Value</span>
+                            <span>
+                                <span class="progress"></span>
+                                <span class="rates"> &nbsp; 4.8</span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="testimonies">
+                <div class="testimony">
+                    <div class="bio">
+                        <div class="testifer_img">
+                            <img src="/main/images/christopher.webp" alt="">
+                        </div>
+                        <div class="bio_detail">
+                            <h4>Christopher</h4>
+                            <p class="testimony_date">June 2023</p>
+                        </div>
+                    </div>
+
+                    <div class="actual_testimony">
+                        <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
+                    </div>
+                </div>
+
+                <div class="testimony">
+                    <div class="bio">
+                        <div class="testifer_img">
+                            <img src="/main/images/christopher.webp" alt="">
+                        </div>
+                        <div class="bio_detail">
+                            <h4>Christopher</h4>
+                            <p class="testimony_date">June 2023</p>
+                        </div>
+                    </div>
+
+                    <div class="actual_testimony">
+                        <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
+                    </div>
+                </div>
+
+                <div class="testimony">
+                    <div class="bio">
+                        <div class="testifer_img">
+                            <img src="/main/images/christopher.webp" alt="">
+                        </div>
+                        <div class="bio_detail">
+                            <h4>Christopher</h4>
+                            <p class="testimony_date">June 2023</p>
+                        </div>
+                    </div>
+
+                    <div class="actual_testimony">
+                        <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
+                    </div>
+                </div>
+
+                <div class="testimony">
+                    <div class="bio">
+                        <div class="testifer_img">
+                            <img src="/main/images/christopher.webp" alt="">
+                        </div>
+                        <div class="bio_detail">
+                            <h4>Christopher</h4>
+                            <p class="testimony_date">June 2023</p>
+                        </div>
+                    </div>
+
+                    <div class="actual_testimony">
+                        <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- host section starts here  -->
+        <section class="host_section">
+            <div class="bio">
+                <div class="testifer_img">
+                    <img src="/main/images/christopher.webp" alt="">
+                </div>
+                <div class="bio_detail">
+                    <h4>Hosted by Moinho</h4>
+                    <p class="testimony_date">Joined in February 2015</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

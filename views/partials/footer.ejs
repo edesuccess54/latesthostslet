@@ -26,31 +26,18 @@
     <script>
 
         $(document).ready(function(){
-            $('.room-slides').each(function() {
-                var carousel = $(this);
+            const roomSlides = $('.room-slides')
 
-                carousel.slick({
+            for(let i = 0; i < roomSlides.length; i++) {
+                 var carousel = roomSlides[i];
+                 console.log
+
+                 carousel.slick({
                     speed: 300,
-                    // autoplay: true,
+                    prevArrow: $('.prev-arrow'),
+                    nextArrow: $('.next-arrow')
                 });
-
-                $('.prev-arrow').click(function() {
-                    carousel.slick('slickPrev');
-                });
-
-                // carousel.on('init', function(event, slick) {
-                //     var prevArrow = carousel.siblings('.prev-arrow');
-                //     var nextArrow = carousel.siblings('.next-arrow');
-
-                //     prevArrow.click(function() {
-                //         carousel.slick('slickPrev');
-                //     });
-
-                //     nextArrow.click(function() {
-                //         carousel.slick('slickNext');
-                //     });
-                // })
-            })
+            }
         });
 
     </script>

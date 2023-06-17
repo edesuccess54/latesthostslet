@@ -1,4 +1,9 @@
 
+.nav_links.active{
+    border-bottom: 2px solid #111; display: block; color: red; font-weight: bold;
+}
+
+
 .single-redirect {
     position: relative;
 }
