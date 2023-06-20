@@ -1,0 +1,389 @@
+<style>
+  header {
+    width: 100%;
+    padding: 0 20px;
+    height: 60px;
+    position: fixed;
+    z-index: 9999999999999;
+    background: #fff;
+  }
+
+  nav.nav_bar {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  nav.nav_bar ul#home{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    list-style: none;
+  }
+
+  .login_signup {
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+
+  nav.nav_bar ul li.home{
+    list-style: none;
+    padding: 5px;
+
+  }
+
+  nav.nav_bar ul li.home{
+    padding: 10px;
+    color: #222;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 40px;
+    transition: background-color 0.3s linear;
+  }
+
+  nav.nav_bar ul li.home:hover{
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 40px;
+  }
+
+  .open_close {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .auth {
+    display: flex;
+    width: 90px;
+    height: 40px;
+    border-radius: 40px;
+    padding: 0 10px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    position: relative;
+    transition: box-shadow 0.3s linear;
+  }
+
+  .auth:hover {
+    box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .hamburger {
+    display: block;
+    font-size: 20px;
+  }
+
+  .profile_icon {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .profile_icon i {
+    display: block;
+    color: #fff;
+    font-size: 20px;
+  }
+
+  .auth_container {
+    position: absolute;
+    display: none;
+    width: 250px;
+    background: #fff;
+    border-radius: 15px;
+    left: -170px;
+    top: 50px;
+    z-index: 99999;
+    box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .auth_container.show {
+    display: block;
+  }
+
+  .login_signup a {
+    display: block;
+    padding: 10px;
+    color: #222;
+    font-weight: bold;
+    transition: background-color 0.3s linear;
+  }
+
+  .login_signup a:nth-child(1) {
+    margin-top: 10px;
+  }
+
+  .login_signup a:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+
+  /* login modal styles */
+
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    z-index: 9999;
+  }
+
+  .overlay.show {
+    display: block;
+  }
+
+  .login_modal {
+    width: 100%;
+    margin-top: 80px;
+    /* display: none; */
+    transform: translateY(900px);
+    position: fixed;
+    z-index: 99999;
+    opacity: 0;
+    transition: transform 0.5s linear;
+  }
+
+  .login_modal.show{
+    /* display: block; */
+    opacity: 1;
+     transform: translateY(0);
+  }
+
+  .login , .signup{
+    display: none;
+    max-height: 500px;
+    overflow: scroll;
+  }
+
+  .login::-webkit-scrollbar, .signup::-webkit-scrollbar{
+    display: none;
+  }
+
+  .login.show, .signup.show {
+    display: block;
+  }
+
+  .form_wrapper {
+    max-width: 350px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .form_wrapper .fa-xmark {
+    cursor: pointer;
+    font-size: 20px;
+    color: #222;
+  }
+
+  .input_group {
+    margin-bottom: 10px;
+  }
+
+  .input_group label {
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .input_group input {
+    width: 100%;
+    padding: 10px 8px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    outline: none;
+  }
+
+  .input_group button {
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    background: #ff385c;
+    color: #fff;
+    font-size: 20px;
+    margin-top: 10px;
+  }
+
+  .login_signup_link {
+    color: #ff385c;
+  }
+
+
+  @media screen  and (min-width: 768px){
+    .form_wrapper {
+        max-width: 650px;
+    }
+
+    .login_modal {
+        max-height: 500px;
+    }
+  }
+
+  
+</style>
+<header>
+  <nav class="nav_bar">
+    <div class="brand_logo">
+      <!-- <img src="" alt="logo"> -->
+      <h4>LOGO</h4>
+    </div>
+    <div>
+      <ul id="home">
+        <li class="home">
+          <a href="/">Hostpro</a>
+        </li>
+
+        <li class="auth">
+          <span class="open_close">
+            <i class="fa-solid fa-bars hamburger"></i>
+            <span class="profile_icon">
+              <i class="fa-solid fa-user"></i>
+            </span>
+          </span>
+          
+          <div class="auth_container">
+            <div class="login_wrapper">
+              <div class="login_signup">
+                <a href="/login">Login</a>
+                <a href="/signup">Sign up</a>
+              </div>
+
+              <a style=" display: inline-block; margin-top: 30px; padding: 10px; font-weight: bold;" href="/">Hostpro your home</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<div class="overlay"></div>
+<div class="login_modal">
+    <div class="form_wrapper">
+        <span class="close_bar" ><i class="fa-solid fa-xmark"></i></span>
+        <div class="login">
+            <h2 style="text-align: center;">Log in</h2>
+            <form class="login_form">
+                <div class="input_group">
+                    <label for="email">E-mail</label>
+                    <input id="lemail" name="email" type="email">
+                </div>
+
+                <div class="input_group">
+                    <label for="password">Password</label>
+                    <input id="lpassword" name="password" type="password">
+                </div>
+
+                <div class="input_group">
+                    <button type="submit">Continue</button>
+                </div>
+                <p>Don't have an account?  <a class="login_signup_link" href="/signup">Sign up</a></p>
+            </form>
+        </div>
+
+        <!-- signup section  -->
+        <div class="signup">
+            <h2 style="text-align: center;">Sign up</h2>
+            <form class="signup_form">
+                <div class="input_group">
+                    <label for="fname">First name</label>
+                    <input id="fname" name="fname" type="text" required>
+                </div>
+
+                <div class="input_group">
+                    <label for="lname">Last name</label>
+                    <input id="lname" name="lname" type="text" required>
+                </div>
+
+                <div class="input_group">
+                    <label for="email">E-mail</label>
+                    <input id="email" name="email" type="email" required>
+                </div>
+
+                <div class="input_group">
+                    <label for="rcode">Reservation code</label>
+                    <input id="rcode" name="reserveCode" type="text" placeholder="make payment to get your reservation code" required>
+                </div>
+
+                <div class="input_group">
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" required>
+                </div>
+
+                <div class="input_group">
+                    <button type="submit">Continue</button>
+                </div>
+                <p>Already have an account?  <a class="login_signup_link" href="/login">Login</a></p>
+            </form>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    const logins = document.querySelectorAll('.login_signup a');
+    const authModal = document.querySelector('.login_modal');
+    const loginForm = document.querySelector('.login');
+    const signup = document.querySelector('.signup');
+    const closeBtn = document.querySelector('.close_bar .fa-xmark');
+    const overlay = document.querySelector('.overlay');
+    const loginSignupLinks = document.querySelectorAll('.login_signup_link');
+
+    const removeScroll = (e) => {
+        window.scrollTo(0, 0)
+    }
+
+    const displayAuthModal = (e) => {
+        e.preventDefault();
+        authModal.classList.add('show');
+        overlay.classList.add('show');
+        toggletopLoginModal();
+
+        window.addEventListener('scroll', removeScroll)
+
+        if(e.target.textContent.trim() == 'Login') {
+            signup.classList.remove('show');
+            loginForm.classList.add('show');
+        } else if(e.target.textContent.trim() == 'Sign up') {
+            loginForm.classList.remove('show');
+            signup.classList.add('show');
+        }
+    }
+    logins.forEach(login => {
+        login.addEventListener('click', displayAuthModal);
+    })
+
+    loginSignupLinks.forEach(loginSignupLink  => {
+        loginSignupLink.addEventListener('click', displayAuthModal)
+    })
+
+    function closeAuthModal() {
+         authModal.classList.remove('show');
+         loginForm.classList.remove('show');
+         signup.classList.remove('show');
+         overlay.classList.remove('show');
+         window.removeEventListener('scroll', removeScroll)
+    }
+    closeBtn.addEventListener('click', closeAuthModal);
+    overlay.addEventListener('click', closeAuthModal);
+
+
+    const topLoginModal = document.querySelector('.auth_container');
+    function toggletopLoginModal() {
+      topLoginModal.classList.remove('show')
+    }
+</script>

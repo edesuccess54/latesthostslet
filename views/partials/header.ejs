@@ -1,8 +1,10 @@
+<%- include('./topNav')  %>
+
 <div class="rivl72l dir dir-ltr">
   <div class="_1o0oxddr">
     <div class="_mk7bo2">
-      <div class="c1yo0219 dir dir-ltr">
-        <div data-plugin-in-point-id="CATEGORY_FILTER_BAR" data-section-id="CATEGORY_FILTER_BAR" style="display: contents;">
+      <div class="c1yo0219 dir dir-ltr" >
+        <div data-plugin-in-point-id="CATEGORY_FILTER_BAR" data-section-id="CATEGORY_FILTER_BAR" style="display: contents;" >
           <div class="w17rkehr dir dir-ltr">
             <div class="c1yfmptw clu53zf dir dir-ltr">
               <div class="e13keydh e1gc5f0n dir dir-ltr">
@@ -15,12 +17,12 @@
                             <div class=" dir dir-ltr">
                               <div class="awuxh4x dir dir-ltr">
                                 <div class="cw9aemg dir dir-ltr">
-                                  <div class="dir dir-ltr" style="text-align: center;">
+                                  <div class="dir dir-ltr" style="text-align: center;" > 
                                     <label aria-hidden="false" class="ccma3s cecxnfe dir dir-ltr">
                                       <input type="radio" name="categoryScroller" class="h6yk088 dir dir-ltr" checked="">
                                       <div class="c1m2z0bj dir dir-ltr">
                                         <span class="c1w8ohg7 dir dir-ltr">
-                                          <a href="/" class="nav_links <% if(title== 'omg') {'active' } else {''} %>">
+                                          <a href="/" class="nav_links <% title== 'omg'? 'active':'' %>">
                                             <img class="iamhn2w dir dir-ltr" src="https://a0.muscache.com/pictures/c5a4f6fc-c92c-4ae8-87dd-57f1ff1b89a6.jpg" alt="" width="24" height="24">
                                             <div class="t1h65ots dir dir-ltr">
                                               <span class="t1trgdqu dir dir-ltr">OMG!</span>
@@ -115,3 +117,14 @@
       </div>
     </div>
   </div>
+
+  <script>
+    const hamburgerBtn = document.querySelector('.open_close');
+    const loginModal = document.querySelector('.auth_container')
+
+    const toggleLoginModal = (e) => {
+      loginModal.classList.toggle('show')
+    }
+
+    hamburgerBtn.addEventListener('click', toggleLoginModal);
+  </script>

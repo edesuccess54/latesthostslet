@@ -9,12 +9,13 @@
 }
 
 .content {
-    padding: 0 30px;
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    margin: 0 auto;
-    gap: 20px
+    padding: 0 10px;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    justify-items: center;
+    max-width: 100%;
+    margin: auto;
+    /* gap: 20px */
 }
 
 .content a {
@@ -28,7 +29,7 @@
 
 .imagecontainer {
     position: relative;
-    width: 290px;
+    max-width: 320px;
     height: 280px;
     overflow: hidden;
     border-radius: 10px;
@@ -47,6 +48,7 @@
 
 .property-wrapper {
     position: relative;
+    
 }
 
 .wishlist {
@@ -105,4 +107,16 @@
     display: block;
     font-weight: bold;
     margin-top: 5px;
+}
+
+
+@media screen and (min-width: 768px) {
+    .imagecontainer {
+        max-width: 300px;
+    }
+
+    .content {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+    }
 }
