@@ -1,0 +1,26 @@
+
+<div class="side_nav_wrapper">
+    <div class="side_nav">
+    <ul>
+        <li class="<%= title === 'Dashboard' ? 'active' : '' %>">
+            <i class="fa-solid fa-gauge-high"></i>
+            <a href="/auth/admin/dashboard">Dashboard</a>
+        </li>
+
+        <li class="<%= title === 'Create Property' ? 'active' : '' %>">
+            <i class="fa-solid fa-square-plus"></i>
+            <a href="/auth/admin/create">Add property</a>
+        </li>
+
+        <li class="<%= title === '' ? 'active' : '' %>">
+            <i class="fa-solid fa-wallet"></i>
+            <a href="/auth/admin/wallet">Update wallet</a>
+        </li>
+
+        <li class="<%= title === '' ? 'active' : '' %>">
+            <i class="fa-solid fa-square-plus"></i>
+            <a href="">Add property</a>
+        </li>
+    </ul>
+    </div>
+</div>

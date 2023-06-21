@@ -1,0 +1,196 @@
+<%- include('./partials/head') %>
+
+<main>
+    <div class="content_wrapper">
+        <%- include('./partials/sideNav') %>
+
+        <div class="main_content_wrapper">
+            <div class="main_content">
+            
+                <!-- create propety section  -->
+                <section class="form_section">
+                    <h2>Add new property</h2>
+                    <div class="form_wrapper">
+                        <div class="form_container">
+                            <form id="property_form" enctype="multipart/form-data">
+                                <div class="input_group">
+                                    <label for="pname">Name of property</label>
+                                    <input id="pname" type="text" name="pname" required>
+                                </div>
+
+                                <!-- <div class="input_group">
+                                    <label for="plocation">Property location</label>
+                                    <input id="plocation" type="text" name="plocation" placeholder="city, country" required>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pamount">Amount(per night)</label>
+                                    <input id="pamount" type="text" name="pamount" required>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="hname">Host Name</label>
+                                    <input id="hname" type="text" name="hostname" required>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pguest">Number of guest</label>
+                                    <select name="guest" id="pguest" required>
+                                        <option value="" selected disabled>select number of guest allowed</option>
+                                        <option value="1 guest">1 guest</option>
+                                        <option value="2 guests">2 guests</option>
+                                        <option value="3 guests">3 guests</option>
+                                        <option value="4 guests">4 guests</option>
+                                    </select>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pbedroom">Number of bedroom</label>
+                                    <select name="bedroom" id="pbedroom" required>
+                                        <option value="" selected disabled>select number of bedroom</option>
+                                        <option value="1 bedroom">1 bedroom</option>
+                                        <option value="2 bedrooms">2 bedrooms</option>
+                                        <option value="3 bedrooms">3 bedrooms</option>
+                                        <option value="4 bedrooms">4 bedrooms</option>
+                                    </select>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pbed">Number of bed</label>
+                                    <select name="bed" id="pbed" required>
+                                        <option value="" selected disabled>select number of bed</option>
+                                        <option value="1 bed">1 bed</option>
+                                        <option value="2 beds">2 beds</option>
+                                        <option value="3 beds">3 beds</option>
+                                        <option value="4 beds">4 beds</option>
+                                    </select>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pnampbathe">Number of bath</label>
+                                    <select name="bath" id="pbath" required>
+                                        <option value="" selected disabled>select number of bath</option>
+                                        <option value="1 bath">1 bath</option>
+                                        <option value="2 baths">2 baths</option>
+                                        <option value="3 baths">3 baths</option>
+                                        <option value="4 baths">4 baths</option>
+                                    </select>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pnampbathe">Number of rating</label>
+                                    <select id="pbath" name="rating" required>
+                                        <option value="" selected disabled>select number of ratings</option>
+                                        <option value="3.59">3.59 ratings</option>
+                                        <option value="4.53">4.53 ratings</option>
+                                        <option value="4.92">4.92 ratings</option>
+                                        <option value="4.95">4.95 ratings</option>
+                                        <option value="5.00">5.00 ratings</option>
+                                    </select>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pnampbathe">Number of reviews</label>
+                                    <select id="pbath" name="review" required>
+                                        <option value="" selected disabled>select number of reviews</option>
+                                        <option value="100">100 reviews</option>
+                                        <option value="150">150 reviews</option>
+                                        <option value="170">170 reviews</option>
+                                        <option value="185">185 reviews</option>
+                                        <option value="195">195 reviews</option>
+                                    </select>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pcat">Property Category</label>
+                                    <select id="pcat" name="pcategory" required>
+                                        <option value="" selected disabled>select property category</option>
+                                        <option value="omg">OMG</option>
+                                        <option value="mansions">Mansions</option>
+                                        <option value="luxe">Luxe</option>
+                                        <option value="Islands">Islands</option>
+                                        <option value="iconic">Iconic</option>
+                                        <option value="tropical">Tropical</option>
+                                    </select>
+                                </div> -->
+
+                                <div class="input_group">
+                                    <label for="pfile">select property photos</label>
+                                    <input id="pfile" type="file" multiple=true name="images" required>
+                                </div>
+
+
+                                <div class="input_group">
+                                    <button class="btn create_btn">Create</button>
+                                </div>
+
+                                <p class="message"></p>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    let createForm = document.querySelector('#property_form');
+    const message = document.querySelector('.message');
+    const formBtn = document.querySelector('.create_btn');
+
+    const createProperty = async (e) => {
+        e.preventDefault();
+
+        formBtn.textContent = 'processing, please wait...';
+        message.textContent = '';
+        message.className = 'message';
+
+        const formdata = {
+            pname: createForm.pname.value,
+            // plocation: createForm.plocation.value,
+            // pamount: createForm.pamount.value,
+            // hostname: createForm.hostname.value,
+            // guest: createForm.guest.value,
+            // bedroom: createForm.bedroom.value,
+            // bed: createForm.bed.value,
+            // bath: createForm.bath.value,
+            // rating: createForm.rating.value,
+            // review: createForm.review.value,
+            // pcategory: createForm.pcategory.value,
+        }
+
+        try {
+            const response = await fetch('/auth/admin/create', {
+            method: 'POST',
+            headers : {"Content-Type": "application/json"},
+            body: JSON.stringify(formdata)
+            });
+
+            if(!response.ok) {
+                throw new Error('Failed to create property, please try again')
+            }
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error);
+            }
+
+            if(json.success) {
+                formBtn.textContent = 'Created property';
+                message.classList.add('success');
+                message.textContent = json.message;
+                
+                // createForm.reset();
+            }
+            
+        } catch (error) {
+            formBtn.textContent = 'Created property';
+            message.classList.add('error');
+            message.textContent = error.message;
+        }
+    }
+    createForm.addEventListener('submit', createProperty)
+</script>
+    
+<%- include('./partials/footer')  %>
