@@ -116,7 +116,8 @@
 
                                 <div class="input_group">
                                     <label for="pfile">select property photos</label>
-                                    <input id="pfile" type="file" multiple=true name="images" required>
+                                    <input id="pfile" type="file" multiple=true name="images">
+                                    <label for="">upload as many as possible</label>
                                 </div>
 
 
@@ -142,9 +143,9 @@
     const createProperty = async (e) => {
         e.preventDefault();
 
-        formBtn.textContent = 'processing, please wait...';
-        message.textContent = '';
-        message.className = 'message';
+        // formBtn.textContent = 'processing, please wait...';
+        // message.textContent = '';
+        // message.className = 'message';
 
         const formdata = {
             pname: createForm.pname.value,

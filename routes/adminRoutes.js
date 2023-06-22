@@ -9,10 +9,7 @@ router.get('/dashboard', adminDashboard);
 router.get('/create', createProductPage);
 
 
-router.post('/create', (req, res, next) => {
-    console.log('fuck shit')
-    next();
-}, upload.array('images'), createProduct);
+router.post('/create', upload.array("images"), createProduct);
 
 
 

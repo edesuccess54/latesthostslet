@@ -10,10 +10,11 @@ const createProductPage = (req, res, next) => {
 
 
 const createProduct = async (req, res, next) => { 
-    const { } = req.body
+    const { pname } = req.body
 
+    console.log(pname)
 
-    console.log(req.files)
+    console.log(req)
 
     
 
