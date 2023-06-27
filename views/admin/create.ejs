@@ -18,7 +18,7 @@
                                     <input id="pname" type="text" name="pname" required>
                                 </div>
 
-                                <!-- <div class="input_group">
+                                <div class="input_group">
                                     <label for="plocation">Property location</label>
                                     <input id="plocation" type="text" name="plocation" placeholder="city, country" required>
                                 </div>
@@ -112,7 +112,7 @@
                                         <option value="iconic">Iconic</option>
                                         <option value="tropical">Tropical</option>
                                     </select>
-                                </div> -->
+                                </div>
 
                                 <div class="input_group">
                                     <label for="pfile">select property photos</label>
@@ -143,29 +143,16 @@
     const createProperty = async (e) => {
         e.preventDefault();
 
-        // formBtn.textContent = 'processing, please wait...';
-        // message.textContent = '';
-        // message.className = 'message';
+        formBtn.textContent = 'processing, please wait...';
+        message.textContent = '';
 
-        const formdata = {
-            pname: createForm.pname.value,
-            // plocation: createForm.plocation.value,
-            // pamount: createForm.pamount.value,
-            // hostname: createForm.hostname.value,
-            // guest: createForm.guest.value,
-            // bedroom: createForm.bedroom.value,
-            // bed: createForm.bed.value,
-            // bath: createForm.bath.value,
-            // rating: createForm.rating.value,
-            // review: createForm.review.value,
-            // pcategory: createForm.pcategory.value,
-        }
+        let formData = new FormData(createForm);
 
         try {
+
             const response = await fetch('/auth/admin/create', {
             method: 'POST',
-            headers : {"Content-Type": "application/json"},
-            body: JSON.stringify(formdata)
+            body: formData
             });
 
             if(!response.ok) {
@@ -178,17 +165,26 @@
             }
 
             if(json.success) {
-                formBtn.textContent = 'Created property';
+                formBtn.textContent = 'Create property';
                 message.classList.add('success');
                 message.textContent = json.message;
-                
-                // createForm.reset();
+                createForm.reset();
+
+                setTimeout(() => {
+                    message.classList.remove('success');
+                    message.textContent = "";
+                },3000)
             }
             
         } catch (error) {
-            formBtn.textContent = 'Created property';
+            formBtn.textContent = 'Create property';
             message.classList.add('error');
             message.textContent = error.message;
+
+            setTimeout(() => {
+                message.classList.remove('error');
+                message.textContent = "";
+            },3000)
         }
     }
     createForm.addEventListener('submit', createProperty)

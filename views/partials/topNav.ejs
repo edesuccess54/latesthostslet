@@ -288,8 +288,10 @@
                     <input id="lpassword" name="password" type="password">
                 </div>
 
+                <p class="login_message"></p>
+
                 <div class="input_group">
-                    <button type="submit">Continue</button>
+                    <button class="sigin_btn" type="submit">Continue</button>
                 </div>
                 <p>Don't have an account?  <a class="login_signup_link" href="/signup">Sign up</a></p>
             </form>
@@ -324,8 +326,10 @@
                     <input id="password" name="password" type="password" required>
                 </div>
 
+                <p class="message"></p>
+
                 <div class="input_group">
-                    <button type="submit">Continue</button>
+                    <button type="submit" class="reg_btn">Continue</button>
                 </div>
                 <p>Already have an account?  <a class="login_signup_link" href="/login">Login</a></p>
             </form>
@@ -342,6 +346,10 @@
     const closeBtn = document.querySelector('.close_bar .fa-xmark');
     const overlay = document.querySelector('.overlay');
     const loginSignupLinks = document.querySelectorAll('.login_signup_link');
+    const loginUserForm = document.querySelector('.login_form');
+    const signIn = document.querySelector('.sigin_btn');
+    const registerationForm = document.querySelector('.signup_form');
+    const regBtn = document.querySelector('.reg_btn');
 
     const removeScroll = (e) => {
         window.scrollTo(0, 0)
@@ -386,4 +394,99 @@
     function toggletopLoginModal() {
       topLoginModal.classList.remove('show')
     }
+
+
+    // account registeration begins here
+    const signUpUser = async (e) => {
+      e.preventDefault()
+      const message = document.querySelector('.message'); 
+      message.textContent = '';
+      regBtn.textContent = "Please wait...";
+
+      const formData = {
+        firstname: registerationForm.fname.value,
+        lastname: registerationForm.lname.value,
+        email: registerationForm.email.value,
+        password: registerationForm.password.value,
+        reserveCode: registerationForm.reserveCode.value
+      }
+
+      try {
+        const response = await fetch('/auth/users/signup', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(formData)
+        })
+
+        if(!response.ok) {
+          throw new Error('registration failed, please try again')
+        }
+
+        const json = await response.json();
+
+        if(json.error) {
+          throw new Error(json.error)
+        }
+
+        if(json.success) {
+          message.classList.add('success')
+          message.textContent = json.message
+          regBtn.textContent = 'Continue'
+        }
+        
+      } catch (error) {
+        regBtn.textContent = 'Continue'
+        message.classList.add('error')
+        message.textContent = error.message
+      }
+    }
+    registerationForm.addEventListener('submit', signUpUser);
+    // account registeration ends here 
+
+
+    // account loging begins here 
+    const loginUser = async (e) => {
+      e.preventDefault()
+      const message = document.querySelector('.login_message');
+
+      message.textContent = '';
+      signIn.textContent = "Please wait...";
+
+      const formData = {
+        email: loginUserForm.email.value,
+        password: loginUserForm.password.value,
+      }
+
+      try {
+        const response = await fetch('/auth/users/login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(formData)
+        })
+
+        if(!response.ok) {
+          throw new Error('login failed, please try again')
+        }
+
+        const json = await response.json();
+
+        if(json.error) {
+          throw new Error(json.error)
+        }
+
+        signIn.textContent = 'Redirecting...'
+
+        if(json.role == 'admin') {
+          location.assign('/auth/admin/dashboard')
+        } else if(json.role == 'user'){
+          location.assign('/auth/users/dashboard')
+        }
+        
+      } catch (error) {
+        signIn.textContent = 'Continue'
+        message.classList.add('error')
+        message.textContent = error.message
+      }
+    }
+    loginUserForm.addEventListener('submit', loginUser)
 </script>

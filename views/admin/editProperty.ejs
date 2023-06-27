@@ -1,0 +1,214 @@
+<%- include('./partials/head') %>
+
+<main>
+    <div class="content_wrapper">
+        <%- include('./partials/sideNav') %>
+
+        <div class="main_content_wrapper">
+            <div class="main_content">
+            
+                <!-- create propety section  -->
+                <section class="form_section">
+                    <% if(!property) { %>
+                    <h2>Oops! this property does not exist</h2>
+                    <% } else { %>
+                    <h2>Update property details</h2>
+                    <div class="form_wrapper">
+                        <div class="form_container">
+                            <form id="property_form" enctype="multipart/form-data">
+                                <div class="input_group">
+                                    <label for="pname">Name of property</label>
+                                    <input id="pname" type="text" name="pname" value="<%= property.pname %>" required>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="plocation">Property location</label>
+                                    <input id="plocation" type="text" name="plocation" value="<%= property.plocation %>" placeholder="city, country" required>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pamount">Amount(per night)</label>
+                                    <input id="pamount" type="text" name="pamount" value="<%= property.pamount %>" required>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="hname">Host Name</label>
+                                    <input id="hname" type="text" name="hostname" value="<%= property.hostname %>" required>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pguest">Number of guest</label>
+                                    <select name="guest" id="pguest" required>
+                                        <option value=""  disabled>select number of guest allowed</option>
+                                        <option value="1 guest" <%= property.guest == '1 guest' ? 'selected' : '' %>>1 guest</option>
+                                        <option value="2 guests" <%= property.guest == '2 guests' ? 'selected' : '' %>>2 guests</option>
+                                        <option value="3 guests" <%= property.guest == '3 guests' ? 'selected' : '' %>>3 guests</option>
+                                        <option value="4 guests" <%= property.guest == '4 guests' ? 'selected' : '' %>>4 guests</option>
+                                    </select>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pbedroom">Number of bedroom</label>
+                                    <select name="bedroom" id="pbedroom" required>
+                                        <option value="" disabled>select number of bedroom</option>
+                                        <option value="1 bedroom" <%= property.bedroom == '1 bedroom' ? "selected" : '' %>>1 bedroom</option>
+                                        <option value="2 bedrooms" <%= property.bedroom == '2 bedrooms' ? "selected" : '' %>>2 bedrooms</option>
+                                        <option value="3 bedrooms" <%= property.bedroom == '3 bedrooms' ? "selected" : '' %>>3 bedrooms</option>
+                                        <option value="4 bedrooms" <%= property.bedroom == '4 bedrooms' ? "selected" : '' %>>4 bedrooms</option>
+                                    </select>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pbed">Number of bed</label>
+                                    <select name="bed" id="pbed" required>
+                                        <option value="" disabled>select number of bed</option>
+                                        <option value="1 bed" <%= property.bed == '1 bed' ? "selected" : '' %>>1 bed</option>
+                                        <option value="2 beds" <%= property.bed == '2 beds' ? "selected" : '' %>>2 beds</option>
+                                        <option value="3 beds" <%= property.bed == '3 beds' ? "selected" : '' %>>3 beds</option>
+                                        <option value="4 beds" <%= property.bed == '4 beds' ? "selected" : '' %>>4 beds</option>
+                                    </select>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pnampbathe">Number of bath</label>
+                                    <select name="bath" id="pbath" required>
+                                        <option value="" disabled>select number of bath</option>
+                                        <option value="1 bath" <%= property.bath == '1 bath' ? "selected" : '' %>>1 bath</option>
+                                        <option value="2 baths" <%= property.bath == '2 baths' ? "selected" : '' %>>2 baths</option>
+                                        <option value="3 baths" <%= property.bath == '3 baths' ? "selected" : '' %>>3 baths</option>
+                                        <option value="4 baths" <%= property.bath == '4 baths' ? "selected" : '' %>>4 baths</option>
+                                    </select>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pnampbathe">Number of rating</label>
+                                    <select id="pbath" name="rating" required>
+                                        <option value="" disabled>select number of ratings</option>
+                                        <option value="3.59" <%= property.rating == '3.59' ? "selected" : '' %>>3.59 ratings</option>
+                                        <option value="4.53" <%= property.rating == '4.53' ? "selected" : '' %>>4.53 ratings</option>
+                                        <option value="4.92" <%= property.rating == '4.92' ? "selected" : '' %>>4.92 ratings</option>
+                                        <option value="4.95" <%= property.rating == '4.95' ? "selected" : '' %>>4.95 ratings</option>
+                                        <option value="5.00" <%= property.rating == '5.00' ? "selected" : '' %>>5.00 ratings</option>
+                                    </select>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pnampbathe">Number of reviews</label>
+                                    <select id="pbath" name="review" required>
+                                        <option value="" selected disabled>select number of reviews</option>
+                                        <option value="100" <%= property.review == '100' ? "selected" : '' %>>100 reviews</option>
+                                        <option value="150" <%= property.review == '150' ? "selected" : '' %>>150 reviews</option>
+                                        <option value="170" <%= property.review == '170' ? "selected" : '' %>>170 reviews</option>
+                                        <option value="185" <%= property.review == '185' ? "selected" : '' %>>185 reviews</option>
+                                        <option value="195" <%= property.review == '195' ? "selected" : '' %>>195 reviews</option>
+                                    </select>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="pcat">Property Category</label>
+                                    <select id="pcat" name="pcategory" required>
+                                        <option value="" selected disabled>select property category</option>
+                                        <option value="omg" <%= property.pcategory == 'omg' ? "selected" : '' %>>OMG</option>
+                                        <option value="mansions" <%= property.pcategory == 'mansions' ? "selected" : '' %>>Mansions</option>
+                                        <option value="luxe" <%= property.pcategory == 'luxe' ? "selected" : '' %>>Luxe</option>
+                                        <option value="Islands" <%= property.pcategory == 'Islands' ? "selected" : '' %>>Islands</option>
+                                        <option value="iconic" <%= property.pcategory == 'iconic' ? "selected" : '' %>>Iconic</option>
+                                        <option value="tropical" <%= property.pcategory == 'tropical' ? "selected" : '' %>>Tropical</option>
+                                    </select>
+                                </div>
+
+                                
+                                <div class="input_group">
+                                    <label for="pfile">select property photos</label>
+                                    <input id="pfile" type="file" multiple=true name="images">
+                                    <label for="pfile">upload as many as possible</label>
+                                </div>
+
+
+                                <div class="input_group">
+                                    <button class="btn create_btn">Create</button>
+                                </div>
+
+                                <p class="message"></p>
+                            </form>
+                        </div>
+                    </div>
+                    <% } %>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    let createForm = document.querySelector('#property_form');
+    const message = document.querySelector('.message');
+    const formBtn = document.querySelector('.create_btn');
+    const queryStrings = new URLSearchParams(document.location.search)
+    const propertyId = queryStrings.get('property')
+
+    const createProperty = async (e) => {
+        e.preventDefault();
+
+        formBtn.textContent = 'processing, please wait...';
+        message.textContent = '';
+
+        let formData = new FormData(createForm);
+
+        // const values =  [
+        //     {key: "pname", value: createForm.pname.value},
+        //     {key: "plocation", value: createForm.plocation.value},
+        //     {key: "pamount", value: createForm.pamount.value},
+        //     {key: "hostname", value: createForm.hostname.value},
+        //     {key: "guest", value: createForm.guest.value},
+        //     {key: "bedroom", value: createForm.bedroom.value},
+        //     {key: "bed", value: createForm.bed.value},
+        //     {key: "bath", value: createForm.bath.value},
+        //     {key: "rating", value: createForm.rating.value},
+        //     {key: "review", value: createForm.review.value,
+        //     key: "pcategory", value: createForm.pcategory.value},
+        // ]
+
+        try {
+
+            const response = await fetch(`/auth/admin/edit/${propertyId}`, {
+            method: 'PUT',
+            body: formData
+            });
+
+            if(!response.ok) {
+                throw new Error('Failed to create property, please try again')
+            }
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error);
+            }
+
+            if(json.success) {
+                formBtn.textContent = 'Create property';
+                message.classList.add('success');
+                message.textContent = json.message;
+                createForm.reset();
+
+                setTimeout(() => {
+                    message.classList.remove('success');
+                    message.textContent = "";
+                },3000)
+            }
+            
+        } catch (error) {
+            formBtn.textContent = 'Create property';
+            message.classList.add('error');
+            message.textContent = error.message;
+
+            setTimeout(() => {
+                message.classList.remove('error');
+                message.textContent = "";
+            },3000)
+        }
+    }
+    createForm.addEventListener('submit', createProperty)
+</script>
+    
+<%- include('./partials/footer')  %>

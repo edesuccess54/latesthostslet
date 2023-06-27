@@ -1,0 +1,98 @@
+<%- include('./partials/head') %>
+
+<main>
+    <div class="content_wrapper">
+        <%- include('./partials/sideNav') %>
+
+        <div class="main_content_wrapper">
+            <div class="main_content">
+            
+                <!-- create propety section  -->
+                <section class="form_section">
+                    <h2>Update your payment details</h2>
+                    <div class="form_wrapper">
+                        <div class="form_container">
+                            <form class="wallet_form" enctype="multipart/form-data">
+                                <div class="input_group">
+                                    <label for="wallet">Enter your Wallet Address</label>
+                                    <input id="wallet" type="text" name="wallet" required>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="walletcode">Upload your wallet QR Code</label>
+                                    <input id="walletcode" type="file" name="file" required>
+                                </div>
+
+
+                                <div class="input_group">
+                                    <button class="btn wallet_btn">Update Wallet</button>
+                                </div>
+
+                                <p class="message"></p>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const walletForm = document.querySelector('.wallet_form');
+    const walletBtn = document.querySelector('.wallet_btn');
+    const message = document.querySelector('.message');
+
+   async function updatePaymentDetails(e) {
+        e.preventDefault();
+
+        message.textContent = '';
+        walletBtn.textContent = 'Updaing payment details, please wait...';
+
+        try {
+            let formData = new FormData(walletForm);
+            formData.append('address', walletForm.wallet.value)
+
+            const response = await fetch('/auth/admin/wallet', {
+                method: 'POST',
+                body: formData
+            })
+
+            if(!response.ok) {
+                throw new Error('something went wrong, please try again')
+            }
+
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error)
+            }
+
+            if(json.success) {
+                message.classList.add('success');
+                message.textContent = json.message
+                walletBtn.textContent = "Updated wallet";
+                walletForm.reset();
+
+                setTimeout(() => {
+                    message.textContent='';
+                    message.classList.remove('success');
+                },3000)
+            }
+            
+        } catch (error) {
+            message.classList.add('error');
+            message.textContent = error.message;
+            walletBtn.textContent = 'Update wallet'
+
+            setTimeout(() => {
+                message.textContent='';
+                message.classList.remove('error');
+            },3000)
+        }
+    }
+
+    walletForm.addEventListener('submit', updatePaymentDetails);
+</script>
+
+    

@@ -12,15 +12,78 @@
             <a href="/auth/admin/create">Add property</a>
         </li>
 
-        <li class="<%= title === '' ? 'active' : '' %>">
+        <li class="<%= title === 'Bitcoin Wallet' ? 'active' : '' %>">
             <i class="fa-solid fa-wallet"></i>
             <a href="/auth/admin/wallet">Update wallet</a>
         </li>
 
-        <li class="<%= title === '' ? 'active' : '' %>">
-            <i class="fa-solid fa-square-plus"></i>
-            <a href="">Add property</a>
+        <li class="">
+            <i class="fa-solid fa-right-from-bracket logout"></i>
+            <a class="logout" href="">Log out</a>
         </li>
     </ul>
     </div>
 </div>
+
+<div class="overlay"></div>
+<!-- mobile nav  -->
+<div class="mobile_nav_wrapper">
+    <span class="close-icon">
+        <h3>Hostpro</h3>
+        <i class="fa-solid fa-x"></i>
+    </span>
+    <div class="side_nav">
+    <ul>
+        <li class="<%= title === 'Dashboard' ? 'active' : '' %>">
+            <i class="fa-solid fa-gauge-high"></i>
+            <a href="/auth/admin/dashboard">Dashboard</a>
+        </li>
+
+        <li class="<%= title === 'Create Property' ? 'active' : '' %>">
+            <i class="fa-solid fa-square-plus"></i>
+            <a href="/auth/admin/create">Add property</a>
+        </li>
+
+        <li class="<%= title === 'Bitcoin Wallet' ? 'active' : '' %>">
+            <i class="fa-solid fa-wallet"></i>
+            <a href="/auth/admin/wallet">Update wallet</a>
+        </li>
+
+        <li class="">
+            <i class="fa-solid fa-right-from-bracket logout"></i>
+            <a class="logout" href="">Log out</a>
+        </li>
+    </ul>
+    </div>
+</div>
+
+
+<script>
+    const hamburger = document.querySelector('.fa-bar');
+    const mobileMenu = document.querySelector('.mobile_nav_wrapper');
+    const overlay = document.querySelector('.overlay');
+    const closeIcon = document.querySelector('.fa-x');
+
+    const stopScroll = (e) => {
+        window.scrollTo(0, 0);
+    }
+
+    const openMobielMenu =  (e) => {
+        overlay.classList.add('show');
+        mobileMenu.classList.add('show');
+
+        window.addEventListener('scroll', stopScroll);
+    }
+
+    const closeMobielMenu = (e) => {
+        overlay.classList.remove('show');
+        mobileMenu.classList.remove('show');
+
+        window.removeEventListener('scroll', stopScroll);
+    }
+
+
+    hamburger.addEventListener('click', openMobielMenu);
+    overlay.addEventListener('click', closeMobielMenu);
+    closeIcon.addEventListener('click', closeMobielMenu);
+</script>

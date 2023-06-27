@@ -1,0 +1,101 @@
+<%- include('./partials/head') %>
+
+<main>
+    <div class="content_wrapper">
+        <%- include('./partials/sideNav') %>
+
+        <div class="main_content_wrapper">
+            <div class="main_content">
+            
+                <!-- create propety section  -->
+                <section class="form_section">
+                    <h2>Add review to this property</h2>
+                    <div class="form_wrapper">
+                        <div class="form_container">
+                            <form class="review_form" enctype="multipart/form-data">
+                                <div class="input_group">
+                                    <label for="rname">Write review</label>
+                                    <textarea name="review" id="rname" cols="30" rows="10" required></textarea>
+                                </div>
+                                
+                                <div class="input_group">
+                                    <label for="pfile">add photo of the reviewer</label>
+                                    <input class="fileInput" id="pfile" type="file" name="file" required>
+                                </div>
+
+
+                                <div class="input_group">
+                                    <button class="btn review_btn">Submit</button>
+                                </div>
+
+                                <p class="message"></p>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script type="module" >
+    const reviewForm = document.querySelector('.review_form');
+    const message = document.querySelector('.message');
+    const formBtn = document.querySelector('.review_btn');
+
+    import {convertImage} from '/main/js/convertImageToBase64.js'
+
+    const queryStrings = new URLSearchParams(document.location.search)
+    const propertyId = queryStrings.get('property')
+
+    const addReview = async (e) => {
+        e.preventDefault();
+
+        formBtn.textContent = 'processing, please wait...';
+        message.textContent = '';
+
+        let formData = new FormData(reviewForm);
+
+        try {
+
+            const response = await fetch(`/auth/admin/review/${propertyId}`, {
+            method: 'POST',
+            body: formData
+            });
+
+            if(!response.ok) {
+                throw new Error('Failed to create property, please try again')
+            }
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error);
+            }
+
+            if(json.success) {
+                formBtn.textContent = 'Create property';
+                message.classList.add('success');
+                message.textContent = json.message;
+                // reviewForm.reset();
+
+                setTimeout(() => {
+                    message.classList.remove('success');
+                    message.textContent = "";
+                },3000)
+            }
+            
+        } catch (error) {
+            formBtn.textContent = 'Create property';
+            message.classList.add('error');
+            message.textContent = error.message;
+
+            setTimeout(() => {
+                message.classList.remove('error');
+                message.textContent = "";
+            },3000)
+        }
+    }
+    reviewForm.addEventListener('submit', addReview)
+</script>
+    
+<%- include('./partials/footer')  %>
