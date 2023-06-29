@@ -9,45 +9,28 @@
 <meta name="twitter:widgets:csp" content="on">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="application-name" content="Airbnb">
-<meta name="apple-mobile-web-app-title" content="Airbnb">
+<meta name="application-name" content="Hostslet">
+<meta name="apple-mobile-web-app-title" content="Hostslet">
 <meta name="theme-color" content="#ffffff">
 <meta name="msapplication-navbutton-color" content="#ffffff">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="msapplication-starturl" content="/?utm_source=homescreen">
 
-<!-- <script>
-    (function(){function a(c){var d,e,f,g,h;if(window._errorReportingInitialized)return void window.removeEventListener("error",a);const{error:i}=c;if(!i)return;const{locale:j,tracking_context:k}=null!==(d=null===(e=window[Symbol.for("__ global cache key __")])||void 0===e||null===(f=e["string | airbnb-bootstrap-data"])||void 0===f?void 0:f["_bootstrap-layout-init"])&&void 0!==d?d:{},l=j||navigator.language,m=location.pathname;fetch("https://notify.bugsnag.com/",{headers:{"Bugsnag-Payload-Version":"5"},body:JSON.stringify({apiKey:"e393bc25e52fe915ffb56c14ddf2ff1b",payloadVersion:b,notifier:{name:"Airbnb UnhandledBufferedError Custom Fetch",version:"0.0.3",url:""},events:[{exceptions:[{errorClass:i.name,message:i.message,stacktrace:[{file:c.filename,lineNumber:c.lineno,columnNumber:c.colno}],type:"browserjs"}],request:{url:location.href},context:m,groupingHash:i.name.concat("-",c.message,"-",m),unhandled:!0,app:{releaseStage:null===k||void 0===k?void 0:k.environment},device:{time:new Date,userAgent:navigator.userAgent},metaData:{infra:{app_name:null===k||void 0===k?void 0:k.app,is_buffered_error:!0,loop_name:null===k||void 0===k?void 0:k.controller,locale:l,service_worker_url:null===(g=navigator.serviceWorker)||void 0===g||null===(h=g.controller)||void 0===h?void 0:h.scriptURL}}}]}),method:"POST"})}const b="5";"undefined"!=typeof window&&window.addEventListener("error",a)})();
-</script> -->
-
-<script>
-// FID init code.
-// (function(a,b){function c(a){l.push(a),f()}function d(a,b){i||(i=b,j=a,k=new Date,f())}function e(){i&&(i=null,j=null,k=null)}function f(){0<=j&&j<k-n&&(l.forEach(a=>{a(j,i)}),l=[])}function g(c,e){function f(){d(c,e),h()}function g(){h()}function h(){b(o,f,m),b(p,g,m)}a(o,f,m),a(p,g,m)}function h(a){if(a.cancelable){const b=1e12<a.timeStamp,c=b?new Date:performance.now(),e=c-a.timeStamp;"pointerdown"===a.type?g(e,a):d(e,a)}}let i,j,k,l=[];const m={passive:!0,capture:!0},n=new Date,o="pointerup",p="pointercancel";(function(a){["click","mousedown","keydown","touchstart","pointerdown"].forEach(b=>{a(b,h,m)})})(a),self.perfMetrics=self.perfMetrics||{},self.perfMetrics.onFirstInputDelay=c,self.perfMetrics.clearFirstInputDelay=e})(addEventListener,removeEventListener);
-
-// TTFMP Polyfill code.
-// (function(a){function b(){const c=document.getElementById(i);h=0,c?g===c?e=a(b):"IMG"!==c.tagName||c.complete?a(function(){const a=performance.now();g=c,f?f(a):h=a,performance.measure&&performance.measure("TTFMP")}):e=a(b):e=a(b)}function c(a){h?a(h):f=a}function d(){cancelAnimationFrame(e)}let e,f,g,h;const i="FMP-target";e=a(b),self.perfMetrics=self.perfMetrics||{},self.perfMetrics.onFirstMeaningfulPaint=c,self.perfMetrics.startSearchingForFirstMeaningfulPaint=function(){g=document.getElementById(i),b()},self.perfMetrics.stopSearchingForFirstMeaningfulPaint=d})(requestAnimationFrame);
-
-// LCP Polyfill code
-// (function(a,b,c){function d(a,b,c){if(b>o*(1+q)||!document.body.contains(m)){var d;o=b,p=c,m=a,null===(d=x)||void 0===d?void 0:d(p,m,o)}}function e(a,b){if("IMG"!==a.tagName)b();else{const d=()=>c(b);a.complete?d():a.addEventListener("load",d,{once:!0})}}function f(a){var b;null===(b=w)||void 0===b?void 0:b.observe(a)}function g(a){return u.includes(a.tagName)||a.hasAttribute("data-lcp-candidate")}function h(){if(t)if(s)v||(v={IMG:document.getElementsByTagName("img"),H1:document.getElementsByTagName("h1"),H2:document.getElementsByTagName("h2"),H3:document.getElementsByTagName("h3"),H4:document.getElementsByTagName("h4"),H5:document.getElementsByTagName("h5"),SVG:document.getElementsByTagName("svg")}),u.forEach(a=>{Array.from(v[a]).forEach(a=>{f(a)})}),setTimeout(h,50);else{!r&&document.body&&(r=document.createNodeIterator(document.body,NodeFilter.SHOW_ELEMENT,a=>g(a)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT));for(let b;b=null===(a=r)||void 0===a?void 0:a.nextNode();){var a;f(b)}c(h)}}function i(){n=performance.now(),o=0,p=0,w=new IntersectionObserver(a=>{a.filter(a=>a.isIntersecting).forEach(a=>{const b=a.target,{width:c,height:f}=a.intersectionRect;e(b,()=>{const a=performance.now();d(b,c*f,a)})})}),c(h),y.forEach(b=>{a(b,j,z)})}function j(a){const b=a.target;"scroll"===a.type&&("expand-trigger"===(null===b||void 0===b?void 0:b.className)||"contract-trigger"===(null===b||void 0===b?void 0:b.className))||0===o||250>performance.now()-n||k()}function k(){var a;null===(a=w)||void 0===a?void 0:a.disconnect(),y.forEach(a=>{b(a,j,z)}),t=!1,w=null}function l(a){x=a,0!==p&&x(p,m,o)}let m,n=0,o=0,p=0;const q=666778e-9;let r,s=!1,t=!0;const u=["IMG","H1","H2","H3","H4","H5","SVG"];let v,w,x;const y=["click","mousedown","keydown","touchstart","pointerdown","scroll"],z={passive:!0,capture:!0};i(),self.perfMetrics=self.perfMetrics||{},self.perfMetrics.onLargestContentfulPaint=l,self.perfMetrics.startSearchingForLargestContentfulPaint=i.bind(null,!1),self.perfMetrics.stopSearchingForLargestContentfulPaint=k,self.perfMetrics.markIsHydratedForLargestContentfulPaint=()=>{s=!0},self.perfMetrics.registerLCPCandidate=f,self.perfMetrics.inspectLCPTarget=()=>m})(addEventListener,removeEventListener,requestAnimationFrame);
-</script>
-
-
 <meta property="fb:app_id" content="138566025676">
-<meta property="og:site_name" content="Airbnb">
+<meta property="og:site_name" content="Hostslet">
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="website">
-<link href="https://a0.muscache.com/airbnb/static/packages/dls/dls-lite_cereal-717a078e948302873b4c6931bb35199b.css" rel="stylesheet" type="text/css" media="all" crossorigin="anonymous">
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport">
 <title>Vacation Homes | <%= title %></title>
 <link rel="manifest" href="/manifest.json">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:site" content="@airbnb">
-<meta name="twitter:app:name:iphone" content="Airbnb">
-<meta name="twitter:app:name:ipad" content="Airbnb">
-<meta name="twitter:app:name:googleplay" content="Airbnb">
+<meta name="twitter:site" content="@Hostslet">
+<meta name="twitter:app:name:iphone" content="Hostslet">
+<meta name="twitter:app:name:ipad" content="Hostslet">
+<meta name="twitter:app:name:googleplay" content="Hostslet">
 <meta name="twitter:app:id:iphone" content="401626263">
 <meta name="twitter:app:id:ipad" content="401626263">
-<meta name="twitter:app:id:googleplay" content="com.airbnb.android">
+
 
 
 
@@ -62,13 +45,22 @@
 
 <!-- main styles -->
 <link data-aphrodite="true" rel="stylesheet" href="/main/css/styles.css">
-<link data-aphrodite="true" rel="stylesheet" href="/main/css/mystyles.css">
+<link rel="stylesheet" href="/main/css/mystyles.css">
 
 <!-- fontawesome cdn  -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- jquery cdn -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <!-- Add the slick-theme.css if you want default styling -->
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <!-- Add the slick-theme.css if you want default styling -->
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 </head>
+
+<style>
+    main {
+        margin-top: 70px;
+    }
+</style>

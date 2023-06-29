@@ -60,6 +60,5 @@ const logOutUSer = async (e) => {
     } catch (error) {
         alert(error.message)
     }
-    alert('logout user')
 }
 logoutICons.forEach(logoutICon => logoutICon.addEventListener('click', logOutUSer));

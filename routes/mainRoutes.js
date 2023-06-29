@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/', homePage)
 router.get('/mansion', mansionPage)
 router.get('/luxe', luxePage)
-router.get('/iconic-city', iconicPage)
+router.get('/iconic', iconicPage)
 router.get('/tropical', tropicalPage)
 router.get('/islands', islandPage)
 

@@ -1,4 +1,4 @@
-<%- include('./partials/head') %>
+
 <style>
     * {
         padding: 0;
@@ -6,9 +6,8 @@
         box-sizing: border-box;
     }
 
-    li {
-        list-style: none;
-        margin-bottom: 25px;
+    .list_margin_top li {
+        margin-top: 20px;
     }
 
     .content-wrapper {
@@ -19,27 +18,9 @@
 
     .potos_container {
         display: flex;
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: 200px 200px;
         height: 200px;
-        /* overflow: hidden; */
-    }
-
-    .one {
-        background: red;
-    }
-    .two {
-        background: green;
-    }
-
-    .three {
-        background: blue;
-    }
-
-    .four {
-        background: pink;
-    }
-
-    .five {
-        background: pink;
     }
 
     .property_desc_section {
@@ -58,12 +39,40 @@
          display: none;
     }
 
+    .mobile_reservation_section {
+        display: none;
+        position: absolute;
+        top: 70px;
+        width: 85%;
+        margin: auto;
+        z-index: 9999;
+    }
+
+    .mobile_reservation_section.show {
+        display: block;
+    }
+
+    .mobile_payment_form_overlay {
+        position: fixed;
+        display: none;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 9999;
+        cursor: pointer;
+    }
+
+    .mobile_payment_form_overlay.show {
+        display: block;
+    }
+
     .heading-section {
         display: flex;
         justify-content: space-between;
         padding-bottom: 5px;
         border-bottom: 0.1px solid rgba(0 ,0, 0, 0.3);
-        /* background: purple; */
     }
 
     .heading-section h2 {
@@ -82,12 +91,23 @@
         height: 400px;
         position: static;
         right: 40px;
-        /* background: rgb(222, 222, 222); */
         background: #fff;
         box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.9);
         padding: 10px 20px;
         box-sizing: border-box;
         border-radius: 10px;
+    }
+
+    .mobile_schedule_box {
+        max-width: 350px;
+        height: 400px;
+        right: 40px;
+        background: #fff;
+        box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.9);
+        padding: 10px 20px;
+        box-sizing: border-box;
+        border-radius: 10px;
+        margin: auto;
     }
 
     .amount_review {
@@ -104,6 +124,13 @@
         border-radius: 20px;
         border: 1px solid black;
         padding: 10px;
+        outline: none;
+    }
+
+    .mobile_input_group input {
+        width: 100%;
+        margin: 5px 0;
+        outline: none;
     }
 
     .amenities {
@@ -156,9 +183,6 @@
         gap: 10px;
         width: 100%;
         margin: 10px 0;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        /* overflow: hidden; */
     }
 
     .testimonies::-webkit-scrollbar {
@@ -229,16 +253,129 @@
         margin-bottom: 10px;
     }
 
+    main {
+        position: relative;
+    }
+
+    .activate_mobile_reservation_form {
+        position: fixed;
+        top: 70px;
+        right: 20px;
+    }
+
+    .activate_mobile_reservation_form button {
+        border: none;
+        outline: none;
+        padding: 8px;
+        background: #ff385c;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    .image_grid {
+        position: relative;
+    }
+
+    .show_all_photo {
+        position: absolute;
+        display: none;
+        bottom: 30px;
+        right: 10px;
+        z-index: 11;
+    }
+
+    .show_all_photo button{
+        padding: 8px;
+        border-radius: 5px;
+        outline: none;
+        border: 1px solid gray;
+        background-color: #fff;
+    }
+
+    .show_all_photo_modal {
+        position: fixed;
+        display: none;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 20px 5px;
+        background: #fff;
+        background: rgba(0 ,0, 0, 0.5);
+        z-index: 99999999999999;
+        cursor: pointer;
+    }
+
+    .show_all_photo_modal.show {
+        display: block;
+    }
+
+    .show_wrapper {
+        max-width: 350px;
+        height: 100%;
+        margin: auto;
+        background: #fff;
+        padding: 10px;
+        overflow: scroll;
+        transform: translateY(900px);
+        transition: transform 0.3s linear;
+    }
+
+    .show_wrapper.show {
+        transform: translateY(0);
+    }
+
+    .show_wrapper::-webkit-scrollbar {
+        display: none; 
+    }
+
+    .photo_wwrapper {
+        max-width: 320px;
+        height: auto;
+        margin: auto;
+        margin-bottom: 10px;
+    }
+
+    .photo_wwrapper img {
+        max-width: 100%;
+        height: auto;
+    }
+
+
+    @media screen and (max-width: 767px) {
+        .images img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    }
+
 
     @media screen and (min-width: 768px) {
         .content-wrapper {
             max-width: 1200px;
         }
 
+        .show_all_photo {
+            display: block;
+        }
+
+        .photo_wwrapper {
+            max-width: 100%;
+        }
+
+        .show_wrapper {
+            max-width: 700px;
+        }
+
         .reservation_section {
             display: flex;
             justify-content: flex-end;
-            /* flex-grow: 1; */
+        }
+
+        .mobile_reservation_section {
+            display: none;
         }
 
         .potos_container {
@@ -252,33 +389,37 @@
         }
 
         .one {
-            background: red;
             grid-column: 1/3;
             grid-row: 1/3;
         }
 
         .two {
-            background: green;
             grid-column: 3/4;
             grid-row: 1/2;
         }
 
         .three {
-            background: blue;
             grid-column: 4/5;
             grid-row: 1/2;
         }
 
         .four {
-            background: pink;
             grid-column: 3/4;
             grid-row: 2/2;
         }
 
         .five {
-            background: orangered;
             grid-column: 4/5;
             grid-row: 2/2;
+        }
+
+        .images {
+            height: 100%;
+            overflow: hidden;
+        }  
+
+        .images img {
+            max-height: 100%;
         }
 
         .rating_percent {
@@ -299,7 +440,6 @@
 
         .host_main {
             display: flex;
-            /* flex-wrap: wrap; */
         }
 
         .left_side {
@@ -309,159 +449,396 @@
         .right_side {
             flex-grow: 1;
         }
+
+        .activate_mobile_reservation_form {
+            display: none;
+        }
     }
 
 </style>
-<body>
-    <%- include('./partials/topNav')  %>
-    <div class="content-wrapper">
-        <section class="image_grid">
-            <h2>Flea Windmill | The Mill</h2>
-            <div class="potos_container">
-                <div class="images one">1</div>
-                <div class="images two">2</div>
-                <div class="images three">3</div>
-                <div class="images four">4</div>
-                <div class="images five">5</div>
-            </div>
-        </section>
+<%- include('./partials/head') %>
+<body class="with-new-header">
+    <main>
+        <%- include('./partials/header')  %>
 
-        <section class="property_desc_section">
-            <div class="apartment_details">
-                <div class="heading-section">
-                    <h2>
-                        <p>Windmill hosted by Moinho</p>
-                        <span style="font-size: 14px; color: gray; font-weight: 300;">2 guests1 . bedroom1 . bed1 . bath</span>
-                    </h2>
-                        
-                    <img class="heading-img" src="/main/images/christopher.webp" alt="">
+        <div class="content-wrapper">
+            <section class="image_grid">
+                <h2>Flea Windmill | The Mill</h2>
+                <div class="potos_container">
+                    <div class="images one">
+                        <img src="/main/images/room2.webp" alt="">
+                    </div>
+                    <div class="images two">
+                        <img src="/main/images/room1.webp" alt="">
+                    </div>
+                    <div class="images three">
+                        <img src="/main/images/room1.webp" alt="">
+                    </div>
+                    <div class="images four">
+                        <img src="/main/images/room2.webp" alt="">
+                    </div>
+                    <div class="images five">
+                        <img src="/main/images/room2.webp" alt="">
+                    </div>
                 </div>
-                <ul style="margin: 20px 0; padding-bottom: 20px; border-bottom: 0.1px solid rgba(0 ,0, 0, 0.3);">
-                    <li>
-                        <span style="display: flex; align-items: center; gap: 10px;">
-                            <img src="/main/images/workspace.svg" alt="" style="width: 25px">
-                            <span>Dedicated workspace <br> A room with wifi that’s well-suited for working.</span>
-                        </span>
-                    </li>
-
-                    <li>
-                        <span style="display: flex; align-items: center; gap: 10px;">
-                            <img src="/main/images/checkin.svg" alt="" style="width: 25px">
-                            <span>Self Check-in <br>Check yourself in with the keypad.</span>
-                        </span>
-                    </li>
-
-                    <li>
-                        <span style="display: flex; align-items: center; gap: 10px;">
-                            <img src="/main/images/cancel.svg" alt="" style="width: 25px">
-                            <span>Free cancellation for 48 hours.</span>
-                        </span>
-                    </li>
-                </ul>
-
-                <div class="amenities_section">
-                    <h2>What this place offers</h2>
-
-                    <ul class="amenities" style="margin: 20px 0; padding-bottom: 20px;">
-                    <li>
-                        <span style="display: flex; align-items: center; gap: 10px;">
-                            <img src="/main/images/garden_view.svg" alt="" style="width: 25px">
-                            <span>Garden view</span>
-                        </span>
-                    </li>
-
-                    <li>
-                        <span style="display: flex; align-items: center; gap: 10px;">
-                            <img src="/main/images/mountain_view.svg" alt="" style="width: 25px">
-                            <span>Mountain view</span>
-                        </span>
-                    </li>
-
-                    <li>
-                        <span style="display: flex; align-items: center; gap: 10px;">
-                            <img src="/main/images/beach-access.svg" alt="" style="width: 25px">
-                            <span>Beach access – Beachfront</span>
-                        </span>
-                    </li>
-
-                    <li>
-                        <span style="display: flex; align-items: center; gap: 10px;">
-                            <img src="/main/images/kitchen.svg" alt="" style="width: 25px">
-                            <span>Kitchen</span>
-                        </span>
-                    </li>
-
-                    <li>
-                        <span style="display: flex; align-items: center; gap: 10px;">
-                            <img src="/main/images/wifi.svg" alt="" style="width: 25px">
-                            <span>Wifi</span>
-                        </span>
-                    </li>
-
-                    <li>
-                        <span style="display: flex; align-items: center; gap: 10px;">
-                            <img src="/main/images/cancel.svg" alt="" style="width: 25px">
-                            <span>Dedicated workspace</span>
-                        </span>
-                    </li>
-
-                    <li>
-                        <span style="display: flex; align-items: center; gap: 10px;">
-                            <img src="/main/images/car.svg" alt="" style="width: 25px">
-                            <span>Free parking on premises</span>
-                        </span>
-                    </li>
-
-                    <li>
-                        <span style="display: flex; align-items: center; gap: 10px;">
-                            <img src="/main/images/hdm_tv.svg" alt="" style="width: 25px">
-                            <span>HDTV with standard cable, premium cable</span>
-                        </span>
-                    </li>
-
-                    <li>
-                        <span style="display: flex; align-items: center; gap: 10px;">
-                            <img src="/main/images/ac.svg" alt="" style="width: 25px">
-                            <span>AC - split type ductless system</span>
-                        </span>
-                    </li>
-
-                    <li>
-                        <span style="display: flex; align-items: center; gap: 10px;">
-                            <img src="/main/images/backyard.svg" alt="" style="width: 25px">
-                            <span>Shared backyard – Fully fenced</span>
-                        </span>
-                    </li>
-                     <button class="show_amenities"> 59 other amenities</button>
-                </ul>
-               
+                <div class="show_all_photo">
+                    <button class="show_all_btn">Show all photos</button>
                 </div>
-            </div>
+            </section>
+
+            <section class="property_desc_section">
+                <div class="apartment_details">
+                    <div class="heading-section">
+                        <h2>
+                            <p>Windmill hosted by Moinho</p>
+                            <span style="font-size: 14px; color: gray; font-weight: 300;">2 guests1 . bedroom1 . bed1 . bath</span>
+                        </h2>
+                            
+                        <img class="heading-img" src="/main/images/christopher.webp" alt="">
+                    </div>
+                    <ul class="list_margin_top" style="margin: 20px 0; padding-bottom: 20px; border-bottom: 0.1px solid rgba(0 ,0, 0, 0.3);">
+                        <li>
+                            <span style="display: flex; align-items: center; gap: 10px;">
+                                <img src="/main/images/workspace.svg" alt="" style="width: 25px">
+                                <span>Dedicated workspace <br> A room with wifi that’s well-suited for working.</span>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span style="display: flex; align-items: center; gap: 10px;">
+                                <img src="/main/images/checkin.svg" alt="" style="width: 25px">
+                                <span>Self Check-in <br>Check yourself in with the keypad.</span>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span style="display: flex; align-items: center; gap: 10px;">
+                                <img src="/main/images/cancel.svg" alt="" style="width: 25px">
+                                <span>Free cancellation for 48 hours.</span>
+                            </span>
+                        </li>
+                    </ul>
+
+                    <div class="amenities_section">
+                        <h2>What this place offers</h2>
+
+                        <ul class="amenities list_margin_top" style="margin: 20px 0; padding-bottom: 20px;">
+                        <li>
+                            <span style="display: flex; align-items: center; gap: 10px;">
+                                <img src="/main/images/garden_view.svg" alt="" style="width: 25px">
+                                <span>Garden view</span>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span style="display: flex; align-items: center; gap: 10px;">
+                                <img src="/main/images/mountain_view.svg" alt="" style="width: 25px">
+                                <span>Mountain view</span>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span style="display: flex; align-items: center; gap: 10px;">
+                                <img src="/main/images/beach-access.svg" alt="" style="width: 25px">
+                                <span>Beach access – Beachfront</span>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span style="display: flex; align-items: center; gap: 10px;">
+                                <img src="/main/images/kitchen.svg" alt="" style="width: 25px">
+                                <span>Kitchen</span>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span style="display: flex; align-items: center; gap: 10px;">
+                                <img src="/main/images/wifi.svg" alt="" style="width: 25px">
+                                <span>Wifi</span>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span style="display: flex; align-items: center; gap: 10px;">
+                                <img src="/main/images/cancel.svg" alt="" style="width: 25px">
+                                <span>Dedicated workspace</span>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span style="display: flex; align-items: center; gap: 10px;">
+                                <img src="/main/images/car.svg" alt="" style="width: 25px">
+                                <span>Free parking on premises</span>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span style="display: flex; align-items: center; gap: 10px;">
+                                <img src="/main/images/hdm_tv.svg" alt="" style="width: 25px">
+                                <span>HDTV with standard cable, premium cable</span>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span style="display: flex; align-items: center; gap: 10px;">
+                                <img src="/main/images/ac.svg" alt="" style="width: 25px">
+                                <span>AC - split type ductless system</span>
+                            </span>
+                        </li>
+
+                        <li>
+                            <span style="display: flex; align-items: center; gap: 10px;">
+                                <img src="/main/images/backyard.svg" alt="" style="width: 25px">
+                                <span>Shared backyard – Fully fenced</span>
+                            </span>
+                        </li>
+                        <button class="show_amenities"> 59 other amenities</button>
+                    </ul>
+                
+                    </div>
+                </div>
+
+                <div class="reservation_section">
+                    <div class="schedule-box">
+                        <div class="amount_review">
+                            <p><span class="amount" style="font-weight: bold;">$156</span> night</p>
+                            <p style="font-weight: bold;"><img src="/main/images/rating.svg" alt="" style="width: 15px;"> 4.95 . <a href="" style="text-decoration: underline;">189 reviews</a></p>
+                        </div>
+                        <form class="payment_form" style="margin-top: 20px;">
+                            <div class="form_wrapper" style="border: 1px solid black; padding: 20px; border-radius: 10px;">
+                                <div class="input_group" style="display: flex; justify-content: space-between;">
+                                    <div class="input_inner">
+                                        <label for="checkin">CHECK-IN</label>
+                                        <input id="checkin" name="checkin" type="date">
+                                    </div>
+
+                                    <div class="input_inner">
+                                        <label for="checkout">CHECK-OUT</label>
+                                        <input id="checkout" name="checkout" type="date">
+                                    </div>
+                                </div>
+
+                                <div class="input_inner" style="margin: 10px 0;">
+                                    <label for="checkout">GUEST</label>
+                                    <select name="guest" id="" style="width: 100%; border-radius: 20px; padding: 10px; border: 1px solid black; outline: none;">
+                                        <option value="">
+                                            <span>Adults (Age 13+)</span>
+                                        </option>
+
+                                        <option value="" style="display: flex; justify-content: space-between;">
+                                            <span>Children (Age 2 - 12)</span>
+                                        </option>
+
+                                        <option value="" style="display: flex; justify-content: space-between;">
+                                            <span>Infants (under 2)</span>
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="text" value="196" name="amount" hidden>
+                            <div class="btn_container" style="margin-top: 20px; text-align: center;"> 
+                                <button class="payment_btn" style="padding: 10px; width: 250px; background: #ff385c; color: #fff; border-radius: 10px; outline: none; border: none;">Reserve</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- reviews section starts here  -->
+            <section class="reviews_section">
+                <h2> <img src="/main/images/rating.svg" alt="rating"> 4.95 · 189 reviews</h2>
+                <div class="rating_percent">
+                    <div class="rating_wrapper">
+                        <ul class="list_margin_top">
+                            <li>
+                                <span>Cleanliness</span>
+                                <span>
+                                    <span class="progress"></span>
+                                    <span class="rates"> &nbsp; 4.9</span>
+                                </span>
+                            </li>
+
+                            <li>
+                                <span>Communication</span>
+                                <span>
+                                    <span class="progress"></span>
+                                    <span class="rates"> &nbsp; 5.0</span>
+                                </span>
+                            </li>
+
+                            <li>
+                                <span>Check-in</span>
+                                <span>
+                                    <span class="progress"></span>
+                                    <span class="rates"> &nbsp; 5.0</span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="rating_wrapper">
+                        <ul class="list_margin_top">
+                            <li>
+                                <span>Accuracy</span>
+                                <span>
+                                    <span class="progress"></span>
+                                    <span class="rates"> &nbsp; 4.9</span>
+                                </span>
+                            </li>
+
+                            <li>
+                                <span>Location</span>
+                                <span>
+                                    <span class="progress"></span>
+                                    <span class="rates"> &nbsp; 4.9</span>
+                                </span>
+                            </li>
+
+                            <li>
+                                <span>Value</span>
+                                <span>
+                                    <span class="progress"></span>
+                                    <span class="rates"> &nbsp; 4.8</span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="testimonies">
+                    <div class="testimony">
+                        <div class="bio">
+                            <div class="testifer_img">
+                                <img src="/main/images/christopher.webp" alt="">
+                            </div>
+                            <div class="bio_detail">
+                                <h4>Christopher</h4>
+                                <p class="testimony_date">June 2023</p>
+                            </div>
+                        </div>
+
+                        <div class="actual_testimony">
+                            <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
+                        </div>
+                    </div>
+
+                    <div class="testimony">
+                        <div class="bio">
+                            <div class="testifer_img">
+                                <img src="/main/images/christopher.webp" alt="">
+                            </div>
+                            <div class="bio_detail">
+                                <h4>Christopher</h4>
+                                <p class="testimony_date">June 2023</p>
+                            </div>
+                        </div>
+
+                        <div class="actual_testimony">
+                            <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
+                        </div>
+                    </div>
+
+                    <div class="testimony">
+                        <div class="bio">
+                            <div class="testifer_img">
+                                <img src="/main/images/christopher.webp" alt="">
+                            </div>
+                            <div class="bio_detail">
+                                <h4>Christopher</h4>
+                                <p class="testimony_date">June 2023</p>
+                            </div>
+                        </div>
+
+                        <div class="actual_testimony">
+                            <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
+                        </div>
+                    </div>
+
+                    <div class="testimony">
+                        <div class="bio">
+                            <div class="testifer_img">
+                                <img src="/main/images/christopher.webp" alt="">
+                            </div>
+                            <div class="bio_detail">
+                                <h4>Christopher</h4>
+                                <p class="testimony_date">June 2023</p>
+                            </div>
+                        </div>
+
+                        <div class="actual_testimony">
+                            <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- host section starts here  -->
+            <section class="host_section">
+                <div class="bio">
+                    <div class="testifer_img">
+                        <img src="/main/images/christopher.webp" alt="">
+                    </div>
+                    <div class="bio_detail">
+                        <h4>Hosted by Moinho</h4>
+                        <p class="testimony_date">Joined in February 2015</p>
+                    </div>
+                </div>
+                <div class="host_main">
+                    <div class="left_side">
+                        <ul class="list_margin_top">
+                            <li>
+                                <img src="/main/images/rating.svg" alt=""> &nbsp;&nbsp;
+                                <span> 284 Reviews</span>
+                            </li>
+                            <li>
+                                <img src="/main/images/identity.svg" alt="" style="width: 20px;"> &nbsp;&nbsp; 
+                                <span>identity verified</span>
+                            </li>
+                        </ul>
+
+                        <div class="host_desc" style="max-width: 500px;">
+                            <p>Situated in Feteiras, 16 km from Ponta Delgada, Moinho das Feteiras features a garden and free WiFi.</p>
+                            <p>All air-conditioned units come with a patio, a dining area and a seating area with a cable flat-screen TV.Each unit includes an en-suite bathroom with a shower, a hairdryer and free toiletries.</p>
+                            <p>There are barbecue facilities and a terrace at this property.Guests can go hiking and cycling nearby.</p>
+                        </div>
+                    </div>
+                    <div class="right_side">
+                        <ul class="list_margin_top">
+                            <li>Policy number: Exempt</li>
+                            <li>Languages: English, Português</li>
+                            <li>Response rate: 89%</li>
+                            <li>Response time: within an hour</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- mobile payment form begins here  -->
+            <div class="mobile_payment_form_overlay"></div>
             
-
-            <div class="reservation_section">
-                <div class="schedule-box">
+            <div class="mobile_reservation_section">
+                <div class="mobile_schedule_box">
                     <div class="amount_review">
                         <p><span class="amount" style="font-weight: bold;">$156</span> night</p>
                         <p style="font-weight: bold;"><img src="/main/images/rating.svg" alt="" style="width: 15px;"> 4.95 . <a href="" style="text-decoration: underline;">189 reviews</a></p>
                     </div>
-                    <form action="" style="margin-top: 20px;">
+                    <form class="mobile_payment_form" style="margin-top: 20px;">
                         <div class="form_wrapper" style="border: 1px solid black; padding: 20px; border-radius: 10px;">
-                            <div class="input_group" style="display: flex; justify-content: space-between;">
+                            <div class="mobile_input_group">
                                 <div class="input_inner">
-                                    <label for="checkin">CHECK-IN</label>
-                                    <input id="checkin" type="date">
+                                    <label for="checkin2">CHECK-IN</label>
+                                    <input id="checkin2" name="checkin2" type="date">
                                 </div>
 
                                 <div class="input_inner">
-                                    <label for="checkout">CHECK-OUT</label>
-                                    <input id="checkout" type="date">
+                                    <label for="checkout2">CHECK-OUT</label>
+                                    <input id="checkout2" name="checkout2" type="date">
                                 </div>
                             </div>
 
                             <div class="input_inner" style="margin: 10px 0;">
-                                <label for="checkout">GUEST</label>
-                                <select name="" id="" style="width: 100%; border-radius: 20px; padding: 10px; border: 1px solid black; outline: none;">
+                                <label for="guest2">GUEST</label>
+                                <select name="guest" id="guest2" style="width: 100%; border-radius: 20px; padding: 10px; border: 1px solid black; outline: none;">
                                     <option value="">
                                         <span>Adults (Age 13+)</span>
                                     </option>
@@ -476,385 +853,137 @@
                                 </select>
                             </div>
                         </div>
+                        <input type="text" value="196" name="amount2" hidden>
                         <div class="btn_container" style="margin-top: 20px; text-align: center;"> 
-                            <button class="payment_btn" style="padding: 10px; width: 250px; background: red; color: #fff; border-radius: 10px; outline: none; border: none;">Reserve</button>
+                            <button class="payment_btn" style="padding: 10px; width: 250px; background: #ff385c; color: #fff; border-radius: 10px; outline: none; border: none;">Reserve</button>
                         </div>
                     </form>
                 </div>
             </div>
-        </section>
+            <!-- mobile payment form ends here  -->
 
-        <!-- reviews section starts here  -->
-        <section class="reviews_section">
-            <h2> <img src="/main/images/rating.svg" alt="rating"> 4.95 · 189 reviews</h2>
-            <div class="rating_percent">
-                <div class="rating_wrapper">
-                    <ul>
-                        <li>
-                            <span>Cleanliness</span>
-                            <span>
-                                <span class="progress"></span>
-                                <span class="rates"> &nbsp; 4.9</span>
-                            </span>
-                        </li>
-
-                        <li>
-                            <span>Communication</span>
-                            <span>
-                                <span class="progress"></span>
-                                <span class="rates"> &nbsp; 5.0</span>
-                            </span>
-                        </li>
-
-                        <li>
-                            <span>Check-in</span>
-                            <span>
-                                <span class="progress"></span>
-                                <span class="rates"> &nbsp; 5.0</span>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="rating_wrapper">
-                    <ul>
-                        <li>
-                            <span>Accuracy</span>
-                            <span>
-                                <span class="progress"></span>
-                                <span class="rates"> &nbsp; 4.9</span>
-                            </span>
-                        </li>
-
-                        <li>
-                            <span>Location</span>
-                            <span>
-                                <span class="progress"></span>
-                                <span class="rates"> &nbsp; 4.9</span>
-                            </span>
-                        </li>
-
-                        <li>
-                            <span>Value</span>
-                            <span>
-                                <span class="progress"></span>
-                                <span class="rates"> &nbsp; 4.8</span>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="testimonies">
-                <div class="testimony">
-                    <div class="bio">
-                        <div class="testifer_img">
-                            <img src="/main/images/christopher.webp" alt="">
-                        </div>
-                        <div class="bio_detail">
-                            <h4>Christopher</h4>
-                            <p class="testimony_date">June 2023</p>
-                        </div>
-                    </div>
-
-                    <div class="actual_testimony">
-                        <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
-                    </div>
-                </div>
-
-                <div class="testimony">
-                    <div class="bio">
-                        <div class="testifer_img">
-                            <img src="/main/images/christopher.webp" alt="">
-                        </div>
-                        <div class="bio_detail">
-                            <h4>Christopher</h4>
-                            <p class="testimony_date">June 2023</p>
-                        </div>
-                    </div>
-
-                    <div class="actual_testimony">
-                        <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
-                    </div>
-                </div>
-
-                <div class="testimony">
-                    <div class="bio">
-                        <div class="testifer_img">
-                            <img src="/main/images/christopher.webp" alt="">
-                        </div>
-                        <div class="bio_detail">
-                            <h4>Christopher</h4>
-                            <p class="testimony_date">June 2023</p>
-                        </div>
-                    </div>
-
-                    <div class="actual_testimony">
-                        <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
-                    </div>
-                </div>
-
-                <div class="testimony">
-                    <div class="bio">
-                        <div class="testifer_img">
-                            <img src="/main/images/christopher.webp" alt="">
-                        </div>
-                        <div class="bio_detail">
-                            <h4>Christopher</h4>
-                            <p class="testimony_date">June 2023</p>
-                        </div>
-                    </div>
-
-                    <div class="actual_testimony">
-                        <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- host section starts here  -->
-        <section class="host_section">
-            <div class="bio">
-                <div class="testifer_img">
-                    <img src="/main/images/christopher.webp" alt="">
-                </div>
-                <div class="bio_detail">
-                    <h4>Hosted by Moinho</h4>
-                    <p class="testimony_date">Joined in February 2015</p>
-                </div>
-            </div>
-            <div class="host_main">
-                <div class="left_side">
-                    <ul>
-                        <li>
-                            <img src="/main/images/rating.svg" alt=""> &nbsp;&nbsp;
-                            <span> 284 Reviews</span>
-                        </li>
-                        <li>
-                            <img src="/main/images/identity.svg" alt="" style="width: 20px;"> &nbsp;&nbsp; 
-                            <span>identity verified</span>
-                        </li>
-                    </ul>
-
-                    <div class="host_desc" style="max-width: 500px;">
-                        <p>Situated in Feteiras, 16 km from Ponta Delgada, Moinho das Feteiras features a garden and free WiFi.</p>
-                        <p>All air-conditioned units come with a patio, a dining area and a seating area with a cable flat-screen TV.Each unit includes an en-suite bathroom with a shower, a hairdryer and free toiletries.</p>
-                        <p>There are barbecue facilities and a terrace at this property.Guests can go hiking and cycling nearby.</p>
-                    </div>
-                </div>
-                <div class="right_side">
-                    <ul>
-                        <li>Policy number: Exempt</li>
-                        <li>Languages: English, Português</li>
-                        <li>Response rate: 89%</li>
-                        <li>Response time: within an hour</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <style>
-            .payment_modal {
-                position: fixed;
-                display: none;
-                align-items: center;
-                justify-content: center;
-                top: 0;
-                left: 0;
-                width: 100%;
-                
-            }
-
-            .payment_modal.active {
-                display: flex;
-            }
-
-            .close_icon {
-                font-size: 34px;
-                display: flex;
-                justify-content: flex-end;
-                cursor: pointer;
-            }
-
-            .payment_content {
-                max-width: 600px;
-                min-height: 400px;
-                border-radius: 5px;
-                margin: auto;
-                background: #fff;
-                flex-grow: 1;
-            }
-
-            .payment_method {
-                padding: 20px;
-            }
-
-            .bar_code_image {
-                display: flex; 
-                justify-content: space-between;
-                align-items: center;
-            }
-            .bar_code_image button {
-                background: rgba(0 ,0, 0, 0.3);
-                color: #fff;
-                font-size: 16px;
-                font-weight: bold;
-            }
-
-            .payment_methodes_wrapper {
-                margin-top: 20px;
-            }
-
-            .payment_methodes_wrapper h2 {
-                margin: 0;
-                color: rgba(0 ,0, 0, 0.3);
-            }
-
-            .google_pay, .btc, .cards, .apple_pay {
-                margin-bottom: 30px;
-            }
-
-            .payment_overlay {
-                position: fixed;
-                display: none;
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-                background: rgba(0 ,0, 0, 0.5);
-                cursor: pointer;
-            }
-            
-            .payment_overlay.active {
-                display: block;
-                cursor: pointer;
-            }
-
-            .btc {
-                position: relative;
-                overflow: hidden;
-            }
-
-            .wallet_address {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .wallet_address .address {
-                font-size: 18px;
-                width: 400px;
-                border: none;
-                outline: none;
-            }
-
-            .copy {
-                display: inline-block;
-                color: #fff;
-                text-align: center;
-                background: sandybrown;
-                padding: 5px 8px;
-                cursor: pointer;
-                border-radius: 5px;
-                font-size: 16px;
-            }
-
-            .message {
-                color: red;
-            }
-
-            .address_wrapper {
-                display: none;
-                transition: transform 0.5s ease-in-out;
-            }
-
-            .address_wrapper.active {
-                display: block;
-            }
-        </style>
-        <div class="payment_overlay"></div>
-
-        <div class="payment_modal">
-            <div class="payment_content">
-                <div class="payment_method">
-                    <span class="close_icon">&times</span>
-                    <div class="payment_methodes_wrapper">
-                        <div class="btc"> 
-                            <h2>BTC Payment</h2>
-                            <div class="bar_code_image">
-                                <img src="/main/images/btc_pay.png" style="width: 100px;" alt="">
-                                <button class="btc_btn" style="border: none; outline: none; padding: 8px; border-radius: 10px;">Pay Now</button>
-                            </div>
-                            <div class="address_wrapper">
-                                <p>scan the wallet code below to make payment or copy the wallet address</p>
-                                <div class="wallet_code" style=" width: 150px; margin: 10px;">
-                                    <img src="/main/images/qrcode.jpeg" style="width: 100%;" alt="wallet Qr code">
+            <!-- payement modal begins here  -->
+            <div class="payment_overlay"></div>
+            <div class="payment_modal">
+                <div class="payment_content">
+                    <div class="payment_method">
+                        <span class="close_icon">&times</span>
+                        <div class="payment_methodes_wrapper">
+                            <div class="btc"> 
+                                <h2>BTC Payment</h2>
+                                <div class="bar_code_image">
+                                    <img src="/main/images/btc_pay.png" style="width: 100px;" alt="">
+                                    <button class="btc_btn" style="border: none; outline: none; padding: 8px; border-radius: 10px;">Pay Now</button>
                                 </div>
-                                <p class="wallet_address">
-                                    <input class="address" value="16irHf9Qajxha9ih4syLKMGwZUXFGtp2mD" readonly></input>
-                                    <span class="copy">copy</span>
-                                </p>
+                                <div class="address_wrapper">
+                                    <p>scan the wallet code below to make payment or copy the wallet address</p>
+                                    <div class="wallet_code" style=" width: 150px; margin: 10px;">
+                                        <img src="/main/images/qrcode.jpeg" style="width: 100%;" alt="wallet Qr code">
+                                        <div class="total_amount" style="margin: 10px 0;">
+                                            <p class="per_night" style="font-weight: bold;"></p>
+                                            <p class="total" style="font-weight: bold;"></p>
+                                        </div>
+                                    </div>
+                                    <p class="wallet_address">
+                                        <input class="address" value="16irHf9Qajxha9ih4syLKMGwZUXFGtp2mD" readonly></input>
+                                        <span class="copy">copy</span>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="cards"> 
-                            <h2>Cards Payment</h2>
-                            <div class="bar_code_image">
-                                <img src="/main/images/card_pay.png" style="width: 350px;" alt="">
-                                 <button class="pay_now card_btn" style="border: none; outline: none; padding: 8px; border-radius: 10px;">Pay Now</button>
+                            <div class="cards"> 
+                                <h2>Cards Payment</h2>
+                                <div class="bar_code_image">
+                                    <img src="/main/images/card_pay.png" style="width: 350px;" alt="">
+                                    <button class="pay_now card_btn" style="border: none; outline: none; padding: 8px; border-radius: 10px;">Pay Now</button>
+                                </div>
+                                <div class="btc_address">
+                                    <p class="message card_message"></p>
+                                </div>
                             </div>
-                            <div class="btc_address">
-                                <p class="message card_message"></p>
-                            </div>
-                        </div>
 
-                        <div class="apple_pay">
-                            <h2>Apple pay</h2>
-                            <div class="bar_code_image" style="">
-                                <img src="/main/images/apple_pay.png" style="width: 100px;" alt="">
-                                <button class="pay_now apple_btn" style="border: none; outline: none; padding: 8px 10px; border-radius: 10px;">Pay Now</button>
+                            <div class="apple_pay">
+                                <h2>Apple pay</h2>
+                                <div class="bar_code_image" style="">
+                                    <img src="/main/images/apple_pay.png" style="width: 100px;" alt="">
+                                    <button class="pay_now apple_btn" style="border: none; outline: none; padding: 8px 10px; border-radius: 10px;">Pay Now</button>
+                                </div>
+                                <div class="btc_address">
+                                    <p class="message apple_message"></p>
+                                </div>
                             </div>
-                            <div class="btc_address">
-                                <p class="message apple_message"></p>
-                            </div>
-                        </div>
 
-                        <div class="google_pay">
-                            <h2>Google pay</h2>
-                            <div class="bar_code_image" style="display: flex; justify-content: space-between;">
-                                <img src="/main/images/google_pay.png" style="width: 100px;" alt="">
-                                 <button class="pay_now google_btn" style="border: none; outline: none; padding: 8px 10px; border-radius: 10px;">
-                                    Pay Now
-                                </button>
-                            </div>
-                            <div class="btc_address">
-                                <p class="message google_message"></p>
+                            <div class="google_pay">
+                                <h2>Google pay</h2>
+                                <div class="bar_code_image" style="display: flex; justify-content: space-between;">
+                                    <img src="/main/images/google_pay.png" style="width: 100px;" alt="">
+                                    <button class="pay_now google_btn" style="border: none; outline: none; padding: 8px 10px; border-radius: 10px;">
+                                        Pay Now
+                                    </button>
+                                </div>
+                                <div class="btc_address">
+                                    <p class="message google_message"></p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+            <!-- payment modal ends here  -->
 
+            <!-- show all photo modal begins here -->
+
+            <div class="show_all_photo_modal">
+                <div class="show_wrapper">
+                    <div class="photo_wwrapper">
+                        <img src="/main/images/room2.webp" alt="">
+                    </div>
+
+                    <div class="photo_wwrapper">
+                        <img src="/main/images/room1.webp" alt="">
+                    </div>
+
+                    <div class="photo_wwrapper">
+                        <img src="/main/images/room2.webp" alt="">
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- show all photo modal ends here -->
+        </div>
+
+        <div class="activate_mobile_reservation_form">
+            <button class="mobile_reservation_btn" type="button">Book Now</button>
+        </div>
+    </main>
 
 
     <script>
-        const closeBtn = document.querySelector('.close_icon');
+        const closeBtnIcon = document.querySelector('.close_icon');
         const overLay = document.querySelector('.payment_overlay');
         const paymentModal = document.querySelector('.payment_modal');
-        const paymentBtn = document.querySelector('.payment_btn');
+        const paymentBtn = document.querySelector('.payment_form');
+        const mobilePayementForm = document.querySelector('.mobile_payment_form')
         const copy = document.querySelector('.copy');
+        const mobileReservationSection = document.querySelector('.mobile_reservation_section');
+        const mobilePaymentFormOverlay = document.querySelector('.mobile_payment_form_overlay');
+        const mobileReservationBtn = document.querySelector('.mobile_reservation_btn');
+        const perNight = document.querySelector('.per_night')
+        const total = document.querySelector('.total');
+        const showAllPhotoBtn = document.querySelector('.show_all_btn');
+
+        const showAllPhotoModal = document.querySelector('.show_all_photo_modal');
+        const showAllPhotoWrapper = document.querySelector('.show_wrapper');
 
         // const payment mthods btns 
         const payNowButtons = document.querySelectorAll('.pay_now')
         const bitcoinBtn = document.querySelector('.btc_btn')
 
-
         bitcoinBtn.addEventListener('click', (e) => {
             document.querySelector('.address_wrapper').classList.toggle('active')
         })
 
-        
         // function to remove window from scrolling 
         function  stopScroll() {
             window.scrollTo(0, 0);
@@ -867,15 +996,40 @@
             window.removeEventListener('scroll', stopScroll)
         } 
 
-        function openPaymentModal(e) {
-            e.preventDefault();
+        const openMobilePaymentModal = (event, mobile_checkin, mobile_checkout, mobile_amount) => {
+            event.preventDefault();
+
+            const bookedPeriod = calculateDays(mobile_checkin, mobile_checkout);
+            perNight.innerHTML = `$${mobile_amount} x ${bookedPeriod} nights`;
+            const totalAmount = (mobile_amount * bookedPeriod).toLocaleString()
+            total.innerHTML = `Total Amount $${totalAmount}`
+
             paymentModal.classList.add('active');
             overLay.classList.add('active')
 
             window.addEventListener('scroll', stopScroll)
         }
-        paymentBtn.addEventListener('click', openPaymentModal);
-        closeBtn.addEventListener('click', closePaymentModal);
+
+        function openPaymentModal(e) {
+            e.preventDefault();
+            
+            const checkin = paymentBtn.checkin.value
+            const checkout = paymentBtn.checkout.value
+            const guest = paymentBtn.guest.value;
+            const amount = paymentBtn.amount.value
+
+            const bookedDays = calculateDays(checkin, checkout);
+            perNight.innerHTML = `$${amount} x ${bookedDays} nights`;
+            const totalAmount = (amount * bookedDays).toLocaleString()
+            total.innerHTML = `Total Amount $${totalAmount}`
+
+            paymentModal.classList.add('active');
+            overLay.classList.add('active')
+
+            window.addEventListener('scroll', stopScroll)
+        }
+        paymentBtn.addEventListener('submit', openPaymentModal);
+        closeBtnIcon.addEventListener('click', closePaymentModal);
         overLay.addEventListener('click', closePaymentModal);
 
         // messages functions 
@@ -927,10 +1081,107 @@
                 copy.textContent = 'copy';
             }, 3000)
         }
-        copy.addEventListener('click', copyWalletAddress)
+        copy.addEventListener('click', copyWalletAddress);
 
 
+        function calculateDays(startDate, endDate) {
+            // Convert the dates to timestamps
+            const startTimestamp = new Date(startDate).getTime();
+            const endTimestamp = new Date(endDate).getTime();
+
+            // Calculate the difference in milliseconds
+            const millisecondsPerDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+            const timeDifference = Math.abs(endTimestamp - startTimestamp);
+
+            // Calculate the number of days
+            const numberOfDays = Math.round(timeDifference / millisecondsPerDay);
+
+            return numberOfDays;
+        };
+
+        // function to open mobile reservation form 
+        function openMobileReservationForm(e) {
+            mobilePaymentFormOverlay.classList.add('show');
+            mobileReservationSection.classList.add('show');
+
+            window.addEventListener('scroll', stopScroll)
+        }
+
+        // function to close mobile reservation form 
+        function closeMobileReservationForm(e) {
+            mobilePaymentFormOverlay.classList.remove('show');
+            mobileReservationSection.classList.remove('show');
+
+            window.removeEventListener('scroll', stopScroll)
+        }
+        mobileReservationBtn.addEventListener('click', openMobileReservationForm);
+        mobilePaymentFormOverlay.addEventListener('click', closeMobileReservationForm);
+
+        mobilePayementForm.addEventListener('submit', (event) => {
+            event.preventDefault()
+            const mobile_checkin = mobilePayementForm.checkin2.value
+            const mobile_checkout = mobilePayementForm.checkout2.value
+            const mobile_amount = mobilePayementForm.amount2.value
+
+            closeMobileReservationForm()
+            openMobilePaymentModal(event, mobile_checkin, mobile_checkout, mobile_amount)
+        })
+
+
+        // show all photo function begins here 
+        const showAllPhoto = (e) => {
+            showAllPhotoModal.classList.add('show');
+            showAllPhotoWrapper.classList.add('show');
+
+            window.addEventListener('scroll', stopScroll)
+        }
+
+        const hideAllPhoto = (e) => {
+            showAllPhotoModal.classList.remove('show');
+            showAllPhotoWrapper.classList.remove('show');
+
+            window.removeEventListener('scroll', stopScroll)
+        }
+
+
+        // show all photo function ends here 
+        showAllPhotoBtn.addEventListener('click', showAllPhoto);
+        showAllPhotoModal.addEventListener('click', hideAllPhoto)
     </script>
+
+    <script>
+        // activate slick on mobile devices 
+        $(document).ready(function() {
+            function initSlick() {
+                $('.potos_container').slick({
+                speed: 300,
+                autoplay: true,
+                dots:true,
+                arrows: true,
+                infinite: true,
+                });
+            }
+
+            function destroySlick() {
+                if ($('.potos_container').hasClass('slick-initialized')) {
+                    $('.potos_container').slick('unslick');
+                }
+            }
+
+            // Initialize or destroy Slick based on screen width
+            function handleSlick() {
+                if ($(window).width() < 768) {
+                initSlick();
+                } else {
+                destroySlick();
+                }
+            }
+
+            $(window).on('load resize', handleSlick);
+        });
+            
+    </script>
+
     <%- include('./partials/footer')  %>
 
 
