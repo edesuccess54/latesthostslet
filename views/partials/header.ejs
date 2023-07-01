@@ -1,19 +1,25 @@
 <style>
 
+  .brand_logo img {
+      width: 200px;
+    }
+
+  @media screen and (max-width: 767px) {
+    .brand_logo img {
+      width: 150px;
+    }
+  }
 </style>
-
-
 <header>
   <nav class="nav_bar">
     <div class="brand_logo" >
-      <!-- <img src="" alt="logo"> -->
-      <h4>LOGO</h4>
+      <a href="/"> <img src="/main/images/logo.png" alt="logo"></a>
     </div>
 
     <div class="nav_links">
       <ul>
-        <li>
-          <a href="/" class="link">
+        <li class="navlinks <%= title == 'omg'? 'active' : '' %>">
+          <a href="/" class="link" >
             <img class="iamhn2w dir dir-ltr" src="/main/images/omg.jpeg" alt="omg" width="24" height="24">
             <div class="t1h65ots dir dir-ltr">
               <span class="t1trgdqu dir dir-ltr">OMG!</span>
@@ -21,7 +27,7 @@
           </a>
         </li>
 
-        <li>
+        <li class="navlinks <%= title == 'mansion'? 'active' : '' %>">
           <a href="/mansion" class="link">
             <img class="iamhn2w dir dir-ltr" src="/main/images/mansion.jpeg" alt="mansions" width="24" height="24">
             <div class="t1h65ots dir dir-ltr">
@@ -30,7 +36,7 @@
           </a>
         </li>
 
-        <li>
+        <li class="navlinks <%= title == 'luxe'? 'active' : '' %>">
           <a href="/luxe" class="link">
             <img class="iamhn2w dir dir-ltr" src="/main/images/luxe.jpeg" alt="luxe" width="24" height="24">
             <div class="t1h65ots dir dir-ltr">
@@ -39,7 +45,7 @@
           </a>
         </li>
 
-        <li>
+        <li class="navlinks <%= title == 'island'? 'active' : '' %>">
           <a href="/islands" class="link">
             <img class="iamhn2w dir dir-ltr" src="/main/images/island.jpeg" alt="island" width="24" height="24">
             <div class="t1h65ots dir dir-ltr">
@@ -48,7 +54,7 @@
           </a>
         </li>
 
-        <li>
+        <li class="navlinks <%= title == 'iconic-city'? 'active' : '' %>">
           <a href="/iconic" class="link">
             <img class="iamhn2w dir dir-ltr" src="/main/images/iconic.jpeg" alt="iconic" width="24" height="24">
             <div class="t1h65ots dir dir-ltr">
@@ -57,7 +63,7 @@
           </a>
         </li>
 
-        <li>
+        <li class="navlinks <%= title == 'tropical'? 'active' : '' %>">
           <a href="/tropical" class="link">
             <img class="iamhn2w dir dir-ltr" src="/main/images/tropical.jpeg" alt="tropical" width="24" height="24">
             <div class="t1h65ots dir dir-ltr">
@@ -72,7 +78,7 @@
     <div>
       <ul id="home">
         <li class="home">
-          <a href="/">Hostslet</a>
+          <a href="/" style="color: #ff385c;">Hostslet</a>
         </li>
 
         <li class="auth">

@@ -1,3 +1,7 @@
+:root {
+  --primary-color: #ff385c
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -7,13 +11,27 @@
 li {
     list-style: none;
 }
+
+.navlinks.active {
+    font-weight: bold; 
+    border-bottom: 2px solid #ff385c; 
+    color: #ff385c;
+  }
+
+.error {
+  color: var(--primary-color);
+}
+
+.success {
+  color: green;
+}
   header {
     width: 100%;
     padding: 0 20px;
     height: 60px;
     top: 0;
     position: fixed;
-    z-index: 9999999999999;
+    z-index: 999;
     background: #fff;
   }
 
@@ -110,7 +128,7 @@ li {
     border-radius: 15px;
     left: -170px;
     top: 50px;
-    z-index: 99999;
+    z-index: 9999999;
     box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.5);
   }
 
@@ -145,7 +163,7 @@ li {
     height: 100%;
     background: rgba(0, 0, 0, 0.3);
     cursor: pointer;
-    z-index: 9999;
+    z-index: 99999;
   }
 
   .overlay.show {
@@ -220,14 +238,14 @@ li {
     border-radius: 5px;
     padding: 10px;
     width: 100%;
-    background: #ff385c;
+    background: var(--primary-color);
     color: #fff;
     font-size: 20px;
     margin-top: 10px;
   }
 
   .login_signup_link {
-    color: #ff385c;
+    color: var(--primary-color);
   }
 
   .nav_links ul, .mobile_nav_links ul {
@@ -316,7 +334,7 @@ li {
     position: absolute;
     top: 10px;
     right: 20px;
-    z-index: 9999;
+    z-index: 99;
     cursor: pointer;
 }
  

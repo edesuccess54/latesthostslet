@@ -1,3 +1,4 @@
+<%- include('./partials/head') %>
 
 <style>
     * {
@@ -100,7 +101,7 @@
 
     .mobile_schedule_box {
         max-width: 350px;
-        height: 400px;
+        height: auto;
         right: 40px;
         background: #fff;
         box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.9);
@@ -343,6 +344,11 @@
         height: auto;
     }
 
+    .pay_btns {
+        background-color: #a2233b !important;
+        border: none; outline: none; padding: 8px; border-radius: 10px;
+    }
+
 
     @media screen and (max-width: 767px) {
         .images img {
@@ -456,7 +462,7 @@
     }
 
 </style>
-<%- include('./partials/head') %>
+
 <body class="with-new-header">
     <main>
         <%- include('./partials/header')  %>
@@ -636,6 +642,7 @@
                                 </div>
                             </div>
                             <input type="text" value="196" name="amount" hidden>
+                            <p class="checkin_large_message"></p>
                             <div class="btn_container" style="margin-top: 20px; text-align: center;"> 
                                 <button class="payment_btn" style="padding: 10px; width: 250px; background: #ff385c; color: #fff; border-radius: 10px; outline: none; border: none;">Reserve</button>
                             </div>
@@ -854,6 +861,7 @@
                             </div>
                         </div>
                         <input type="text" value="196" name="amount2" hidden>
+                        <p class="mobile_message"></p>
                         <div class="btn_container" style="margin-top: 20px; text-align: center;"> 
                             <button class="payment_btn" style="padding: 10px; width: 250px; background: #ff385c; color: #fff; border-radius: 10px; outline: none; border: none;">Reserve</button>
                         </div>
@@ -873,7 +881,7 @@
                                 <h2>BTC Payment</h2>
                                 <div class="bar_code_image">
                                     <img src="/main/images/btc_pay.png" style="width: 100px;" alt="">
-                                    <button class="btc_btn" style="border: none; outline: none; padding: 8px; border-radius: 10px;">Pay Now</button>
+                                    <button class="btc_btn pay_btns">Pay Now</button>
                                 </div>
                                 <div class="address_wrapper">
                                     <p>scan the wallet code below to make payment or copy the wallet address</p>
@@ -895,7 +903,7 @@
                                 <h2>Cards Payment</h2>
                                 <div class="bar_code_image">
                                     <img src="/main/images/card_pay.png" style="width: 350px;" alt="">
-                                    <button class="pay_now card_btn" style="border: none; outline: none; padding: 8px; border-radius: 10px;">Pay Now</button>
+                                    <button class="pay_now pay_btns card_btn" style="border: none; outline: none; padding: 8px; border-radius: 10px;">Pay Now</button>
                                 </div>
                                 <div class="btc_address">
                                     <p class="message card_message"></p>
@@ -904,9 +912,9 @@
 
                             <div class="apple_pay">
                                 <h2>Apple pay</h2>
-                                <div class="bar_code_image" style="">
+                                <div class="bar_code_image">
                                     <img src="/main/images/apple_pay.png" style="width: 100px;" alt="">
-                                    <button class="pay_now apple_btn" style="border: none; outline: none; padding: 8px 10px; border-radius: 10px;">Pay Now</button>
+                                    <button class="pay_now pay_btns apple_btn" style="border: none; outline: none; padding: 8px 10px; border-radius: 10px;">Pay Now</button>
                                 </div>
                                 <div class="btc_address">
                                     <p class="message apple_message"></p>
@@ -917,7 +925,7 @@
                                 <h2>Google pay</h2>
                                 <div class="bar_code_image" style="display: flex; justify-content: space-between;">
                                     <img src="/main/images/google_pay.png" style="width: 100px;" alt="">
-                                    <button class="pay_now google_btn" style="border: none; outline: none; padding: 8px 10px; border-radius: 10px;">
+                                    <button class="pay_now pay_btns google_btn" style="border: none; outline: none; padding: 8px 10px; border-radius: 10px;">
                                         Pay Now
                                     </button>
                                 </div>
@@ -964,7 +972,9 @@
         const overLay = document.querySelector('.payment_overlay');
         const paymentModal = document.querySelector('.payment_modal');
         const paymentBtn = document.querySelector('.payment_form');
-        const mobilePayementForm = document.querySelector('.mobile_payment_form')
+        const mobilePayementForm = document.querySelector('.mobile_payment_form');
+        const mobileCheckMessage = document.querySelector('.mobile_message');
+        const checkinLargeMessage = document.querySelector('.checkin_large_message')
         const copy = document.querySelector('.copy');
         const mobileReservationSection = document.querySelector('.mobile_reservation_section');
         const mobilePaymentFormOverlay = document.querySelector('.mobile_payment_form_overlay');
@@ -1017,6 +1027,14 @@
             const checkout = paymentBtn.checkout.value
             const guest = paymentBtn.guest.value;
             const amount = paymentBtn.amount.value
+
+            checkinLargeMessage.className ='checkin_large_message'
+            checkinLargeMessage.textContent = ''
+            if(!checkin || !checkout) {
+                checkinLargeMessage.classList.add('error');
+                checkinLargeMessage.textContent = 'Please select checkin and checkout date.'
+                return
+            }
 
             const bookedDays = calculateDays(checkin, checkout);
             perNight.innerHTML = `$${amount} x ${bookedDays} nights`;
@@ -1119,9 +1137,17 @@
 
         mobilePayementForm.addEventListener('submit', (event) => {
             event.preventDefault()
+            mobileCheckMessage.className ='mobile_message'
+            mobileCheckMessage.textContent = ''
             const mobile_checkin = mobilePayementForm.checkin2.value
             const mobile_checkout = mobilePayementForm.checkout2.value
             const mobile_amount = mobilePayementForm.amount2.value
+
+            if(!mobile_checkin || !mobile_checkout) {
+                mobileCheckMessage.classList.add('error');
+                mobileCheckMessage.textContent = 'Please select checkin and checkout date.'
+                return
+            }
 
             closeMobileReservationForm()
             openMobilePaymentModal(event, mobile_checkin, mobile_checkout, mobile_amount)
