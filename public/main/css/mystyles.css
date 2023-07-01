@@ -274,8 +274,12 @@ li {
 .mobile_nav_wrapper {
     max-width: 350px;
     overflow: scroll;
+    padding-left: 40px;
     margin: auto;
+    /* margin-left: 10px;
+    margin-right: 10px; */
     margin-bottom: 10px;
+    
     text-align: center;
 }
 

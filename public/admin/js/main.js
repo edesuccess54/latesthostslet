@@ -43,9 +43,9 @@ const logOutUSer = async (e) => {
             method: 'GET'
         });
 
-        if (!response.ok) {
-            throw new Error('logout failed');
-        }
+        // if (!response.ok) {
+        //     throw new Error('logout failed');
+        // }
 
         const json = await response.json();
 
