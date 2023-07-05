@@ -1,0 +1,49 @@
+<%- include('./partials/head') %>
+    
+    <main>
+        <div class="avatar_bio_wrapper">
+            <div class="back">
+                <a href="/auth/users/dashboard"><span><i class="fa-solid fa-angle-left"></i></span></a>
+            </div>
+            <h3>Security</h3>
+        </div>
+
+        <div class="profile legal_name">
+            <div class="detail">
+                <h4 class="title">Change password</h4>
+                <p>************</p>
+            </div>
+            <div class="edit">
+                <p class="password_change">password</p>
+            </div>
+
+            <%- include('./partials/change_password') %>
+        </div>
+
+    </main>
+
+    <script>
+        const changePasswordForm = document.querySelector('.change_password');
+        const cancelPasswordBtn = document.querySelector('.password_cancel');
+
+        const changePasswordBtn = document.querySelector('.password_change');
+
+        const showPasswordForm = (e) => {
+            if(e.target.classList.contains('password_change')) {
+                changePasswordForm.classList.add('show');
+                return
+
+            } 
+        }
+
+        const cancelpassword = (e) => {
+            changePasswordForm.classList.remove('show');
+        }
+
+        changePasswordBtn.addEventListener('click', showPasswordForm);
+        cancelPasswordBtn.addEventListener('click', cancelpassword);
+
+
+    </script>
+</body>
+</html>

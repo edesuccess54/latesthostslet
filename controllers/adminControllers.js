@@ -1,6 +1,7 @@
 const Wallet = require('../models/walletModel');
 const Property = require('../models/propertyModel');
 const Review = require('../models/reviewModel');
+const Code = require('../models/codeModel');
 const ErrorResponse = require('../utils/errorResponse');
 const cloudinary = require('cloudinary').v2
 const fs = require('fs');
@@ -26,6 +27,11 @@ const editProopertyPage = async (req, res, next) => {
 
 const propertyReviewPage = async (req, res, next) => { 
     res.render('admin/review', { title: 'Add property review',})
+}
+
+// reservation code page 
+const reservationCodePage = async (req, res, next) => { 
+    res.render('admin/code', { title: 'Reservation Code'})
 }
 
 
@@ -304,6 +310,37 @@ const deleteProperty = async (req, res, next) => {
     }
 }
 
+const generateReservationCode = async (req, res, next) => { 
+    const { email } = req.body
+    
+    try {
+
+        const code = await Code.findOne({ userEmail: email })
+        
+        if (code) {
+            await Code.deleteOne({ _id: code._id })
+        }
+
+        const reservationCode = Math.floor(Math.random()*10000000000)
+
+        const bookCode = await Code.create({
+            userEmail: email,
+            code: reservationCode,
+            createdAt: Date.now(),
+            expiresAt: Date.now() + 30 * (60 * 1000) //30 minutes,
+        })
+
+        if (!bookCode) {
+            throw new Error('reservation code could not be created');
+        }
+
+        res.status(200).json({ success: true, message: `Reservation code is: ${reservationCode}`})
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
 
 
 
@@ -322,5 +359,7 @@ module.exports = {
     editProopertyDetail,
     propertyReviewPage,
     addPropertyReview,
-    deleteProperty
+    deleteProperty,
+    reservationCodePage,
+    generateReservationCode
 }

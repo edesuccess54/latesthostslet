@@ -39,13 +39,14 @@ const logOutUSer = async (e) => {
     e.preventDefault()
 
     try {
-        const response = fetch('/auth/users/logout', {
-            method: 'GET'
+        const response = await fetch('/auth/users/logout', {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'}
         });
 
-        // if (!response.ok) {
-        //     throw new Error('logout failed');
-        // }
+        if (!response.ok) {
+            throw new Error('logout failed');
+        }
 
         const json = await response.json();
 

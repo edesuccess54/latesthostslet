@@ -1,0 +1,79 @@
+<div class="email_edit edit_form_wrapper">
+    <p class="form_title">Email address</p>
+    <div class="form_header">
+        <p>Use an address you will always have access to</p>
+        <p class="email_cancel cancel">Cancel</p>
+    </div>
+    <div class="form_container">
+        <form class="email_form" action="">
+            <div class="input_group">
+                <label for="email">Email address</label>
+                <input id="email" type="text" name="email">
+            </div>
+            <p class="message1"></p>
+            <button class="btn email_btn edit_btn">Save</button>
+        </form>
+    </div>
+</div>
+<script>
+    const emailCancel = document.querySelector('.email_cancel');
+    const emailEditForms = document.querySelector('.email_edit');
+
+    const emailForm = document.querySelector('.email_form');
+    const email_message = document.querySelector('.message1');
+    const emailFormBtn = document.querySelector('.email_btn');
+
+    const closeEmailEdit = (e) => {
+        emailEditForms.classList.remove('show');
+    }
+    emailCancel.addEventListener('click', closeEmailEdit);
+
+
+    
+    const updateEmail = async (e) => {
+        e.preventDefault();
+
+        emailFormBtn.textContent = 'Please wait...';
+        email_message.textContent = '';
+        email_message.className = 'message1';
+
+        const formData = {
+            email: emailForm.email.value, 
+        }
+
+        try {
+            const response = await fetch('/auth/users/update-email', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData)
+            })
+
+            if(!response.ok) {
+                throw new Error('something went wrong');
+            }
+
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error);
+            }
+
+            if(json.success) {
+                emailFormBtn.textContent = 'Save';
+                email_message.textContent = json.message;
+                email_message.classList.add('success');
+                
+                setTimeout(() => {
+                    location.reload();
+                }, 4000)
+            }
+            
+        } catch (error) {
+            emailFormBtn.textContent = 'Save';
+            email_message.textContent = error.message;
+            email_message.classList.add('error');
+        }
+
+    }
+    emailForm.addEventListener('submit', updateEmail);
+</script>

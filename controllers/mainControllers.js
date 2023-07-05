@@ -1,6 +1,6 @@
 
-
 const homePage = async (req, res, next) => {
+    
     res.render('index', {title: 'omg'})
 }
 

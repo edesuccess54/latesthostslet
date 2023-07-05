@@ -1,4 +1,5 @@
 const User = require('../models/usersModel');
+const Code = require('../models/codeModel');
 const ErrorResponse = require('../utils/errorResponse');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
@@ -8,6 +9,181 @@ const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 }
 
+
+// useer dashboard page 
+const userDashboardPage = async (req, res, next) => {
+
+    const { user } = req;
+    
+    res.render('user/dashboard', {user})
+}
+
+// personal info page 
+const personalInfoPage = (req, res, next) => { 
+    const { user } = req;
+    res.render('user/personal-info', {user})
+}
+
+// account page 
+const accountPage = (req, res, next) => {
+    res.render('user/account')
+}
+
+// help page 
+const helpPage = (req, res, next) => { 
+    res.render('user/help-center')
+}
+
+// how it works page 
+const howItWorksPage = (req, res, next) => { 
+    res.render('user/how-it-works')
+}
+
+const tripspage = (req, res, next) => {
+    res.render('user/trips')
+}
+
+// payment page 
+const paymentPage = (req, res, next) => { 
+    res.render('user/payment')
+}
+
+
+// function to update user name 
+const updateName = async (req, res, next) => { 
+    const {_id: authUser} = req.user
+    const { firstname, lastname } = req.body;
+
+    try {
+
+        if (!firstname || !lastname) {
+            throw new Error('Please enter firstname and lastname');
+        }
+
+        const user = await User.findOne({ _id: authUser });
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        user.firstname = firstname;
+        user.lastname = lastname;
+
+        await user.save();
+
+        res.status(200).json({success: true, message: 'informtion has been updated',  user});
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, error.code))
+        return
+    }
+}
+
+// update email 
+const updateEmail = async (req, res, next) => { 
+    const {_id: authUser} = req.user
+    const { email } = req.body;
+
+    try {
+
+        if (!email) {
+            throw new Error('Please enter an email address');
+        }
+        
+        if (!validator.isEmail(email)) { 
+            throw new Error('Please enter a valid email address');
+        }
+
+        const user = await User.findOne({ _id: authUser });
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        user.email = email;
+
+        await user.save();
+
+        res.status(200).json({success: true, message: 'email has been updated',  user});
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, error.code))
+        return
+    }
+}
+
+// update user number 
+const updateNumber = async (req, res, next) => {
+    const {_id: authUser} = req.user
+    const { number } = req.body;
+
+
+    try {
+
+        if (!number) {
+            throw new Error('Please enter a number')
+        }
+
+        const user = await User.findOne({ _id: authUser });
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        user.number = number;
+
+        await user.save();
+
+        res.status(200).json({success: true, message: 'number has been updated',  user});
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, error.code))
+        return
+    }
+}
+
+// change password 
+const updatePassword = async (req, res, next) => { 
+    const { _id: authUser } = req.user
+    const { password, newPassword, confirmPassword } = req.body
+
+
+    try {
+
+        if (!password || !confirmPassword || !newPassword) { 
+            throw new Error('Please fill in all fields')
+        }
+
+        const user = await User.findOne({ _id: authUser });
+
+        if (user.password !== password) { 
+            throw new Error('Old password is not correct')
+        }
+
+        if (newPassword !== confirmPassword) { 
+            throw new Error('password does not match!')
+        }
+
+        if (newPassword < 6 || confirmPassword < 6) { 
+            throw new Error('Password must be at least 6 characters long')
+        }
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        user.password = newPassword;
+
+        await user.save();
+
+        res.status(200).json({success: true, message: 'Password has been changed',  user});
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, error.code))
+        return
+    }
+}
+    
 
 const userRegisteration = async (req, res, next) => { 
     const { firstname, lastname, email, reserveCode, password } = req.body
@@ -28,6 +204,20 @@ const userRegisteration = async (req, res, next) => {
     }
     
     try {
+
+        const reservationCode = Code.findOne({ code: reserveCode })
+
+        if (!reservationCode) {
+            throw new Error('reservation code does not exist')
+        }
+
+        if (reservationCode.code !== reserveCode) { 
+            throw new Error('you have entered a wrong reservation code')
+        }
+
+        if (!reservationCode.userEmail !== email) { 
+            throw new Error('email provided does not match reservation code email')
+        }
 
         const user = await User.create({
             firstname,
@@ -113,7 +303,7 @@ const logoutUser = async (req, res, next) => {
         expires: new Date(0),
         secure: true
     })
-    return res.status(200).json({success: true, message: "Successfully Logged out"})
+    res.status(200).json({success: true, message: "Successfully Logged out"})
 }
 
 
@@ -121,5 +311,16 @@ const logoutUser = async (req, res, next) => {
 module.exports = {
     userRegisteration,
     loginUser,
-    logoutUser
+    logoutUser,
+    userDashboardPage,
+    personalInfoPage,
+    accountPage,
+    helpPage,
+    howItWorksPage,
+    tripspage,
+    paymentPage,
+    updateName,
+    updateEmail,
+    updateNumber,
+    updatePassword
 }

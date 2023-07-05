@@ -1,0 +1,85 @@
+<%- include('./partials/head') %>
+
+<main>
+    <div class="content_wrapper">
+        <%- include('./partials/sideNav') %>
+
+        <div class="main_content_wrapper">
+            <div class="main_content">
+            
+                <!-- create propety section  -->
+                <section class="form_section">
+                    <h2>Generate Reservation Code</h2>
+                    <div class="form_wrapper">
+                        <div class="form_container">
+                            <form class="code_form" enctype="multipart/form-data">
+                                <div class="input_group">
+                                    <label for="email">Client email</label>
+                                    <input id="email" type="text" name="email" required>
+                                </div>
+
+                                <div class="input_group">
+                                    <button class="btn code_btn">Generate Code</button>
+                                </div>
+
+                                <p class="message"></p>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const codeForm = document.querySelector('.code_form');
+    const codeBtn = document.querySelector('.code_btn');
+    const message = document.querySelector('.message');
+
+   async function GenerateReservationCode(e) {
+        e.preventDefault();
+
+        message.textContent = '';
+        codeBtn.textContent = 'please wait...';
+        message.className = 'message';
+
+        try {
+            let formData = {
+                email: codeForm.email.value
+            };
+
+            const response = await fetch('/auth/admin/code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify(formData)
+            })
+
+            if(!response.ok) {
+                throw new Error('something went wrong, please try again')
+            }
+
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error)
+            }
+
+            if(json.success) {
+                message.classList.add('success');
+                message.textContent = json.message
+                codeBtn.textContent = "Generate Code";
+                codeForm.reset();
+            }
+            
+        } catch (error) {
+            message.classList.add('error');
+            message.textContent = error.message;
+            codeBtn.textContent = 'Generate Code'
+        }
+    }
+
+    codeForm.addEventListener('submit', GenerateReservationCode);
+</script>
+
+    

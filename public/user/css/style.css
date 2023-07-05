@@ -1,0 +1,381 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #222222;
+    --primary-font: 'Poppins', sans-serif;
+    --secondary-font: 'Roboto', sans-serif;
+    --neutral-color-100: #717171;
+    --neutral-color-200: #ddd
+}
+
+.btn {
+    padding: 8px;
+    border: 1px solid var(--neutral-color-100);
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    background: transparent;
+    min-width: 100px;
+}
+
+th {
+    white-space: nowrap;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.message, .message1 {
+    margin: 10px 0;
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: green;
+}
+
+.overlay {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.back {
+    margin-bottom: 20px;
+}
+
+.back span {
+    display: inline-block;
+    padding: 5px 20px;
+    background: var(--neutral-color-200);
+}
+
+
+body {
+    color: var(--primary-color);
+    font-family: var(--primary-font);
+}
+
+main {
+    padding: 20px;
+}
+
+.fa-angle-up {
+    transform: rotate(90deg);
+}
+
+.avatar_bio {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--neutral-color-200);
+}
+
+
+.avtar {
+    display: flex;
+    gap: 20px;
+}
+
+
+.imgae_container {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--neutral-color-200);
+    overflow: hidden;
+}
+
+.imgae_container img {
+    width: 100%;
+    height: 100%;
+}
+
+.username {
+    padding: 0;
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 24px;
+}
+
+.show_profile {
+    padding: 0;
+    margin: 0;
+    color: var(--neutral-color-100);
+}
+
+.hostslet_home {
+    display: flex;
+    min-height: 130px;
+    align-items: center;
+    border: 1px solid var(--neutral-color-200);
+    margin: 10px 0;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 1px 2px 8px var(--neutral-color-200);
+}
+
+.hostslet_home h2 {
+    font-size: 18px;
+}
+
+.hostslet_home p {
+    font-size: 14px;
+}
+
+.account_info {
+    margin: 20px 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--neutral-color-200);
+}
+
+.account_info li {
+    margin: 20px 0;
+}
+
+.account_info a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile_image {
+    display: flex;
+    gap: 20px;
+}
+
+.account_info img {
+    width: 30px;
+}
+
+.lang_curreny {
+    display: flex;
+    gap: 20px;
+}
+
+.lang_section {
+    display: flex;
+    gap: 10px;
+}
+
+.lang_section h3 {
+    font-size: 14px;
+}
+
+.lang_section img {
+    width: 15px;
+}
+
+.button_section {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.button_section button {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid var(--neutral-color-200);
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.footer_link {
+    text-align: center;
+}
+
+.footer_link a {
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+.copy {
+    text-align: center;
+    color: var(--neutral-color-100);
+    font-size: 14px;
+}
+
+
+/* personal info styles  */
+
+.avatar_bio_wrapper {
+    margin-bottom: 40px;
+}
+.profile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--neutral-color-200);
+}
+
+.legal_name, .legal_email, .legal_number {
+    position: relative;
+}
+
+.detail p {
+    font-size: 14px;
+    color: var(--neutral-color-100);
+}
+
+.detail h4 {
+    /* color: var(--neutral-color-100); */
+    font-size: 14px;
+}
+
+.edit {
+    text-decoration: underline;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+
+.edit_form_wrapper {
+    position: absolute;
+    padding-top: 10px;
+    top: 0px;
+    width: 100%;
+    background: #fff;
+    z-index: 9999;
+}
+.form_title {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.name_edit, .email_edit, .number_edit, .change_password {
+    display: none;
+}
+
+.name_edit.show, .email_edit.show, .number_edit.show, .change_password.show {
+    display: block;
+}
+
+.edit_form_wrapper p {
+    font-size: 16px;
+}
+
+.form_container {
+    margin-top: 20px;
+}
+
+.input_group {
+    margin-bottom: 10px;
+}
+
+.input_group label {
+    display: block;
+}
+
+.input_group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    border: 1px solid var(--neutral-color-100);
+}
+
+.edit_btn {
+    padding: 10px;
+    background: var(--primary-color);
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 5px;
+    width: 100px;
+}
+
+.form_header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form_header .cancel {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+/* how it works page  */
+.benefits {
+    margin: 20px 0;
+}
+
+.benefit_content {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.benefit_content .icon img {
+    width: 50px;
+}
+
+.benefit_title {
+    font-size: 22px;
+}
+
+.detail_title {
+    font-size: 18px;
+}
+
+.actual_detail {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.trips_table_container {
+    overflow: scroll;
+}
+
+.trips_table_container::-webkit-scrollbar {
+    display: none;
+}
+
+.upload_section {
+    margin-bottom: 40px;
+}
+
+
+
+
+@media screen and (min-width: 768px) {
+    .benefit_wrapper {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .benefit_content {
+        flex-direction: column;
+    }
+
+    .payment_form_wrapper form {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+}

@@ -1,0 +1,82 @@
+
+<div class="number_edit edit_form_wrapper">
+    
+    <p class="form_title">Phone number</p>
+    <div class="form_header">
+        <p>For notificiation, reminders, and help logging in</p>
+        <p class="number_cancel cancel">Cancel</p>
+    </div>
+    <div class="form_container">
+        <form class="number_form">
+            <div class="input_group">
+                <label for="number">Phone number</label>
+                <input id="number" type="text" name="number" placeholder="+1(345)657-4567">
+            </div>
+            <p class="message2"></p>
+            <button class="btn number_btn edit_btn">Save</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    const numberCancel = document.querySelector('.number_cancel');
+    const numberEditForms = document.querySelector('.number_edit');
+
+    const numberForm = document.querySelector('.number_form');
+    const numberMessage = document.querySelector('.message2');
+    const numberFormBtn = document.querySelector('.number_btn');
+
+    const closeNumberEdit = (e) => {
+        numberEditForms.classList.remove('show');
+    }
+    numberCancel.addEventListener('click', closeNumberEdit);
+
+
+    const updateNumber = async (e) => {
+        e.preventDefault();
+
+        numberFormBtn.textContent = 'Please wait...';
+        numberMessage.textContent = '';
+        numberMessage.className = 'message1';
+
+        const formData = {
+            number: numberForm.number.value, 
+        }
+
+        try {
+            const response = await fetch('/auth/users/update-number', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData)
+            })
+
+            if(!response.ok) {
+                throw new Error('something went wrong');
+            }
+
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error);
+            }
+
+            if(json.success) {
+                numberFormBtn.textContent = 'Save';
+                numberMessage.textContent = json.message;
+                numberMessage.classList.add('success');
+                
+                setTimeout(() => {
+                    location.reload();
+                }, 4000)
+            }
+            
+        } catch (error) {
+            numberFormBtn.textContent = 'Save';
+            numberMessage.textContent = error.message;
+            numberMessage.classList.add('error');
+        }
+
+    }
+    numberForm.addEventListener('submit', updateNumber);
+</script>

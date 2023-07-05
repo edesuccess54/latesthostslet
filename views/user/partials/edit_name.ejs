@@ -1,0 +1,86 @@
+<div class="name_edit edit_form_wrapper">
+    <p class="form_title">Legal name</p>
+    <div class="form_header">
+        <p>This is the name o your travel document which could be license or a passport</p>
+        <p class="name_cancel cancel">Cancel</p>
+    </div>
+    <div class="form_container">
+        <form class="name_form">
+            <div class="input_group">
+                <label for="firstname">First name</label>
+                <input id="firstname" type="text" name="firstname" required>
+            </div>
+
+            <div class="input_group">
+                <label for="lastname">Last name</label>
+                <input id="lastname" type="text" name="lastname" required>
+            </div>
+            <p class="message"></p>
+            <button class="btn name_btn edit_btn">Save</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const nameCancel = document.querySelector('.name_cancel');
+    const nameEditForms = document.querySelector('.name_edit');
+
+    const nameForm = document.querySelector('.name_form');
+    const message = document.querySelector('.message');
+    const formBtn = document.querySelector('.name_btn');
+
+    const closeNameEdit = (e) => {
+        nameEditForms.classList.remove('show');
+    }
+    nameCancel.addEventListener('click', closeNameEdit);
+
+
+    const updateName = async (e) => {
+        e.preventDefault();
+
+        formBtn.textContent = 'Please wait...';
+        message.textContent = '';
+        message.className = 'message';
+
+        const formData = {
+            firstname: nameForm.firstname.value,
+            lastname: nameForm.lastname.value, 
+        }
+
+        try {
+            const response = await fetch('/auth/users/personal-info', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData)
+            })
+
+            if(!response.ok) {
+                throw new Error('something went wrong');
+            }
+
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error);
+            }
+
+            if(json.success) {
+                formBtn.textContent = 'Save';
+                message.textContent = json.message;
+                message.classList.add('success');
+                
+                setTimeout(() => {
+                    location.reload();
+                }, 4000)
+            }
+            
+        } catch (error) {
+            formBtn.textContent = 'Save';
+            message.textContent = error.message;
+            message.classList.add('error');
+        }
+
+    }
+    nameForm.addEventListener('submit', updateName);
+
+</script>

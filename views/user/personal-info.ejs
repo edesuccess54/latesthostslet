@@ -1,0 +1,92 @@
+<%- include('./partials/head') %>
+    
+    <main>
+        <div class="avatar_bio_wrapper">
+            <div class="back">
+                <a href="/auth/users/dashboard"><span><i class="fa-solid fa-angle-left"></i></span></a>
+            </div>
+            <h3>Personal info</h3>
+        </div>
+
+        <div class="profile legal_name">
+            <div class="detail">
+                <h4 class="title">Legal name</h4>
+                <p><%= user.firstname %> <%= user.lastname %> </p>
+            </div>
+            <div class="edit">
+                <p class="edit_name">Edit</p>
+            </div>
+
+            <%- include('./partials/edit_name') %>
+        </div>
+
+        <div class="profile legal_email">
+            <div class="detail">
+                <h4 class="title">Email address</h4>
+                <p><%= (user.email).slice(0, 3) %>*****<%= (user.email).slice(8) %></p>
+            </div>
+            <div class="edit">
+                <p class="edit_email">Edit</p>
+            </div>
+
+            <%- include('./partials/edit_email') %>
+        </div>
+
+        <div class="profile legal_number">
+            <div class="detail">
+                <h4 class="title">Phone no</h4>
+                <% if(user.number) { %>
+                    <p><%= (user.number).slice(0, 6) %>*****<%= (user.number).slice(8) %></p>
+                <%} else { %>
+                    <p>Add mobile number</p>
+                <%} %>
+                
+            </div>
+            <div class="edit">
+                <p class="edit_number">Edit</p>
+            </div>
+
+            <%- include('./partials/edit_number') %>
+        </div>
+    </main>
+
+    <script>
+        const nameEdit = document.querySelector('.edit_name');
+        const nameEditForm = document.querySelector('.name_edit');
+
+        const numberEdit = document.querySelector('.edit_number');
+        const numberEditForm = document.querySelector('.number_edit');
+
+        const emailEdit = document.querySelector('.edit_email');
+        const emailEditForm = document.querySelector('.email_edit')
+
+        const edits = document.querySelectorAll('.edit p');
+
+        const showForm = (e) => {
+            if(e.target.classList.contains('edit_name')) {
+                nameEditForm.classList.add('show');
+                numberEditForm.classList.remove('show');
+                emailEditForm.classList.remove('show')
+                return
+
+            } if(e.target.classList.contains('edit_number')) {
+                numberEditForm.classList.add('show');
+                emailEditForm.classList.remove('show')
+                nameEditForm.classList.remove('show');
+                return
+
+            } else {
+                emailEditForm.classList.add('show')
+                nameEditForm.classList.remove('show');
+                numberEditForm.classList.remove('show');
+                return
+            }
+        }
+
+        edits.forEach(edit => {
+            edit.addEventListener('click', showForm)
+        })
+
+    </script>
+</body>
+</html>

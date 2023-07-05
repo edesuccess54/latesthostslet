@@ -13,6 +13,10 @@ const userSchema = Schema({
         type: String,
         required: true
     },
+    number: {
+        type: String,
+    },
+
     reserveCode: {
         type: String,
         required: true

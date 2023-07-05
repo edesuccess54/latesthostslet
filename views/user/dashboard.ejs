@@ -1,7 +1,152 @@
 <%- include('./partials/head') %>
     
     <main>
+        <div class="avatar_bio_wrapper">
+            <h3>Profile</h3>
+        </div>
 
+        <div class="avatar_bio">
+            <div class="avtar">
+                <div class="imgae_container">
+                    <img src="/user/images/avatar.png" alt="">
+                </div>
+                <div class="name">
+                    <p class="username"><%= user.firstname %></p>
+                    <span class="show_profile">Show profile</span>
+                </div>
+            </div>
+            <span ><i class="fa-solid fa-angle-up"></i></span>
+        </div>
+
+        <div class="hostslet_home">
+            <div class="content">
+                <h2>hostslet your place</h2>
+                <p>it's simple to get set up and start earning.</p>
+            </div>
+            <div class="home">
+                <img src="/user/images/home.jpeg" alt="">
+            </div>
+        </div>
+
+        <div class="account_info">
+            <ul>
+                <li>
+                    <a href="/auth/users/personal-info">
+                        <span class="profile_image">
+                            <img src="/user/images/profile_icon.svg" alt="">
+                            <p>Personal info</p>
+                        </span>
+                        <span><i class="fa-solid fa-angle-up"></i></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/auth/users/account">
+                        <span class="profile_image">
+                            <img src="/user/images/settings.svg" alt="">
+                            <p>Account</p>
+                        </span>
+                        <span><i class="fa-solid fa-angle-up"></i></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/auth/users/trips">
+                        <span class="profile_image">
+                            <img src="/user/images/trips.svg" alt="">
+                            <p>Trips</p>
+                        </span>
+                        <span><i class="fa-solid fa-angle-up"></i></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/auth/users/payment">
+                        <span class="profile_image">
+                            <img src="/user/images/payment.svg" alt="">
+                            <p>Payment</p>
+                        </span>
+                        <span><i class="fa-solid fa-angle-up"></i></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="account_info">
+            <h2>Support</h2>
+            <ul>
+                <li>
+                    <a href="/auth/users/help-center">
+                        <span class="profile_image">
+                            <img src="/user/images/help.svg" alt="">
+                            <p>Visit the Help Center</p>
+                        </span>
+                        <span><i class="fa-solid fa-angle-up"></i></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/auth/users/how-it-works">
+                        <span class="profile_image">
+                            <img src="/user/images/hostslet.svg" alt="">
+                            <p>How Hostslet works</p>
+                        </span>
+                        <span><i class="fa-solid fa-angle-up"></i></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="footer_section">
+            <div class="lang_curreny">
+                <span class="lang_section">
+                    <img src="/user/images/lang.svg" alt="">
+                    <h3>English(US)</h3>
+                </span>
+                <span>
+                    $&nbsp;USD
+                </span>
+            </div>
+
+            <div class="button_section">
+                <button class="user_logout" type="button">Log out</button>
+            </div>
+
+            <div class="footer_link">
+                <a href="#">Help & support</a> .
+                <a href="#">Terms of Service</a> .
+                <a href="#">Privacy Policy</a> .
+                <a href="#">Your Privacy Choices</a>
+            </div>
+            <p class="copy">&copy 2023 Hostslet, Inc. All rights reserved.</p>
+        </div>
     </main>
+
+    <script>
+        const logoutBtn = document.querySelector('.user_logout');
+
+        const logUserOut = async (e) => {
+
+            try {
+                const response = await fetch('/auth/users/logout', {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json'}
+                });
+
+                if(!response.ok) {
+                    throw new Error('something went wrong')
+                }
+
+                const json = await response.json();
+
+                if(json.success) {
+                    location.assign('/')
+                }
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+        logoutBtn.addEventListener('click', logUserOut);
+    </script>
 </body>
 </html>
