@@ -11,6 +11,11 @@ const propertySchema = mongoose.Schema({
         required: true
     },
 
+    pdistance: {
+        type: String,
+        required: true
+    },
+
     pamount: {
         type: String,
         required: true

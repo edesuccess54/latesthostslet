@@ -1,7 +1,10 @@
+const Property = require('../models/propertyModel');
+
 
 const homePage = async (req, res, next) => {
-    
-    res.render('index', {title: 'omg'})
+    const property = await Property.find({ pcategory: 'omg' });
+
+    res.render('index', {title: 'omg', property})
 }
 
 const mansionPage = async (req, res, next) => {
@@ -9,23 +12,28 @@ const mansionPage = async (req, res, next) => {
 }
 
 const luxePage = async (req, res, next) => {
-    res.render('luxe', {title: 'luxe'})
+    const property = await Property.find({ pcategory: 'luxe' });
+    res.render('luxe', {title: 'luxe', property})
 }
 
 const iconicPage = async (req, res, next) => {
-    res.render('iconic', {title: 'iconic-city'})
+    const property = await Property.find({ pcategory: 'iconic' });
+    res.render('iconic', {title: 'iconic-city', property})
 }
 
 const tropicalPage = async (req, res, next) => {
-    res.render('tropical', {title: 'tropical'})
+    const property = await Property.find({ pcategory: 'tropical' });
+    res.render('tropical', {title: 'tropical', property})
 }
 
 const islandPage = async (req, res, next) => {
-    res.render('island', {title: 'island'})
+    const property = await Property.find({ pcategory: 'island' });
+    res.render('island', {title: 'island', property})
 }
 
 const propertyDetails = async (req, res, next) => {
-    res.render('rooms', {title: 'Property Details'})
+
+    res.render('rooms', {title: 'Property Details', property})
 }
 
 

@@ -75,8 +75,7 @@
             </ul>
         </div>
     </div>
-</footer>
-        
+</footer>        
 
 <!-- slick javascript  -->
 
@@ -84,25 +83,25 @@
 
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-
+    <!-- slick carousel controller, this controlls all the carousel in different pages -->
     <script>
+        $(document).ready(function() {
+        $('.room-slides').each(function(index) {
+            var carouselContainer = $(this);
+            var carouselDotContainer = $('.custom-dots-container')
 
-        $(document).ready(function(){
-            const roomSlides = $('.room-slides')
+            var prevArrow = $('.prev-arrow').eq(index);
+            var nextArrow = $('.next-arrow').eq(index);
 
-            for(let i = 0; i < roomSlides.length; i++) {
-                 var carousel = roomSlides[i];
-                 console.log
-
-                 carousel.slick({
-                    speed: 300,
-                    prevArrow: $('.prev-arrow'),
-                    nextArrow: $('.next-arrow')
-                });
-            }
+            carouselContainer.slick({
+                speed: 300,
+                prevArrow: prevArrow,
+                nextArrow: nextArrow,
+            });
         });
-
+    });
     </script>
+
     <script src="/main/js/main.js"></script>
 </body>
 </html>

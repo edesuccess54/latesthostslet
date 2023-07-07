@@ -24,6 +24,11 @@
                                 </div>
 
                                 <div class="input_group">
+                                    <label for="pdistance">Distance</label>
+                                    <input id="pdistance" type="text" name="pdistance" placeholder="2,500 Kilometers away" required>
+                                </div>
+
+                                <div class="input_group">
                                     <label for="pamount">Amount(per night)</label>
                                     <input id="pamount" type="text" name="pamount" required>
                                 </div>
@@ -149,48 +154,10 @@
         const fileInput = document.querySelector('#pfile')
         const files = fileInput.files;
 
-        let images = []
-
-        const imagePromises = await Array.from(files).map(file => {
-            const reader = new FileReader()
-
-            reader.addEventListener('load', () => {
-                console.log(reader.result)
-                const photo = {url: reader.result}  
-                images.push(photo)
-            })
-
-            reader.addEventListener('error', () => {
-                console.log('image failed to be converted')
-            })
-
-             reader.readAsDataURL(file)
-        });
-
-        const base64Strings = imagePromises
-
-        console.log('base 64', base64Strings)
-        console.log('images is now here: ', images)
-
         try {
-            
-            // let formData = {
-            //     pname: createForm.pname.value, 
-            //     plocation: createForm.plocation.value, 
-            //     pamount: createForm.pamount.value, 
-            //     hostname: createForm.hostname.value, 
-            //     guest: createForm.guest.value, 
-            //     bedroom: createForm.bedroom.value, 
-            //     bed: createForm.bed.value, 
-            //     bath: createForm.bath.value, 
-            //     rating: createForm.rating.value, 
-            //     review: createForm.review.value, 
-            //     pcategory: createForm.pcategory.value, 
-            // }
-
+        
             const response = await fetch('/auth/admin/create', {
             method: 'POST',
-            // headers: {"Content-Type": "application/json"},
             body: new FormData(createForm)
             });
 
@@ -207,7 +174,7 @@
                 formBtn.textContent = 'Create property';
                 message.classList.add('success');
                 message.textContent = json.message;
-                // createForm.reset();
+                createForm.reset();
 
                 setTimeout(() => {
                     message.classList.remove('success');
