@@ -1,0 +1,56 @@
+<%- include('./partials/head') %>
+    
+    <main>
+        <div class="avatar_bio_wrapper">
+            <div class="back">
+                <a href="/auth/users/dashboard"><span><i class="fa-solid fa-angle-left"></i></span></a>
+            </div>
+            <h3>Transaction History</h3>
+        </div>
+
+
+        <div class="trips_table_container">
+            <table id="example" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Amount</th>
+                        <th>Method</th>
+                        <th>Deposit / Withdrawal</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(transactions){ 
+                       transactions.map((transactions, index) => { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td>$<%= Number(transactions.amount).toLocaleString() %></td>
+                        <td><%= transactions.method %></td>
+                        <td><%= transactions.transactionType %></td>
+                        <td>
+                            <% if(transactions.status) { %>
+                                <span class="complete">completed</span>
+                            <% } else { %>
+                                <span class="pending">pending</span>
+                            <% } %>
+                        </td>
+                        <td><%= transactions.datetime %></td>
+                    </tr>
+                    <% })
+                    } %>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        new DataTable('#example');
+    </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 const express = require('express');
-const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateReservationCode } = require('../controllers/adminControllers');
+const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateReservationCode, pagmentPage } = require('../controllers/adminControllers');
 const upload = require('../utils/fileUpload.js');
 const auth = require('../middleware/auth');
 const authorize = require('../middleware/authorize');
@@ -13,6 +13,7 @@ router.get('/wallet', auth, authorize('admin'), walletPage);
 router.get('/edit', auth, authorize('admin'), editProopertyPage);
 router.get('/review', auth, authorize('admin'), propertyReviewPage);
 router.get('/code', auth, authorize('admin'), reservationCodePage);
+router.get('/payment', auth, authorize('admin'), pagmentPage);
 
 
 router.post('/create', auth, authorize('admin'), upload.array("images"), createProperty);

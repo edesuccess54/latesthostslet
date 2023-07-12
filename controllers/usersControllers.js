@@ -1,13 +1,18 @@
 const User = require('../models/usersModel');
 const Code = require('../models/codeModel');
+const Transaction = require('../models/transactionModel');
 const ErrorResponse = require('../utils/errorResponse');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
-
+const fs = require('fs');
 
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 }
+
+// current daytime 
+let currentdate = new Date(); 
+let datetime = `${currentdate.getDate()}/${(currentdate.getMonth() + 1)}/${currentdate.getFullYear()} ${currentdate.getHours()}:${currentdate.getMinutes()}:${currentdate.getSeconds()}`;
 
 
 // useer dashboard page 
@@ -29,6 +34,11 @@ const accountPage = (req, res, next) => {
     res.render('user/account')
 }
 
+// profile page 
+const profilePage = (req, res, next) => {
+    res.render('user/profile')
+}
+
 // help page 
 const helpPage = (req, res, next) => { 
     res.render('user/help-center')
@@ -48,6 +58,23 @@ const paymentPage = (req, res, next) => {
     res.render('user/payment')
 }
 
+// widthdrawal page
+const withdrawalPage = (req, res, next) => {
+    res.render('user/withdraw')
+}
+
+// transactions page 
+const transactionPage = async (req, res, next) => {
+    const user = req.user
+    const transactions = await Transaction.find({ user: user._id })
+    
+    res.render('user/transaction', {transactions})
+}
+
+// checkins page 
+const checkinsPage = (req, res, next) => {
+    res.render('user/checkins')
+}
 
 // function to update user name 
 const updateName = async (req, res, next) => { 
@@ -75,6 +102,161 @@ const updateName = async (req, res, next) => {
         
     } catch (error) {
         next(new ErrorResponse(error.message, error.code))
+        return
+    }
+}
+
+// functionto execute transaction 
+const payment = async (req, res, next) => {
+    const { reference, unit, amount, method } = req.body
+    const {_id} = req.user
+    
+    try {
+        if (!reference || !amount || !method || !unit) {
+            throw new Error('All fields are required');
+        }
+
+        if (!req.file) {
+            throw new Error('No file was provided');
+        }
+
+        // Create a helper function to read a file and return a promise
+        function readFileAsync(path) {
+            return new Promise((resolve, reject) => {
+                fs.readFile(path, (err, data) => {
+                if (err) {
+                    console.error(err);
+                    reject(new ErrorResponse('Error reading image file', 500));
+                    return;
+                }
+
+                const base64String = Buffer.from(data).toString('base64');
+                const fileData = {
+                    url: base64String
+                };
+
+                resolve(fileData);
+                });
+            });
+        } 
+
+        const filePromises = readFileAsync(req.file.path);
+        const imageResults = await filePromises;
+
+        const payment = await Transaction.create({
+            user: _id,
+            propertyReference: reference,
+            unitAmount: unit,
+            amount: amount,
+            method: method,
+            proof: imageResults.url,
+            datetime 
+        })
+
+        if(!payment) {
+            next(new ErrorResponse('payment upload failed', 500))
+            return
+        }
+
+        res.json({success: true, message: 'Payment in process', payment})
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
+// change user dp 
+const changedp = async (req, res, next) => {
+    const user = req.user
+    try {
+        if (!req.file) {
+            throw new Error('No file was provided');
+        }
+
+        // Create a helper function to read a file and return a promise
+        function readFileAsync(path) {
+            return new Promise((resolve, reject) => {
+                fs.readFile(path, (err, data) => {
+                if (err) {
+                    console.error(err);
+                    reject(new ErrorResponse('Error reading image file', 500));
+                    return;
+                }
+
+                const base64String = Buffer.from(data).toString('base64');
+                const fileData = {
+                    url: base64String
+                };
+
+                resolve(fileData);
+                });
+            });
+        } 
+
+        const filePromises = readFileAsync(req.file.path);
+        const imageResults = await filePromises;
+
+        user.picture =  imageResults
+
+        const pictureUpdate = await user.save()
+
+        if (!pictureUpdate) {
+            next(new ErrorResponse(error.message, 500))
+            return
+        }
+
+        res.status(200).json({success: true, user})
+
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
+const withdraw = async (req, res, next) => {
+    const { balance, amount, method, address } = req.body;
+    const user = req.user
+    
+    try {
+
+        if (!balance || !amount || !method || !address) {
+            throw new Error('All fields are required')
+        }
+
+        // check if amount greater than net balance 
+        if (Number(amount) > Number(balance)) {
+            throw new Error('Insufficient balance')
+        }
+
+        const withdraw = await Transaction.create({
+            user: user._id,
+            amount: amount,
+            method: method,
+            wallet: address,
+            transactionType: 'Withdrawal',
+            datetime
+        })
+
+        if (!withdraw) {
+            next(new ErrorResponse('Withdrawal failed', 500))
+            return
+        }
+
+        // update user balance 
+        const currentBalance = Number(balance) - Number(amount);
+        user.profit = currentBalance
+        
+        const updateUserBalance = await user.save();
+
+        if (!updateUserBalance) {
+            throw new Error('user balance was not updated')
+        }
+
+        res.status(200).json({success: true, message: 'withdrawal is being processed'})
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
         return
     }
 }
@@ -322,5 +504,12 @@ module.exports = {
     updateName,
     updateEmail,
     updateNumber,
-    updatePassword
+    updatePassword,
+    profilePage,
+    withdrawalPage,
+    transactionPage,
+    checkinsPage,
+    payment,
+    withdraw,
+    changedp
 }

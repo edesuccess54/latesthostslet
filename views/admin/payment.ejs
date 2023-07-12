@@ -1,0 +1,108 @@
+<%- include('./partials/head') %>
+
+<main>
+    <div class="content_wrapper">
+        <%- include('./partials/sideNav') %>
+
+        <div class="modal_wrapper">
+            <div class="modal_container">
+                <div class="modal_head"></div>
+                <div class="modal_content">
+                    <p>Hello</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="main_content_wrapper">
+            <div class="main_content">
+                <section class="overview">
+                    <div class="total_property">
+
+                    </div>
+
+                    <div class="total_testimony">
+
+                    </div>
+                </section>
+
+                <style>
+
+                    .content_wrapper {
+                        position: relative;
+                    }
+
+                    .modal_wrapper {
+                        position: fixed;
+                        display: flex;
+                        justify-content: center;
+                    }
+
+                    .modal_container {
+                        width: 320px;
+                        height: 400px;
+                        margin: auto;
+                        background: red;
+                        top: 70px;
+                        z-index: 111111;
+                        
+                    }
+
+                    @media screen and (min-width: 768px) {
+                        .modal_wrapper {
+                            width: 600px;
+                        }
+                    }
+                </style>
+
+                <!-- display all property section  -->
+                <section class="table_section">
+                    <table id="example" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Amount</th>
+                                <th>Unit purchased</th>
+                                <th>Method</th>
+                                <th>Proof</th>
+                                <th>Time</th>
+                                <th>status</th>
+                                <th>action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if(payment.length > 0) { %>
+                               <% for(let i = 0; i < payment.length ; i++) { %>
+                                    <tr>
+                                        <td>$<%= Number(payment[i].amount).toLocaleString() %> </td>
+                                        <td><%= payment[i].unitAmount%></td>
+                                        <td><%= payment[i].method %> </td>
+                                        <td>
+                                            <button class="action_btn approve" data-paymentid="<%= payment[i]._id %>">view proof</button>
+                                        </td>
+                                        <td><%= payment[i].datetime %></td>
+                                        <td>
+                                            <% if(payment[i].status) { %>
+                                                <p class="completed">Approved</p>
+                                            <%} else { %>
+                                                <p class="pending">Pending</p>
+                                           <% } %>
+                                            
+                                         </td>
+                                        <td data-paymentid="<%= payment[i]._id %>">
+                                            <button class="action_btn approve">Approve</button>
+                                            <button class="action_btn reject">Reject</button>
+                                        </td>
+                                    </tr>
+                            <%  }
+                            } %> 
+
+                        </tbody>
+                    </table>
+
+                </section>
+            </div>
+        </div>
+
+    </div>
+</main>
+    
+<%- include('./partials/footer')  %>

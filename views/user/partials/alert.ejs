@@ -1,0 +1,52 @@
+<style>
+    .alert {
+        max-width: 350px;
+        height: 60px;
+        padding: 10px;
+        margin: auto;
+    }
+
+    .alert_content {
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid #efefef;
+        background: #ff385c;
+        color: #fff;
+        padding: 20px 10px;
+        border-radius: 5px;
+    }
+
+    .alert_message {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .message_icon {
+        color: #fff;
+    }
+
+    .alert .close {
+        cursor: pointer;
+        font-size: 20px;
+        color: #fff;
+    }
+
+    @media screen and (min-width: 768px) {
+        .alert {
+            max-width: 1000px;
+        }
+    }
+
+</style>
+
+<div class="alert">
+    <div class="alert_content">
+        <div class="alert_message">
+            <span class="message_icon"><i class="fa-solid fa-circle-exclamation"></i></span>
+            <p>You are not a host yet</p>
+        </div>
+        <span class="close"><i class="fa-solid fa-xmark"></i></span>
+    </div>
+</div>
+

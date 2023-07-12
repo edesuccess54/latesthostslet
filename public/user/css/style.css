@@ -8,6 +8,7 @@
 
 :root {
     --primary-color: #222222;
+    --secondary-color: #ff385c;
     --primary-font: 'Poppins', sans-serif;
     --secondary-font: 'Roboto', sans-serif;
     --neutral-color-100: #717171;
@@ -22,6 +23,13 @@
     cursor: pointer;
     background: transparent;
     min-width: 100px;
+}
+.pending {
+    color: var(--secondary-color);
+}
+
+.complete {
+    color: green;
 }
 
 th {
@@ -92,6 +100,13 @@ main {
     border-bottom: 1px solid var(--neutral-color-200);
 }
 
+.avatar_bio a {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between
+}
+
 
 .avtar {
     display: flex;
@@ -105,6 +120,18 @@ main {
     border-radius: 50%;
     background: var(--neutral-color-200);
     overflow: hidden;
+}
+
+.account_submenu {
+    display: none;
+}
+
+.account_submenu.show {
+    display: block;
+}
+
+.icon_toggle.show {
+    transform: rotate(180deg);
 }
 
 .imgae_container img {
@@ -289,7 +316,7 @@ main {
     display: block;
 }
 
-.input_group input {
+.input_group input, .input_group select {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
@@ -361,6 +388,38 @@ main {
 }
 
 
+/* payment page  */
+
+.bitcoin_code, .etherum_code {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 5px;
+}
+
+.bitcoin_code img, .etherum_code img{
+    width: 100%;
+    height: 100%;
+}
+
+.bitcoin, .etherum {
+    display: none;
+}
+
+.bitcoin.show, .etherum.show {
+    display: block;
+}
+
+/* checkins page  */
+.checkins_table_container {
+    margin-top: 40px;
+    margin-bottom: 150px;
+}
+
+.checkins_title {
+    margin-bottom: 20px;
+}
+ 
+
 
 
 @media screen and (min-width: 768px) {
@@ -374,8 +433,7 @@ main {
     }
 
     .payment_form_wrapper form {
-        display: flex;
-        gap: 10px;
-        align-items: center;
+        max-width: 550px;
+        margin: auto;
     }
 }

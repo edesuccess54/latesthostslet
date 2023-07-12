@@ -21,6 +21,23 @@ const userSchema = Schema({
         type: String,
         required: true
     },
+
+    profit: {
+        type: String,
+        default: '0.00',
+        required: true
+    },
+
+    host: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+
+    picture: {
+        type: Object,
+    },
+
     role: {
         type: String,
         required: true,

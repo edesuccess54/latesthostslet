@@ -2,6 +2,7 @@ const Wallet = require('../models/walletModel');
 const Property = require('../models/propertyModel');
 const Review = require('../models/reviewModel');
 const Code = require('../models/codeModel');
+const Transaction = require('../models/transactionModel');
 const ErrorResponse = require('../utils/errorResponse');
 const cloudinary = require('cloudinary').v2
 const fs = require('fs');
@@ -32,6 +33,12 @@ const propertyReviewPage = async (req, res, next) => {
 // reservation code page 
 const reservationCodePage = async (req, res, next) => { 
     res.render('admin/code', { title: 'Reservation Code'})
+}
+
+// payment page 
+const pagmentPage = async (re, res, next) => {
+    const payment = await Transaction.find({transactionType: 'Deposit'})
+    res.render('admin/payment', {title: 'Payment', payment})
 }
 
 
@@ -362,5 +369,6 @@ module.exports = {
     addPropertyReview,
     deleteProperty,
     reservationCodePage,
-    generateReservationCode
+    generateReservationCode,
+    pagmentPage
 }

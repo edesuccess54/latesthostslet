@@ -1,0 +1,122 @@
+<%- include('./partials/head') %>
+    
+    <main>
+        <div class="avatar_bio_wrapper">
+            <div class="back">
+                <a href="/auth/users/dashboard"><span><i class="fa-solid fa-angle-left"></i></span></a>
+            </div>
+            <h3>Widthdraw</h3>
+            <%- include('./partials/alert') %>
+        </div>
+
+        <div class="upload_section">
+            <div class="payment_form_wrapper">
+                <form class="withdrawal_form" enctype="multipart/form-data">
+                    <div class="input_group">
+                        <label for="balance">Net balance</label>
+                        <input id="balance" type="text" value="23000" name="balance" readonly>
+                    </div>
+
+                    <div class="input_group">
+                        <label for="amount">Withdrawal amount</label>
+                        <input id="amount" type="number" name="amount">
+                    </div>
+
+                    <div class="input_group">
+                        <label for="method">Withdrawal Method</label>
+                        <select name="method" class="payment_method">
+                            <option selected disabled>select Widthdrawal method</option>
+                            <option value="bitcoin">Bitcoin</option>
+                            <option value="etherum">Etherum</option>
+                        </select>
+                    </div>
+
+                    <div class="input_group">
+                        <label for="address">Wallet Address</label>
+                        <input id="address" type="text" name="address" placeholder="Enter your wallet address">
+                    </div>
+
+                    <button class="btn widthdraw_btn" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+
+        <!-- <div class="trips_table_container">
+            <table id="payment" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Amount</th>
+                        <th>propery</th>
+                        <th>method</th>
+                        <th>staus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Tiger Nixon</td>
+                        <td>System Architect</td>
+                        <td>Edinburgh</td>
+                        <td>61</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> -->
+    </main>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        new DataTable('#payment');
+    </script>
+
+<script>
+    const withdrawalForm = document.querySelector('.withdrawal_form');
+    const withdrawalBtn = document.querySelector('.widthdraw_btn');
+
+    const handleWithdrawal = async (e) => {
+        e.preventDefault();
+
+        withdrawalBtn.textContent = 'Processing...'
+
+        const formData = {
+            balance: withdrawalForm.balance.value, 
+            amount: withdrawalForm.amount.value, 
+            method: withdrawalForm.method.value, 
+            address: withdrawalForm.address.value
+        }
+
+        try {
+            const response = await fetch('/auth/users/withdraw', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(formData)
+            })
+
+            if(!response.ok) {
+                throw new Error('Failed Please try again')
+            }
+
+            const json = await response.json()
+
+            if(json.error) {
+                throw new Error(json.error)
+            }
+
+            if(json.success) {
+                withdrawalForm.reset()
+                throw new Error(json.message)
+            }
+        } catch (error) {
+            withdrawalBtn.textContent = 'Submit'
+            alert(error.message);
+        }
+    }
+    withdrawalForm.addEventListener('submit', handleWithdrawal)
+</script>
+
+
+</body>
+</html>

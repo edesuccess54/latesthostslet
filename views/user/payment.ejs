@@ -10,54 +10,61 @@
 
         <div class="upload_section">
             <div class="payment_form_wrapper">
-                <form action="">
+                <form class="payment_form" enctype="multipart/form-data">
                     <div class="input_group">
                         <label for="ref">property reference</label>
-                        <input id="ref" type="text" name="reference" placeholder="enter property reference">
+                        <input id="ref" type="text" name="reference" placeholder="enter property reference" required>
+                    </div>
+
+                    <div class="input_group">
+                        <label for="ref">Amount of unit to purchase</label>
+                        <input id="ref" type="text" name="unit" placeholder="" required>
+                    </div>
+
+                    <div class="input_group">
+                        <label for="ref">Amount to pay</label>
+                        <input id="ref" type="number" name="amount" placeholder="$6,000" required>
+                    </div>
+
+                    <div class="input_group">
+                        <label for="ref">Payment method</label>
+                        <select name="method" class="payment_method" required>
+                            <option selected disabled>select payment method</option>
+                            <option value="bitcoin">Bitcoin</option>
+                            <option value="etherum">Etherum</option>
+                        </select>
+                    </div>
+
+                    <div class="payment_address">
+                        <div class="bitcoin">
+                            <h4>Bitcoin Wallet Address</h4>
+                            <div class="bitcoin_code">
+                                <img src="/main/images/qrcode.jpeg" alt="">
+                            </div>
+                            <div class="bitcoin_address">
+                                <p>16irHf9Qajxha9ih4syLKMGwZUXFGtp2mD</p>
+                            </div>
+                        </div>
+
+                        <div class="etherum">
+                            <h4>Etherum Wallet Address</h4>
+                            <div class="etherum_code">
+                                <img src="/main/images/qrcode.jpeg" alt="">
+                            </div>
+                            <div class="etherum_address">
+                                <p>16irHf9Qajxha9ih4syLKMGwZUXFGtp2mD</p>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="input_group">
                         <label for="proof">upload proof of payment</label>
-                        <input id="proof" type="file" name="proof">
+                        <input id="proof" type="file" name="file" required>
                     </div>
 
-                    <button class="btn" type="submit">Upload</button>
+                    <button class="btn payment_btn" type="submit">Submit</button>
                 </form>
             </div>
-        </div>
-
-
-        <div class="trips_table_container">
-            <table id="payment" class="display" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Amount</th>
-                        <th>propery</th>
-                        <th>method</th>
-                        <th>staus</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                    </tr>
-                    <tr>
-                        <td>Garrett Winters</td>
-                        <td>Accountant</td>
-                        <td>Tokyo</td>
-                        <td>63</td>
-                    </tr>
-                    <tr>
-                        <td>Ashton Cox</td>
-                        <td>Junior Technical Author</td>
-                        <td>San Francisco</td>
-                        <td>66</td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </main>
 
@@ -67,6 +74,60 @@
 
     <script>
         new DataTable('#payment');
+    </script>
+
+    <script>
+        const paymentMethod = document.querySelector('.payment_method');
+        const bitcoin = document.querySelector('.bitcoin');
+        const etherum = document.querySelector('.etherum');
+
+        const paymentForm = document.querySelector('.payment_form');
+        const paymentBtn = document.querySelector('.payment_btn');
+
+        const showPaymentWallet = (e) => {
+            if(e.target.value === 'bitcoin') {
+                bitcoin.classList.add('show');
+                etherum.classList.remove('show');
+
+            } else if(e.target.value === 'etherum') {
+                etherum.classList.add('show');
+                bitcoin.classList.remove('show');
+            }
+        }
+        paymentMethod.addEventListener('change', showPaymentWallet)
+
+
+    const handlePayment = async (e) => {
+        e.preventDefault();
+
+        paymentBtn.textContent = 'Processing...'
+
+        try {
+            const response = await fetch('/auth/users/payment', {
+                method: 'POST',
+                body: new FormData(paymentForm)
+            })
+
+            if(!response.ok) {
+                throw new Error('Failed Please try again')
+            }
+
+            const json = await response.json()
+
+            if(json.error) {
+                throw new Error(json.error)
+            }
+
+            if(json.success) {
+                paymentForm.reset()
+                throw new Error(json.message)
+            }
+        } catch (error) {
+            paymentBtn.textContent = 'Submit'
+            alert(error.message);
+        }
+    }
+    paymentForm.addEventListener('submit', handlePayment)
     </script>
 </body>
 </html>

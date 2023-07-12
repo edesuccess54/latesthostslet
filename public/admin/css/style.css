@@ -23,6 +23,30 @@
     color: green;
 }
 
+.pending {
+    color: var(--primary-text-color);
+}
+
+.complete {
+    color: green;
+}
+
+.approve {
+    background: green;
+}
+
+.reject {
+    background: red;
+}
+
+.action_btn {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #e1e1e1;
+    color: #fff;
+    cursor: pointer;
+}
+
 .btn {
     padding: 10px;
     border: none;

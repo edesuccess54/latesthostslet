@@ -6,16 +6,28 @@
         </div>
 
         <div class="avatar_bio">
-            <div class="avtar">
-                <div class="imgae_container">
-                    <img src="/user/images/avatar.png" alt="">
+            <a href="/auth/users/profile">
+                <div class="avtar">
+                    <div class="imgae_container" style="z-index: 11111;">
+                        <label for="p_image">
+                            <% if(user.picture) { %>
+                                <img src="data:image/png;base64,<%= user.picture.url %>" alt="">
+                            <% } else { %>
+                                <img src="/user/images/avatar.png" alt="">
+                            <% } %>
+                        </label>
+                        <form class="profile_upload" enctype="multipart/form-data">
+                            <input id="p_image" type="file" name="file" style="display: none;" class="change_profile">
+                        </form>
+
+                    </div>
+                    <div class="name">
+                        <p class="username"><%= user.firstname %></p>
+                        <span class="show_profile">Show profile</span>
+                    </div>
                 </div>
-                <div class="name">
-                    <p class="username"><%= user.firstname %></p>
-                    <span class="show_profile">Show profile</span>
-                </div>
-            </div>
-            <span ><i class="fa-solid fa-angle-up"></i></span>
+                <span ><i class="fa-solid fa-angle-up"></i></span>
+            </a>
         </div>
 
         <div class="hostslet_home">
@@ -41,16 +53,35 @@
                 </li>
 
                 <li>
-                    <a href="/auth/users/account">
+                    <a href="#" class="account_toggle">
                         <span class="profile_image">
-                            <img src="/user/images/settings.svg" alt="">
+                            <img src="/user/images/account.svg" alt="">
                             <p>Account</p>
                         </span>
-                        <span><i class="fa-solid fa-angle-up"></i></span>
+                        <span><i class="fa-solid fa-angle-up icon_toggle"></i></span>
                     </a>
+                    <ul class="account_submenu">
+                        <li style="margin-left: 20px;">
+                            <a href="/auth/users/payment">
+                                <span class="profile_image">
+                                    <img src="/user/images/payment.svg" alt="">
+                                    <p>Payment</p>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li style="margin-left: 20px;">
+                            <a href="/auth/users/Widthdraw">
+                                <span class="profile_image">
+                                    <img src="/user/images/cashout.svg" alt="">
+                                    <p>Widthdrawal</p>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
-                <li>
+                <!-- <li>
                     <a href="/auth/users/trips">
                         <span class="profile_image">
                             <img src="/user/images/trips.svg" alt="">
@@ -58,13 +89,23 @@
                         </span>
                         <span><i class="fa-solid fa-angle-up"></i></span>
                     </a>
+                </li> -->
+
+                <li>
+                    <a href="/auth/users/transaction">
+                        <span class="profile_image">
+                            <img src="/user/images/history.svg" alt="">
+                            <p>Transactions</p>
+                        </span>
+                        <span><i class="fa-solid fa-angle-up"></i></span>
+                    </a>
                 </li>
 
                 <li>
-                    <a href="/auth/users/payment">
+                    <a href="/auth/users/checkins">
                         <span class="profile_image">
                             <img src="/user/images/payment.svg" alt="">
-                            <p>Payment</p>
+                            <p>Checkins</p>
                         </span>
                         <span><i class="fa-solid fa-angle-up"></i></span>
                     </a>
@@ -112,18 +153,21 @@
                 <button class="user_logout" type="button">Log out</button>
             </div>
 
-            <div class="footer_link">
+            <!-- <div class="footer_link">
                 <a href="#">Help & support</a> .
                 <a href="#">Terms of Service</a> .
                 <a href="#">Privacy Policy</a> .
                 <a href="#">Your Privacy Choices</a>
-            </div>
+            </div> -->
             <p class="copy">&copy 2023 Hostslet, Inc. All rights reserved.</p>
         </div>
     </main>
 
     <script>
         const logoutBtn = document.querySelector('.user_logout');
+        const accountToggle = document.querySelector('.account_toggle');
+        const accountSubMenu = document.querySelector('.account_submenu');
+        const iconToggle = document.querySelector('.icon_toggle')
 
         const logUserOut = async (e) => {
 
@@ -147,6 +191,77 @@
             }
         }
         logoutBtn.addEventListener('click', logUserOut);
+
+        const toggleAcount = (e) => {
+            e.preventDefault();
+            accountSubMenu.classList.toggle('show');
+            iconToggle.classList.toggle('show')
+        }
+        accountToggle.addEventListener('click', toggleAcount);
+
+        // make request to change profile picture 
+        const changeProfile = document.querySelector('.change_profile');
+        const profileUploadForm = document.querySelector('.profile_upload')
+
+
+        // helper function to covert image to base64 
+        function convertImageToBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+
+                    reader.onloadend = function() {
+                    resolve(reader.result);
+                    };
+
+                    reader.onerror = function(error) {
+                    reject(error);
+                    };
+
+                    reader.readAsDataURL(file);
+                });
+            }
+
+        const uploadNewProfieImage = async (e) => {
+            e.preventDefault();
+
+            const file = e.target.files[0];
+            let profileUrl= {}
+
+            await convertImageToBase64(file)
+                .then(base64String => {
+                    profileUrl = {
+                        url: base64String
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+            try {
+                const response = await fetch('/auth/users/changedp', {
+                    method: 'POST',
+                    body: new FormData(profileUploadForm)
+                })
+
+                if(!response.ok) {
+                    throw new Error('something went wrong')
+                }
+
+                const json = await response.json()
+
+                if(json.error) {
+                    throw new Error(json.error)
+                }
+
+                if(json.success) {
+                    location.reload()
+                }
+            } catch (error) {
+                throw new Error(error.message)
+            }
+        }
+
+        changeProfile.addEventListener('change', uploadNewProfieImage)
     </script>
 </body>
 </html>

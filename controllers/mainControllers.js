@@ -2,7 +2,8 @@ const Property = require('../models/propertyModel');
 
 
 const homePage = async (req, res, next) => {
-    const property = await Property.find({ pcategory: 'omg' });
+    const property = await Property.find({pcategory: 'omg'});
+    // const property = [{pamount: '2000'}]
 
     res.render('index', {title: 'omg', property})
 }
@@ -33,7 +34,7 @@ const islandPage = async (req, res, next) => {
 
 const propertyDetails = async (req, res, next) => {
 
-    res.render('rooms', {title: 'Property Details', property})
+    res.render('rooms', {title: 'Property Details'})
 }
 
 
