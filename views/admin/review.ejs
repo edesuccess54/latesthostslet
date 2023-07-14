@@ -14,13 +14,13 @@
                         <div class="form_container">
                             <form class="review_form" enctype="multipart/form-data">
                                 <div class="input_group">
-                                    <label for="rname">Write review</label>
-                                    <textarea name="review" id="rname" cols="30" rows="10" required></textarea>
+                                    <label for="name">Enter name of reviewer</label>
+                                    <input id="name" type="text" name="name" required>
                                 </div>
 
                                 <div class="input_group">
-                                    <label for="reviewTime">Date of review</label>
-                                    <input id="reviewTime" type="text" name="reviewdate" placeholder="e.g June 2023" required>
+                                    <label for="rname">Write review</label>
+                                    <textarea name="review" id="rname" cols="30" rows="10" required></textarea>
                                 </div>
                                 
                                 <div class="input_group">
@@ -48,8 +48,6 @@
     const message = document.querySelector('.message');
     const formBtn = document.querySelector('.review_btn');
 
-    import {convertImage} from '/main/js/convertImageToBase64.js'
-
     const queryStrings = new URLSearchParams(document.location.search)
     const propertyId = queryStrings.get('property')
 
@@ -58,6 +56,7 @@
 
         formBtn.textContent = 'processing, please wait...';
         message.textContent = '';
+        message.className = 'message'
 
         let formData = new FormData(reviewForm);
 
@@ -81,23 +80,13 @@
                 formBtn.textContent = 'Create property';
                 message.classList.add('success');
                 message.textContent = json.message;
-                // reviewForm.reset();
-
-                setTimeout(() => {
-                    message.classList.remove('success');
-                    message.textContent = "";
-                },3000)
+                reviewForm.reset();
             }
             
         } catch (error) {
             formBtn.textContent = 'Create property';
             message.classList.add('error');
             message.textContent = error.message;
-
-            setTimeout(() => {
-                message.classList.remove('error');
-                message.textContent = "";
-            },3000)
         }
     }
     reviewForm.addEventListener('submit', addReview)

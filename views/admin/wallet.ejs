@@ -14,6 +14,15 @@
                         <div class="form_container">
                             <form class="wallet_form" enctype="multipart/form-data">
                                 <div class="input_group">
+                                    <label for="wallettype">Enter your Wallet Address</label>
+                                    <select name="wallettype" id="wallettype">
+                                         <option selected disabled>Select wallet</option>
+                                        <option value="bitcoin">Bitcoin</option>
+                                         <option value="etherum">Etherum</option>
+                                    </select>
+                                </div>
+
+                                <div class="input_group">
                                     <label for="wallet">Enter your Wallet Address</label>
                                     <input id="wallet" type="text" name="wallet" required>
                                 </div>

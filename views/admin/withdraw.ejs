@@ -106,23 +106,21 @@
                         <thead>
                             <tr>
                                 <th>Amount</th>
-                                <th>Unit purchased</th>
                                 <th>Method</th>
-                                <th>Proof</th>
+                                <th>Address</th>
                                 <th>Time</th>
                                 <th>status</th>
                                 <th>action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="withdrawal_action_tab">
                             <% if(payment.length > 0) { %>
                                <% for(let i = 0; i < payment.length ; i++) { %>
                                     <tr>
                                         <td>$<%= Number(payment[i].amount).toLocaleString() %> </td>
-                                        <td><%= payment[i].unitAmount%></td>
-                                        <td><%= payment[i].method %> </td>
+                                        <td><%= payment[i].method %></td>
                                         <td class="view_proof">
-                                            <button class="action_btn approve" data-image="<%= payment[i].proof %>">view proof</button>
+                                            <p><%= payment[i].wallet %></p>
                                         </td>
                                         <td><%= payment[i].datetime %></td>
                                         <td>
@@ -133,7 +131,7 @@
                                            <% } %>
                                             
                                          </td>
-                                        <td class="action_tab">
+                                        <td>
                                             <button class="action_btn approve" data-paymentid="<%= payment[i]._id %>">Approve</button>
                                             <button class="action_btn reject" data-paymentid="<%= payment[i]._id %>">Reject</button>
                                         </td>
@@ -156,45 +154,17 @@
 <script>
     const viewProof = document.querySelector('.view_proof');
     const modalWrapper = document.querySelector('.modal_wrapper');
-    const actionTab = document.querySelector('.action_tab');
+    const withdrawwalActionTab = document.querySelector('.withdrawal_action_tab');
 
-    const viewPaymentproof = (e) => {
-        const imageProof = document.querySelector('.image_proof');
-        modalWrapper.classList.add('show');
-
-        let html = `
-            <img class="proof" src="data:image/png;base64,${e.target.dataset.image}" alt="payment proof">
-            <span class="close_proof_modal">
-                <i class="fa-solid fa-xmark pay_modal_btn"></i>
-            </span>
-        `;
-
-        imageProof.innerHTML = html;
-        window.addEventListener('scroll', stopScroll)
-    }
-
-    const closeViewPayment = (e) => {
-        modalWrapper.classList.remove('show');
-         window.removeEventListener('scroll', stopScroll)
-    }
     
-    
-    viewProof.addEventListener('click', (e) => {
-        viewPaymentproof(e)
-
-        const payModalBtn = document.querySelector('.pay_modal_btn')
-        payModalBtn.addEventListener('click', closeViewPayment)
-    });
-    
-
     // function to approve user payment 
-    const approvePayment = async (e) => {
+    const approveWithdrawal = async (e) => {
         try {
             const paymentId = e.target.dataset.paymentid;
             
             if(e.target.classList.contains('approve')) {
                 e.target.textContent = 'Approving...'
-                const response = await fetch(`/auth/admin/approve-payment/${paymentId}`, {
+                const response = await fetch(`/auth/admin/approve-withdraw/${paymentId}`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify()
@@ -216,7 +186,7 @@
 
             } else if(e.target.classList.contains('reject')) {
                 e.target.textContent = 'Rejecting...'
-                const response = await fetch(`/auth/admin/reject-payment/${paymentId}`, {
+                const response = await fetch(`/auth/admin/reject-withdraw/${paymentId}`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify()
@@ -246,10 +216,7 @@
         }
     }
 
-    actionTab.addEventListener('click', approvePayment)
-
-    
-    
+    withdrawwalActionTab.addEventListener('click', approveWithdrawal)
 
 </script>
     

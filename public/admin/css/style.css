@@ -27,7 +27,7 @@
     color: var(--primary-text-color);
 }
 
-.complete {
+.completed {
     color: green;
 }
 
@@ -37,6 +37,10 @@
 
 .reject {
     background: red;
+}
+
+main {
+    position: relative;
 }
 
 .action_btn {

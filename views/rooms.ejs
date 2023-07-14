@@ -394,27 +394,27 @@
             overflow: hidden;
         }
 
-        .one {
+        .images:nth-child(1) {
             grid-column: 1/3;
             grid-row: 1/3;
         }
 
-        .two {
+        .images:nth-child(2) {
             grid-column: 3/4;
             grid-row: 1/2;
         }
 
-        .three {
+        .images:nth-child(3) {
             grid-column: 4/5;
             grid-row: 1/2;
         }
 
-        .four {
+        .images:nth-child(4) {
             grid-column: 3/4;
             grid-row: 2/2;
         }
 
-        .five {
+        .images:nth-child(5) {
             grid-column: 4/5;
             grid-row: 2/2;
         }
@@ -425,7 +425,9 @@
         }  
 
         .images img {
-            max-height: 100%;
+            height: 100%;
+            object-fit: cover;
+            width: 100%;
         }
 
         .rating_percent {
@@ -469,23 +471,16 @@
 
         <div class="content-wrapper">
             <section class="image_grid">
-                <h2>Flea Windmill | The Mill</h2>
+                
+                <h2><%= property.pname %></h2>
+                
                 <div class="potos_container">
-                    <div class="images one">
-                        <img src="/main/images/room2.webp" alt="">
-                    </div>
-                    <div class="images two">
-                        <img src="/main/images/room1.webp" alt="">
-                    </div>
-                    <div class="images three">
-                        <img src="/main/images/room1.webp" alt="">
-                    </div>
-                    <div class="images four">
-                        <img src="/main/images/room2.webp" alt="">
-                    </div>
-                    <div class="images five">
-                        <img src="/main/images/room2.webp" alt="">
-                    </div>
+                    <% if(property.pimages) {%>
+                        <%for(let i = 0; i < 5; i++) { %>
+                            <div class="images one">
+                                <img src="data:image/jpeg;base64,<%= property.pimages[i].url %>" alt="">
+                            </div>
+                        <% }}%>
                 </div>
                 <div class="show_all_photo">
                     <button class="show_all_btn">Show all photos</button>
@@ -496,8 +491,8 @@
                 <div class="apartment_details">
                     <div class="heading-section">
                         <h2>
-                            <p>Windmill hosted by Moinho</p>
-                            <span style="font-size: 14px; color: gray; font-weight: 300;">2 guests1 . bedroom1 . bed1 . bath</span>
+                            <p><%= property.pname %> hosted by <%= property.hostname %></p>
+                            <span style="font-size: 14px; color: gray; font-weight: 300;"><%= property.guest %> . <%= property.bedroom %> . <%= property.bed %> . <%= property.bath %></span>
                         </h2>
                             
                         <img class="heading-img" src="/main/images/christopher.webp" alt="">
@@ -607,8 +602,8 @@
                 <div class="reservation_section">
                     <div class="schedule-box">
                         <div class="amount_review">
-                            <p><span class="amount" style="font-weight: bold;">$156</span> night</p>
-                            <p style="font-weight: bold;"><img src="/main/images/rating.svg" alt="" style="width: 15px;"> 4.95 . <a href="" style="text-decoration: underline;">189 reviews</a></p>
+                            <p><span class="amount" style="font-weight: bold;">$<%= Number(property.pamount).toLocaleString() %></span> night</p>
+                            <p style="font-weight: bold;"><img src="/main/images/rating.svg" alt="" style="width: 15px;"> <%= property.rating %> . <a href="" style="text-decoration: underline;"><%= property.review %> reviews</a></p>
                         </div>
                         <form class="payment_form" style="margin-top: 20px;">
                             <div class="form_wrapper" style="border: 1px solid black; padding: 20px; border-radius: 10px;">
@@ -644,7 +639,7 @@
                             <input type="text" value="196" name="amount" hidden>
                             <p class="checkin_large_message"></p>
                             <div class="btn_container" style="margin-top: 20px; text-align: center;"> 
-                                <button class="payment_btn" style="padding: 10px; width: 250px; background: #ff385c; color: #fff; border-radius: 10px; outline: none; border: none;">Reserve</button>
+                                <button class="payment_btn" style="padding: 10px; width: 250px; background: #ff385c; color: #fff; border-radius: 10px; outline: none; border: none;">Host Now</button>
                             </div>
                         </form>
                     </div>
@@ -653,7 +648,7 @@
 
             <!-- reviews section starts here  -->
             <section class="reviews_section">
-                <h2> <img src="/main/images/rating.svg" alt="rating"> 4.95 · 189 reviews</h2>
+                <h2> <img src="/main/images/rating.svg" alt="rating"> <%= property.rating %>  · <%= property.review %> reviews </h2>
                 <div class="rating_percent">
                     <div class="rating_wrapper">
                         <ul class="list_margin_top">
@@ -713,69 +708,28 @@
                 </div>
 
                 <div class="testimonies">
-                    <div class="testimony">
-                        <div class="bio">
-                            <div class="testifer_img">
-                                <img src="/main/images/christopher.webp" alt="">
-                            </div>
-                            <div class="bio_detail">
-                                <h4>Christopher</h4>
-                                <p class="testimony_date">June 2023</p>
-                            </div>
-                        </div>
+                    <% if(reviews.length > 0) { %>
+                        <% reviews.map(({name,review, photo}) => { %>
+                            <div class="testimony">
+                                <div class="bio">
+                                    <div class="testifer_img">
+                                        <img src="data:image/jpeg;base64,<%= photo.url %>" alt="">
+                                    </div>
+                                    <div class="bio_detail">
+                                        <h4><h4><%= name %></h4></h4>
+                                        <p class="testimony_date">---------</p>
+                                    </div>
+                                </div>
 
-                        <div class="actual_testimony">
-                            <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
-                        </div>
-                    </div>
-
-                    <div class="testimony">
-                        <div class="bio">
-                            <div class="testifer_img">
-                                <img src="/main/images/christopher.webp" alt="">
+                                <div class="actual_testimony">
+                                    <p><%= review %></p>
+                                </div>
                             </div>
-                            <div class="bio_detail">
-                                <h4>Christopher</h4>
-                                <p class="testimony_date">June 2023</p>
-                            </div>
-                        </div>
 
-                        <div class="actual_testimony">
-                            <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
-                        </div>
-                    </div>
-
-                    <div class="testimony">
-                        <div class="bio">
-                            <div class="testifer_img">
-                                <img src="/main/images/christopher.webp" alt="">
-                            </div>
-                            <div class="bio_detail">
-                                <h4>Christopher</h4>
-                                <p class="testimony_date">June 2023</p>
-                            </div>
-                        </div>
-
-                        <div class="actual_testimony">
-                            <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
-                        </div>
-                    </div>
-
-                    <div class="testimony">
-                        <div class="bio">
-                            <div class="testifer_img">
-                                <img src="/main/images/christopher.webp" alt="">
-                            </div>
-                            <div class="bio_detail">
-                                <h4>Christopher</h4>
-                                <p class="testimony_date">June 2023</p>
-                            </div>
-                        </div>
-
-                        <div class="actual_testimony">
-                            <p>Absolutely amazing time staying at the Mill! We got super lucky that it was available the first two days of our honeymoon and couldn’t have picked a better way to start out the trip.</p>
-                        </div>
-                    </div>
+                        <%})%>
+                    <%} else {%>
+                        <p>This property does not have any review yet</p>
+                    <%} %>
                 </div>
             </section>
 
@@ -786,7 +740,7 @@
                         <img src="/main/images/christopher.webp" alt="">
                     </div>
                     <div class="bio_detail">
-                        <h4>Hosted by Moinho</h4>
+                        <h4>Hosted by <%= property.hostname %></h4>
                         <p class="testimony_date">Joined in February 2015</p>
                     </div>
                 </div>
@@ -795,7 +749,7 @@
                         <ul class="list_margin_top">
                             <li>
                                 <img src="/main/images/rating.svg" alt=""> &nbsp;&nbsp;
-                                <span> 284 Reviews</span>
+                                <span> <%= property.review %> Reviews</span>
                             </li>
                             <li>
                                 <img src="/main/images/identity.svg" alt="" style="width: 20px;"> &nbsp;&nbsp; 
@@ -826,8 +780,8 @@
             <div class="mobile_reservation_section">
                 <div class="mobile_schedule_box">
                     <div class="amount_review">
-                        <p><span class="amount" style="font-weight: bold;">$156</span> night</p>
-                        <p style="font-weight: bold;"><img src="/main/images/rating.svg" alt="" style="width: 15px;"> 4.95 . <a href="" style="text-decoration: underline;">189 reviews</a></p>
+                        <p><span class="amount" style="font-weight: bold;">$<%= property.pamount %></span> night</p>
+                        <p style="font-weight: bold;"><img src="/main/images/rating.svg" alt="" style="width: 15px;"> <%= property.rting %> . <a href="#" style="text-decoration: underline;"><%= property.review %> reviews</a></p>
                     </div>
                     <form class="mobile_payment_form" style="margin-top: 20px;">
                         <div class="form_wrapper" style="border: 1px solid black; padding: 20px; border-radius: 10px;">
@@ -937,32 +891,23 @@
                     </div>
                 </div>
             </div>
-            <!-- payment modal ends here  -->
-
-            <!-- show all photo modal begins here -->
 
             <div class="show_all_photo_modal">
                 <div class="show_wrapper">
-                    <div class="photo_wwrapper">
-                        <img src="/main/images/room2.webp" alt="">
-                    </div>
-
-                    <div class="photo_wwrapper">
-                        <img src="/main/images/room1.webp" alt="">
-                    </div>
-
-                    <div class="photo_wwrapper">
-                        <img src="/main/images/room2.webp" alt="">
-                    </div>
+                    <% if(property.pimages) {
+                        property.pimages.map(({url}) => {%>
+                             <div class="photo_wwrapper">
+                                <img src="data:image/jpeg;base64,<%= url %>" alt="">
+                            </div>
+                        <% }) %>
+                    <%}%>
                 </div>
             </div>
 
-
-            <!-- show all photo modal ends here -->
         </div>
 
         <div class="activate_mobile_reservation_form">
-            <button class="mobile_reservation_btn" type="button">Book Now</button>
+            <button class="mobile_reservation_btn" type="button">Host Now</button>
         </div>
     </main>
 
@@ -970,7 +915,7 @@
     <script>
         const closeBtnIcon = document.querySelector('.close_icon');
         const overLay = document.querySelector('.payment_overlay');
-        const paymentModal = document.querySelector('.payment_modal');
+        // const paymentModal = document.querySelector('.payment_modal');
         const paymentBtn = document.querySelector('.payment_form');
         const mobilePayementForm = document.querySelector('.mobile_payment_form');
         const mobileCheckMessage = document.querySelector('.mobile_message');
@@ -1172,7 +1117,8 @@
 
         // show all photo function ends here 
         showAllPhotoBtn.addEventListener('click', showAllPhoto);
-        showAllPhotoModal.addEventListener('click', hideAllPhoto)
+        showAllPhotoModal.addEventListener('click', hideAllPhoto);
+        
     </script>
 
     <script>

@@ -6,8 +6,12 @@
                 <a href="/auth/users/dashboard"><span><i class="fa-solid fa-angle-left"></i></span></a>
             </div>
             <h3>Widthdraw</h3>
-            <%- include('./partials/alert') %>
+            <%  if(!user.host) { %>
+                <%- include('./partials/alert') %>
+            <% } %>
         </div>
+
+        <% if(user.host) { %>
 
         <div class="upload_section">
             <div class="payment_form_wrapper">
@@ -40,28 +44,8 @@
                 </form>
             </div>
         </div>
+        <% } %>
 
-
-        <!-- <div class="trips_table_container">
-            <table id="payment" class="display" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Amount</th>
-                        <th>propery</th>
-                        <th>method</th>
-                        <th>staus</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div> -->
     </main>
 
 

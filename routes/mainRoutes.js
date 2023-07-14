@@ -11,7 +11,7 @@ router.get('/iconic', iconicPage)
 router.get('/tropical', tropicalPage)
 router.get('/islands', islandPage)
 
-router.get('/rooms/property/details/:id', propertyDetails)
+router.get('/rooms/property/details', propertyDetails)
 
 
 

@@ -224,7 +224,7 @@ li {
     margin-bottom: 3px;
   }
 
-  .input_group input {
+  .input_group input, .input_group select {
     width: 100%;
     padding: 10px 8px;
     border-radius: 5px;

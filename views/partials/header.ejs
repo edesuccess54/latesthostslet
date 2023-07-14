@@ -154,13 +154,35 @@
                 </div>
 
                 <div class="input_group">
-                    <label for="rcode">Reservation code</label>
+                    <label for="gender">Gender</label>
+                    <select name="gender" id="gender">
+                      <option selected disabled>choose gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="input_group">
+                    <label for="country">Country</label>
+                    <input id="country" name="country" type="text" required>
+                </div>
+
+
+
+                <div class="input_group">
+                    <label for="rcode">Reference code</label>
                     <input id="rcode" name="reserveCode" type="text" placeholder="make payment to get your reservation code" required>
                 </div>
 
                 <div class="input_group">
                     <label for="password">Password</label>
                     <input id="password" name="password" type="password" required>
+                </div>
+
+                <div class="input_group">
+                    <label for="password2">E-mail</label>
+                    <input id="password2" name="password2" type="email" required>
                 </div>
 
                 <p class="message"></p>

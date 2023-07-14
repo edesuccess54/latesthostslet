@@ -1,10 +1,16 @@
 const mongoose = require('mongoose');
 
 const walletSchema = mongoose.Schema({
+    walletAssets: {
+        type: String,
+        required: true
+    },
+
     address: {
         type: String,
         required: true
     },
+    
     qrcode: {
         type: Object,
         required: true

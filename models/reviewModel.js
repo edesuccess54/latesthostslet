@@ -5,10 +5,17 @@ const reviewSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
+
+    name: {
+        type: String,
+        required: true
+    },
+
     review: {
         type: String,
         required: true
     },
+    
     photo: {
         type: Object,
         required: true

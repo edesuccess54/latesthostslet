@@ -35,8 +35,9 @@ const accountPage = (req, res, next) => {
 }
 
 // profile page 
-const profilePage = (req, res, next) => {
-    res.render('user/profile')
+const profilePage = async (req, res, next) => {
+    const user = req.user
+    res.render('user/profile', {user})
 }
 
 // help page 
@@ -60,7 +61,8 @@ const paymentPage = (req, res, next) => {
 
 // widthdrawal page
 const withdrawalPage = (req, res, next) => {
-    res.render('user/withdraw')
+    const user = req.user
+    res.render('user/withdraw', {user})
 }
 
 // transactions page 

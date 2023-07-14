@@ -46,6 +46,10 @@ const transactionSchema = mongoose.Schema({
         trim: true
     },
 
+    statusMessage: {
+        type: String,
+    },
+
     datetime: {
         type: String,
         required: true

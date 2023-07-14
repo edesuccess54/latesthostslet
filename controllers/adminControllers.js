@@ -3,6 +3,8 @@ const Property = require('../models/propertyModel');
 const Review = require('../models/reviewModel');
 const Code = require('../models/codeModel');
 const Transaction = require('../models/transactionModel');
+const Checkins = require('../models/checkinModel')
+const User =require('../models/usersModel')
 const ErrorResponse = require('../utils/errorResponse');
 const cloudinary = require('cloudinary').v2
 const fs = require('fs');
@@ -27,7 +29,9 @@ const editProopertyPage = async (req, res, next) => {
 }
 
 const propertyReviewPage = async (req, res, next) => { 
-    res.render('admin/review', { title: 'Add property review',})
+    const { property } = req.query
+    const review = Review.find({propertyId: property})
+    res.render('admin/review', { title: 'Add property review', review})
 }
 
 // reservation code page 
@@ -36,9 +40,20 @@ const reservationCodePage = async (req, res, next) => {
 }
 
 // payment page 
-const pagmentPage = async (re, res, next) => {
+const pagmentPage = async (req, res, next) => {
     const payment = await Transaction.find({transactionType: 'Deposit'})
     res.render('admin/payment', {title: 'Payment', payment})
+}
+
+// withdrawal page 
+const withdrawalPage = async (req, res, next) => {
+    const payment = await Transaction.find({transactionType: 'Withdrawal'})
+    res.render('admin/withdraw', {title: 'withdraw', payment})
+}
+
+// new and old checkins page 
+const checkinsPage = async (req, res, next) => {
+    res.render('admin/checkins', {title: 'checkins'})
 }
 
 
@@ -114,7 +129,7 @@ const createProperty = async (req, res, next) => {
 }
 
 const updatePaymentDetail = async (req, res, next) => { 
-    const { address } = req.body
+    const { address, wallettype } = req.body
 
     // check is address is empty 
     if (!address) {
@@ -128,47 +143,92 @@ const updatePaymentDetail = async (req, res, next) => {
     }
 
     try {
-        let fileData = {}
 
-        let uploadedFile = await cloudinary.uploader.upload(req.file.path, { folder: "hostpro", resource_type: "image" })
-        
-        if (!uploadedFile) {
-            next(new ErrorResponse("image could not be uploaded", 500));
-            return
-        }
+        // Create a helper function to read a file and return a promise
+        function readFileAsync(path) {
+            return new Promise((resolve, reject) => {
+                fs.readFile(path, (err, data) => {
+                if (err) {
+                    console.error(err);
+                    reject(new ErrorResponse('Error reading image file', 500));
+                    return;
+                }
 
-        fileData = {
-            fileName: req.file.originalname,
-            filePath: uploadedFile.secure_url,
-            fileType: req.file.mimetype,
-            fileSize: req.file.size,
-        }
+                const base64String = Buffer.from(data).toString('base64');
+                const fileData = {
+                    url: base64String
+                };
 
-        const wallet = await Wallet.findOne();
-
-        if (wallet) {
-
-            wallet.address = address;
-            wallet.qrcode = fileData
-
-            const updatedWallet = await wallet.save();
-
-            if (!updatedWallet) {
-                throw new Error('wallet address failed to update')
-            }
-
-            res.status(200).json({ success: true,  message: 'Payment details updated'})
-        } else {
-            const updatedWallet = await Wallet.create({
-                 address,
-                qrcode:fileData
+                resolve(fileData);
+                });
             });
+        } 
 
-            if (!updatedWallet) {
-                throw new Error('wallet address failed to update')
+        const filePromises = readFileAsync(req.file.path);
+        const imageResults = await filePromises;
+
+
+        const bitcoin = await Wallet.findOne({ walletAssets: 'bitcoin' });
+        const etherum = await Wallet.findOne({ walletAssets: 'etherum' });
+
+        
+        if(wallettype === 'bitcoin') {
+            // bitcoin wallet update starts here 
+            if (bitcoin) {
+
+                bitcoin.address = address;
+                bitcoin.qrcode = imageResults
+
+                const updatedWallet = await bitcoin.save();
+
+                if (!updatedWallet) {
+                    throw new Error('wallet address failed to update')
+                }
+
+                res.status(200).json({ success: true,  message: 'Payment details updated'})
+            } else {
+                const updatedWallet = await Wallet.create({
+                    walletAssets: wallettype,
+                    address,
+                    qrcode:imageResults
+                });
+
+                if (!updatedWallet) {
+                    throw new Error('wallet address failed to update')
+                }
+
+                res.status(200).json({ success: true,  message: 'Payment details updated'})
             }
+            // bitcoin wallet update ends here
+        } else if(wallettype === 'etherum') {
 
-            res.status(200).json({ success: true,  message: 'Payment details updated'})
+            // etherum wallet update starts here 
+            if (etherum) {
+
+                etherum.address = address;
+                etherum.qrcode = imageResults
+
+                const updatedWallet = await etherum.save();
+
+                if (!updatedWallet) {
+                    throw new Error('wallet address failed to update')
+                }
+
+                res.status(200).json({ success: true,  message: 'Payment details updated'})
+            } else {
+                const updatedWallet = await Wallet.create({
+                    walletAssets: wallettype,
+                    address,
+                    qrcode:imageResults
+                });
+
+                if (!updatedWallet) {
+                    throw new Error('wallet address failed to update')
+                }
+
+                res.status(200).json({ success: true,  message: 'Payment details updated'})
+            }
+            // etherum wallet update ends here
         }
 
 
@@ -252,34 +312,42 @@ const editProopertyDetail = async (req, res, next) => {
 }
 
 const addPropertyReview = async (req, res, next) => {
-    const { review } = req.body
+    const { review, name } = req.body
     const { propertyId } = req.params
 
     try {
-        if (!review) {
-            throw new Error('Please provide a property review')
+        if (!review || !name) {
+            throw new Error('Please all fields are required')
         }
 
-        let fileData;
+        // Create a helper function to read a file and return a promise
+        function readFileAsync(path) {
+            return new Promise((resolve, reject) => {
+                fs.readFile(path, (err, data) => {
+                if (err) {
+                    console.error(err);
+                    reject(new ErrorResponse('Error reading image file', 500));
+                    return;
+                }
 
-        let uploadedPhoto = await cloudinary.uploader.upload(req.file.path, { folder: "hostpro", resource_type: "image" })
+                const base64String = Buffer.from(data).toString('base64');
+                const fileData = {
+                    url: base64String
+                };
 
-        if (!uploadedPhoto) {
-            next(new ErrorResponse('photo upload failed', 500))
-            return
-        }
+                resolve(fileData);
+                });
+            });
+        } 
 
-        fileData = {
-            fileName: req.file.originalname,
-            filePath: uploadedPhoto.secure_url,
-            fileType: req.file.mimetype,
-            fileSize: req.file.size,
-        }
+        const filePromises = readFileAsync(req.file.path);
+        const imageResults = await filePromises;
 
         const proverptyReview = await Review.create({
             propertyId: propertyId,
-            review: review,
-            photo: fileData
+            name,
+            review,
+            photo: imageResults
         })
 
         if (!proverptyReview) {
@@ -292,8 +360,6 @@ const addPropertyReview = async (req, res, next) => {
         next(new ErrorResponse(error.message, 400))
         return
     }
-
-    
 }
 
 const deleteProperty = async (req, res, next) => { 
@@ -350,6 +416,126 @@ const generateReservationCode = async (req, res, next) => {
     }
 }
 
+const approvePayment = async (req, res, next) => {
+    const { id } = req.params
+    try {
+        
+        const transaction = await Transaction.findOne({ _id: id });
+        const user = await User.findOne({ _id: transaction.user });
+
+        transaction.status = true;
+        user.host = true;
+        await user.save();
+        await transaction.save();
+
+        res.status(200).json({success: true, message: 'payment approved'})
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
+
+const rejectPayment = async (req, res, next) => {
+    const { id } = req.params
+    try {
+        
+        const transaction = await Transaction.findOne({ _id: id });
+        const user = await User.findOne({ _id: transaction.user });
+
+        transaction.status = false;
+        transaction.statusMessage = "Rejected";
+        user.host = false;
+        await user.save();
+        await transaction.save();
+
+        res.status(200).json({success: true, message: 'payment reject'})
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
+const approveWithdrawal = async (req, res, next) => {
+    const { id } = req.params
+    try {
+        const transaction = await Transaction.findOne({ _id: id });
+        if (!transaction) {
+            throw new Error('No transaction was found')
+        }
+        transaction.status = true
+        const withdrawUpdate = await transaction.save();
+
+        if (!withdrawUpdate) {
+            next(new ErrorResponse('withdrawal has failed to update', 500))
+            return
+        }
+
+        res.status(200).json({success: true, message: 'withdrawal has been approved'})
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
+const rejectWithdrawal = async (req, res, next) => {
+    const { id } = req.params
+    try {
+        const transaction = await Transaction.findOne({ _id: id });
+        if (!transaction) {
+            throw new Error('No transaction was found')
+        }
+        transaction.status = false
+        transaction.statusMessage = 'Rejected'
+        const withdrawUpdate = await transaction.save();
+
+        console.log(transaction)
+
+        if (!withdrawUpdate) {
+            next(new ErrorResponse('withdrawal has failed to update', 500))
+            return
+        }
+
+        res.status(200).json({success: true, message: 'withdrawal has been approved'})
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
+const checkins = async (req, res, next) => {
+    const { name, checkins, location, city, amount, date, status } = req.body
+    
+    try {
+        if (!name || !checkins || !location || !city || !amount || !date || !status) {
+            throw new Error('All fields are required')
+        }
+
+        const checkin = await Checkins.create({
+            name,
+            checkins,
+            location,
+            city,
+            amount,
+            date,
+            status
+        })
+
+        if (!checkin) {
+            next(new ErrorResponse('checkins failed to create, try again', 500))
+        }
+
+        res.status(200).json({success: true, message: 'Checkins created', checkin})
+
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+    
+    console.log(req.body)
+}
 
 
 
@@ -370,5 +556,12 @@ module.exports = {
     deleteProperty,
     reservationCodePage,
     generateReservationCode,
-    pagmentPage
+    pagmentPage,
+    approvePayment,
+    rejectPayment,
+    withdrawalPage,
+    approveWithdrawal,
+    rejectWithdrawal,
+    checkinsPage,
+    checkins
 }

@@ -418,6 +418,42 @@ main {
 .checkins_title {
     margin-bottom: 20px;
 }
+
+
+/* profile page  */
+.profile_overview {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+}
+
+.single_overview {
+    flex-basis: 350px;
+    height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.detail span {
+    font-size: 80px;
+    color: #e2e2e2;
+}
+
+.detail h5 {
+    color: #757373;
+}
+
+.detail p {
+    font-size: 23px;
+    color: #232121;
+}
+
+.detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
  
 
 
@@ -435,5 +471,9 @@ main {
     .payment_form_wrapper form {
         max-width: 550px;
         margin: auto;
+    }
+
+    .profile_overview {
+        grid-template-columns: repeat(4, 1fr);
     }
 }
