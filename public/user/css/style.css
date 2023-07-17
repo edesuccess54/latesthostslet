@@ -292,11 +292,11 @@ main {
     font-weight: bold;
 }
 
-.name_edit, .email_edit, .number_edit, .change_password {
+.name_edit, .email_edit, .number_edit, .change_password, .upload_document {
     display: none;
 }
 
-.name_edit.show, .email_edit.show, .number_edit.show, .change_password.show {
+.name_edit.show, .email_edit.show, .number_edit.show, .change_password.show, .upload_document.show {
     display: block;
 }
 
@@ -444,16 +444,16 @@ main {
     color: #757373;
 }
 
-.detail p {
+/* .detail p {
     font-size: 23px;
     color: #232121;
-}
+} */
 
-.detail {
+/* .detail {
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
+} */
  
 
 

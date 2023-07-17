@@ -2,6 +2,7 @@ const User = require('../models/usersModel');
 const Code = require('../models/codeModel');
 const Transaction = require('../models/transactionModel');
 const ErrorResponse = require('../utils/errorResponse');
+const UserDocument = require('../models/documentModel')
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 const fs = require('fs');
@@ -479,6 +480,76 @@ const loginUser = async (req, res, next) => {
     }
 }
 
+const uploadUserIdentityDocument = async (req, res, next) => {
+    const user = req.user
+    const { idtype, country, date} = req.body;
+    
+    if (!idtype || !country || !date) {
+        next(new ErrorResponse('All fields are required', 400))
+        return
+    }
+
+    if (!req.file) {
+        next(new ErrorResponse('no file was uploaded', 400))
+        return
+    }
+
+    try {
+
+        // Create a helper function to read a file and return a promise
+        function readFileAsync(path) {
+            return new Promise((resolve, reject) => {
+                fs.readFile(path, (err, data) => {
+                if (err) {
+                    console.error(err);
+                    reject(new ErrorResponse('Error reading image file', 500));
+                    return;
+                }
+
+                const base64String = Buffer.from(data).toString('base64');
+                const fileData = {
+                    url: base64String
+                };
+
+                resolve(fileData);
+                });
+            });
+        } 
+
+        const filePromises = readFileAsync(req.file.path);
+        const imageResults = await filePromises;
+
+        const userDocument = await UserDocument.findOne({ user });
+
+        if (userDocument) {
+            userDocument.idType = idtype,
+            userDocument.country = country,
+            userDocument.date = date,
+            userDocument.doc = imageResults
+            
+            await userDocument.save()
+            
+            res.status(200).json({success: true, message: 'document updated, wait for review'})
+            
+        } else {
+            await UserDocument.create({
+                user,
+                idType: idtype,
+                country,
+                date,
+                doc: imageResults
+            })
+
+            res.status(200).json({success: true, message: 'document uploaded, wait for review'})
+        }
+
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+
+}
+
 const logoutUser = async (req, res, next) => { 
     res.cookie("token", "", {
         path: "/",
@@ -513,5 +584,6 @@ module.exports = {
     checkinsPage,
     payment,
     withdraw,
-    changedp
+    changedp,
+    uploadUserIdentityDocument
 }

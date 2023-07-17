@@ -201,8 +201,6 @@
 
   <script>
 
-
-
 const logins = document.querySelectorAll('.login_signup a');
 const authModal = document.querySelector('.login_modal');
 const loginForm = document.querySelector('.login');
@@ -233,6 +231,9 @@ const displayAuthModal = (e) => {
     } else if(e.target.textContent.trim() == 'Sign up') {
         loginForm.classList.remove('show');
         signup.classList.add('show');
+    } else if(e.target.textContent.trim() == 'Host Now') {
+        loginForm.classList.remove('show');
+        signup.classList.add('show'); 
     }
 }
 logins.forEach(login => {
@@ -353,11 +354,6 @@ const loginUser = async (e) => {
     }
 }
 loginUserForm.addEventListener('submit', loginUser)
-
-
-
-
-
 
 
     const hamburgerBtn = document.querySelector('.open_close');

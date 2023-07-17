@@ -1,6 +1,7 @@
 const Wallet = require('../models/walletModel');
 const Property = require('../models/propertyModel');
 const Review = require('../models/reviewModel');
+const UserDocument = require('../models/documentModel')
 const Code = require('../models/codeModel');
 const Transaction = require('../models/transactionModel');
 const Checkins = require('../models/checkinModel')
@@ -56,12 +57,21 @@ const checkinsPage = async (req, res, next) => {
     res.render('admin/checkins', {title: 'checkins'})
 }
 
+// users page 
+const usersPage = async (req, res, next) => {
+    const adminId = req.user
+    const users = await User.find({ _id: { $ne: adminId } })
+
+    res.render('admin/users', {title: 'Users', users})
+}
+
 
 
 
 const createProperty = async (req, res, next) => { 
     const { pname, plocation, pdistance, pamount, hostname, guest, bedroom, bed, bath, rating, review, pcategory } = req.body
 
+      
     if (!pname || !plocation || !pdistance || !pamount || !hostname || !guest || !bed || !bath || !rating || !review || !pcategory) {
         next(new ErrorResponse('please fill all field', 400))
         return
@@ -97,6 +107,7 @@ const createProperty = async (req, res, next) => {
 
         const filePromises = req.files.map(file => readFileAsync(file.path));
         const imageResults = await Promise.all(filePromises);
+
 
         images.push(...imageResults);
         
@@ -537,6 +548,24 @@ const checkins = async (req, res, next) => {
     console.log(req.body)
 }
 
+const viewUserDocument = async (req, res, next) => {
+    const { id } = req.params;
+    
+    try {
+        const userDocument = await UserDocument.findOne({ user: id })
+        
+        if (!userDocument) {
+            throw new Error('this user have not uploaded any document yet');
+        }
+
+        res.status(200).json({success: true, message: 'Successful', userDocument})
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
 
 
 
@@ -563,5 +592,7 @@ module.exports = {
     approveWithdrawal,
     rejectWithdrawal,
     checkinsPage,
-    checkins
+    checkins,
+    usersPage,
+    viewUserDocument
 }

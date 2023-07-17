@@ -60,6 +60,18 @@
 
             <%- include('./partials/change_password') %>
         </div>
+
+        <div class="profile legal_email">
+            <div class="detail">
+                <h4 class="title">Document</h4>
+                <p>Verify your identity</p>
+            </div>
+            <div class="edit">
+                <p class="document_upload">upload</p>
+            </div>
+
+            <%- include('./partials/upload_doc') %>
+        </div>
     </main>
 
     <script>
@@ -75,6 +87,8 @@
         const changePasswordForm = document.querySelector('.change_password');
         const changePasswordBtn = document.querySelector('.password_change');
 
+        const uploadDocumentForm =document.querySelector('.upload_document')
+
         const edits = document.querySelectorAll('.edit p');
 
         const showForm = (e) => {
@@ -82,27 +96,38 @@
                 nameEditForm.classList.add('show');
                 numberEditForm.classList.remove('show');
                 emailEditForm.classList.remove('show');
-                changePasswordForm.classList.remove('show')
+                changePasswordForm.classList.remove('show');
+                uploadDocumentForm.classList.remove('show')
                 return
 
             } if(e.target.classList.contains('edit_number')) {
                 numberEditForm.classList.add('show');
                 emailEditForm.classList.remove('show')
                 nameEditForm.classList.remove('show');
-                changePasswordForm.classList.remove('show')
+                changePasswordForm.classList.remove('show');
+                uploadDocumentForm.classList.remove('show')
                 return
 
             } else if(e.target.classList.contains('password_change')) {
                 emailEditForm.classList.remove('show')
                 nameEditForm.classList.remove('show');
                 numberEditForm.classList.remove('show');
-                changePasswordForm.classList.add('show')
+                changePasswordForm.classList.add('show');
+                uploadDocumentForm.classList.remove('show')
+                return
+            } else if(e.target.classList.contains('document_upload')) {
+                emailEditForm.classList.remove('show')
+                nameEditForm.classList.remove('show');
+                numberEditForm.classList.remove('show');
+                changePasswordForm.classList.remove('show');
+                uploadDocumentForm.classList.add('show')
                 return
             } else {
                 emailEditForm.classList.add('show')
                 nameEditForm.classList.remove('show');
                 numberEditForm.classList.remove('show');
-                changePasswordForm.classList.remove('show')
+                changePasswordForm.classList.remove('show');
+                uploadDocumentForm.classList.remove('show')
                 return
             }
         }

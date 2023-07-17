@@ -172,7 +172,7 @@ li {
 
   .login_modal {
     width: 100%;
-    margin-top: 40px;
+    /* margin-top: 40px; */
     /* display: none; */
     transform: translateY(900px);
     position: fixed;

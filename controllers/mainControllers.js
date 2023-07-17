@@ -59,8 +59,6 @@ const propertyDetails = async (req, res, next) => {
         const property = await Property.findOne({ _id: propertyId });
         const reviews = await Review.find({ propertyId: propertyId });
 
-        console.log(reviews)
-
         if (!property) {
             throw new Error('Property not found')
         }
