@@ -1,5 +1,5 @@
 const express = require('express');
-const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateReservationCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument } = require('../controllers/adminControllers');
+const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateReservationCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument, approveDocument, rejectDocument, changePassword, changePasswordPage} = require('../controllers/adminControllers');
 const upload = require('../utils/fileUpload.js');
 const auth = require('../middleware/auth');
 const authorize = require('../middleware/authorize');
@@ -17,6 +17,7 @@ router.get('/payment', auth, authorize('admin'), pagmentPage);
 router.get('/withdraw', auth, authorize('admin'), withdrawalPage);
 router.get('/checkins', auth, authorize('admin'), checkinsPage);
 router.get('/users', auth, authorize('admin'), usersPage);
+router.get('/change-password', auth, authorize('admin'), changePasswordPage);
 
 
 router.post('/create', auth, authorize('admin'),  upload.array("images"), createProperty);
@@ -27,6 +28,11 @@ router.post('/review/:propertyId', auth, authorize('admin'), upload.single('file
 router.post('/code', auth, authorize('admin'), generateReservationCode);
 router.post('/approve-payment/:id', auth, authorize('admin'), approvePayment);
 router.post('/reject-payment/:id', auth, authorize('admin'), rejectPayment);
+
+router.post('/change-password', auth, authorize('admin'), changePassword);
+
+router.post('/approve-document/:id', auth, authorize('admin'), approveDocument);
+router.post('/reject-document/:id', auth, authorize('admin'), rejectDocument)
 
 router.post('/approve-withdraw/:id', auth, authorize('admin'), approveWithdrawal);
 router.post('/reject-withdraw/:id', auth, authorize('admin'), rejectWithdrawal);

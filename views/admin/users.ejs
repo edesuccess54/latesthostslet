@@ -18,36 +18,45 @@
 
                 <!-- display all property section  -->
                 <section class="table_section">
-                    <table id="example" class="display" style="width:100%">
+                    <table id="example" class="display responsive">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Fullname</th>
                                 <th>Email</th>
                                 <th>Number</th>
                                 <th>Country</th>
                                 <th>Ip address</th>
-                                <th>Last seen</th>
+                                <th>status</th>
+                                <!-- <th>password</th> -->
                                 <th>Doc</th>
                             </tr>
                         </thead>
                         <tbody class="view_doc">
                             <% if(users) { %>
 
-                                <% users.map(({_id, firstname, lastname, email, number, country, lastseen }) => { %>
+                                <% users.map(({_id, firstname, lastname, email, number, country, lastseen, status, password }, index) => { %>
                             <tr>
+                                <td><%= index + 1 %></td>
                                 <td><%= firstname %> <%= lastname %></td>
                                 <td><%= email %></td>
                                 <td><%= number %></td>
                                 <td><%= country %></td>
                                 <td>192.168.72.5</td>
-                                <td><%= lastseen %></td>
                                 <td>
-                                    <button class="btn view_doc_btn" data-user="<%= _id%>">View Doc</button>
+                                    <% if(status) { %>
+                                       <p class="online">online</p>
+                                    <% } else { %>
+                                        <p class="offline">offline</p>
+                                    <%} %> 
+                                </td>
+                                <!-- <td><%= password %></td> -->
+                                <td>
+                                    <button class="btn view_doc_btn" data-user="<%= _id%>"> <span><i class="fa-solid fa-id-card-clip"></i></span> View Doc</button>
                                 </td>
                             </tr>
                             <% })} %>
-                            
-
+                        
                         </tbody>
                     </table>
                 </section>
@@ -56,12 +65,10 @@
 
         <!-- user document modal  -->
         <div class="docu_modal_wrapper">
-            
             <div class="modal_content">
                 <div class="spinner_container">
                     <image class="spinner" src="/admin/images/spinner.gif" />
-                </div>
-                    
+                </div>  
             </div>
         </div>
     </div>
@@ -74,7 +81,7 @@
 
     const showUserDocumentModal = async (e) => {
 
-        if(e.target.textContent == 'View Doc') {
+        if(e.target.textContent.includes('View Doc')) {
             const userId = e.target.dataset.user;
             
             documodalShow.classList.add('show')
@@ -96,7 +103,6 @@
      overlay.addEventListener('click', closeUserDocumentModal);
 
      async function fetchUserDocument (userId){
-
         // make request to fetch user image 
         try {
 
@@ -123,8 +129,6 @@
             if(json.success) {
                 modalContent.classList.remove('active');
 
-                console.log(json)
-
                 let html = `
                     <div class="doc_modal_header">
                         <h2>Verify user document</h2>
@@ -141,14 +145,18 @@
                                 <li>Expiring Date: <span>${json.userDocument.date}</span></li>
                             </ul>
                         </div>
-                        <div class="doc_action_container">
-                            <button class="approve doc_approve" data-userid = ${json.userDocument.user}>Approve Doc</button>
-                            <button class="btn reject doc_reject" data-userid = ${json.userDocument.user}>Reject Doc</button>
+                        <div>
+                            <div class="doc_action_container">
+                                <button class="approve doc_approve" data-userid = ${json.userDocument.user}>Approve Doc</button>
+                                <button class="btn reject doc_reject" data-userid = ${json.userDocument.user}>Reject Doc</button>
+                            </div>
+                             <p class="message"></p>
                         </div>
                     </div>
                 `
                 modalContent.innerHTML = html
                 document.querySelector('.close_user_doc').addEventListener('click', closeUserDocumentModal);
+                
 
             }
             
@@ -158,27 +166,77 @@
      }
 
      const documentVerification = async (e) => {
+        const message = document.querySelector('.message');
+        message.textContent="";
+
         if(e.target.textContent == 'Approve Doc') {
-            const userId = e.target.dataset.userid
+            const userId = e.target.dataset.userid;
+            message.className="message";
             
+            e.target.textContent = "Processing...";
             try {
-                const response = await fetch(`/auth/admin/approve-document/${userid}`, {
+                const response = await fetch(`/auth/admin/approve-document/${userId}`, {
                     method: "POST",
                     headers: {"Content-Type":"application/json"},
-                    body: JSON.stringify()
                 })
-            } catch (error) {
+
                 
+                if(!response.ok) {
+                    throw new Error("something went wrong, please try again")
+                }
+                const json = await response.json()
+
+                if(json.error) {
+                    throw new Error(json.error)
+                }
+
+                if(json.success) {
+                    e.target.textContent = "Approve Doc";
+                    message.classList.add('success');
+                    message.textContent = json.message
+                }
+                
+            } catch (error) {
+                e.target.textContent = "Approve Doc";
+                message.classList.add('error');
+                message.textContent = error.message
             }
             
         } else if(e.target.textContent == 'Reject Doc') {
-            alert('No')
-        }
+            const userId = e.target.dataset.userid;
+            message.className="message";
+            
+            e.target.textContent = "Rejecting...";
+            try {
+                const response = await fetch(`/auth/admin/reject-document/${userId}`, {
+                    method: "POST",
+                    headers: {"Content-Type":"application/json"},
+                })
+                
+                if(!response.ok) {
+                    throw new Error("something went wrong, please try again")
+                }
+                const json = await response.json()
 
+                if(json.error) {
+                    throw new Error(json.error)
+                }
+
+                if(json.success) {
+                    e.target.textContent = "Reject Doc";
+                    message.classList.add('error');
+                    message.textContent = json.message
+                }
+                
+            } catch (error) {
+                e.target.textContent = "Reject Doc";
+                message.classList.add('error');
+                message.textContent = error.message;
+            }
+        }
      }
 
      modalContent.addEventListener('click', documentVerification)
-
 </script>
     
 <%- include('./partials/footer')  %>

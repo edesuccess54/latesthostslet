@@ -65,6 +65,11 @@ const usersPage = async (req, res, next) => {
     res.render('admin/users', {title: 'Users', users})
 }
 
+// chnage password page 
+const changePasswordPage = async (req, res, next) => {
+    res.render('admin/change-password', {title: 'Change password'})
+}
+
 
 
 
@@ -566,6 +571,107 @@ const viewUserDocument = async (req, res, next) => {
     }
 }
 
+const approveDocument = async (req, res, next) => {
+    const { id } = req.params
+    
+    try {
+
+        const userDocument = await UserDocument.findOne({ user: id })
+        
+        if (!userDocument) {
+            throw new Error('This user has not uploaded any document');
+        }
+
+        userDocument.status = true;
+
+        const approvedDoc = await userDocument.save();
+
+        if (!approvedDoc) {
+            throw new Error('document failed to be verified');
+        }
+        
+        res.status(200).json({success: true, message: 'Document has been verified'})
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
+const rejectDocument = async (req, res, next) => {
+   const { id } = req.params
+    
+    try {
+
+        const userDocument = await UserDocument.findOne({ user: id })
+        
+        if (!userDocument) {
+            throw new Error('This user has not uploaded any document');
+        }
+
+        userDocument.status = false;
+
+        const approvedDoc = await userDocument.save();
+
+        if (!approvedDoc) {
+            throw new Error('document failed to be rejected');
+        }
+        
+        res.status(200).json({success: true, message: 'Document has been rejected'})
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
+const changePassword = async (req, res, next) => {
+    const { oldpassword, password1, password2 } = req.body;
+
+    console.log(password2)
+
+    // check for empty field 
+    if (!oldpassword || !password1 || !password2) {
+        next(new ErrorResponse("All fields are required", 400))
+        return
+    }
+
+    if (password1.length < 6) {
+        next(new ErrorResponse("password must be atleast 6 character long,", 400))
+        return
+    }
+
+    // check if password matches 
+    if (password1 !== password2) {
+        next(new ErrorResponse("Password does not match"))
+        return
+    }
+
+    try {
+
+        const user = await User.findOne({ _id: req.user });
+
+        if (!user) {
+            throw new Error("user not found")
+        }
+
+        // check if old password is correct 
+        if (oldpassword != user.password) {
+            throw new Error("old password is not correct")
+        }
+
+        user.password = password1;
+
+        await user.save();
+
+        res.status(200).json({success: true, message: 'Password has been changed successfully'})
+ 
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
 
 
 
@@ -594,5 +700,9 @@ module.exports = {
     checkinsPage,
     checkins,
     usersPage,
-    viewUserDocument
+    viewUserDocument,
+    approveDocument,
+    rejectDocument,
+    changePassword,
+    changePasswordPage
 }

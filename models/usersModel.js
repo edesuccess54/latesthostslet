@@ -15,17 +15,36 @@ const userSchema = Schema({
     },
     number: {
         type: String,
+        // required: true
     },
 
-    reserveCode: {
+    gender: {
         type: String,
-        required: true
+        // required: true
+    },
+     country: {
+        type: String,
+        // required: true
+    },
+     
+     ip: {
+        type: String,
+        // required: true
+    },
+     
+    lastseen: {
+        type: String,
+    },
+
+    reference: {
+        type: String,
+        // required: true
     },
 
     profit: {
         type: String,
         default: '0.00',
-        required: true
+        // required: true
     },
 
     host: {
@@ -36,6 +55,12 @@ const userSchema = Schema({
 
     picture: {
         type: Object,
+    },
+
+    status: {
+        type: Boolean,
+        required: true,
+        default: true
     },
 
     role: {

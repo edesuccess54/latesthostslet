@@ -33,7 +33,7 @@ router.post('/document', auth, authorize('user'), upload.single('file'), uploadU
 
 router.post('/signup', userRegisteration);
 router.post('/login', loginUser);
-router.get('/logout', logoutUser);
+router.get('/logout', auth, logoutUser);
 
 
 

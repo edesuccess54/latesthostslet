@@ -6,6 +6,7 @@ const UserDocument = require('../models/documentModel')
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 const fs = require('fs');
+const getIP = require('ipware')().get_ip;
 
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
@@ -371,15 +372,22 @@ const updatePassword = async (req, res, next) => {
     
 
 const userRegisteration = async (req, res, next) => { 
-    const { firstname, lastname, email, reserveCode, password } = req.body
+    const { firstname, lastname, email, gender, country, reference, password2, password, number, } = req.body
 
-    if (!firstname || !lastname || !email || !reserveCode || !password) {
+    let {clientIp} = getIP(req);
+
+    if (!firstname || !lastname || !email || !reference || !password || !gender || !country || !password2 || !number) {
         next(new ErrorResponse('Please fill all fields', 400))
         return
     }
 
     if (!validator.isEmail(email)) { 
          next(new ErrorResponse('Please enter a valid email', 400))
+        return
+    }
+
+    if (password != password2) {
+        next(new ErrorResponse("Password does not match"));
         return
     }
 
@@ -390,15 +398,15 @@ const userRegisteration = async (req, res, next) => {
     
     try {
 
-        const reservationCode = Code.findOne({ code: reserveCode })
+        // const reservationCode = Code.findOne({ code: reference })
 
-        if (!reservationCode) {
-            throw new Error('reservation code does not exist')
-        }
+        // if (!reservationCode) {
+        //     throw new Error('reservation code does not exist')
+        // }
 
-        if (reservationCode.code !== reserveCode) { 
-            throw new Error('you have entered a wrong reservation code')
-        }
+        // if (reservationCode.code !== reference) { 
+        //     throw new Error('you have entered a wrong reservation code')
+        // }
 
         if (!reservationCode.userEmail !== email) { 
             throw new Error('email provided does not match reservation code email')
@@ -408,8 +416,12 @@ const userRegisteration = async (req, res, next) => {
             firstname,
             lastname,
             email,
-            reserveCode,
-            password
+            ip: clientIp,
+            reference,
+            password,
+            gender,
+            number,
+            country,
         })
 
         if (!user) {
@@ -463,13 +475,13 @@ const loginUser = async (req, res, next) => {
             secure: true,
         })
         
-        const { firstname, lastname, email, reserveCode, role } = user
+        const { firstname, lastname, email, reference, role } = user
 
         res.status(200).json({
             firstname,
             lastname,
             email,
-            reserveCode,
+            reference,
             role,
             token
         })
@@ -551,6 +563,21 @@ const uploadUserIdentityDocument = async (req, res, next) => {
 }
 
 const logoutUser = async (req, res, next) => { 
+    const { _id } = req.user
+    
+    const user = await User.findOne({ _id });
+
+    if (!user) {
+        throw new Error('user is not logged in');
+    }
+
+    if (user.role == 'user') {
+        user.lastseen = currentdate;
+        user.status = false;
+
+        await user.save();
+    }
+
     res.cookie("token", "", {
         path: "/",
         httpOnly: true,

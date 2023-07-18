@@ -11,6 +11,24 @@
     box-sizing: border-box;
 }
 
+.online {
+    display: inline-block;
+    padding:2px 3px;
+    border-radius: 3px;
+    font-size: 14px;
+    background: rgba(181, 225, 181, 0.838);
+    color: rgba(28, 111, 28, 0.924);
+}
+
+.offline {
+    display: inline-block;
+    padding:2px 3px;
+    border-radius: 3px;
+    font-size: 14px;
+    background: rgba(242, 111, 115, 0.838);
+    color: rgba(220, 64, 72, 0.924);
+}
+
 li {
     list-style: none;
 }
