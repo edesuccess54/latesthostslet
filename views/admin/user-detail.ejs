@@ -4,169 +4,41 @@
     <div class="content_wrapper">
         <%- include('./partials/sideNav') %>
 
-        <style>
-
-            .user_overview {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: space-between;
-                margin-top: 10px;
-                padding: 40px 0;
-                gap: 10px;
-                
-                 /* flex-basis: 200px; */
-            }
-            .withdrawal_code {
-                display: flex;
-                justify-content: space-between;
-                width: 300px;
-                border: 1px solid rgb(237, 233, 233);
-                border-radius: 5px;
-                padding: 40px 10px;
-                flex-grow: 1;
-            }
-
-            .sub_title {
-                color: green;
-                font-size: 14px;
-            }
-
-            .action {
-                align-self: flex-end;
-                justify-self: baseline;
-            }
-
-            .dp_container {
-                width: 300px;
-                border: 1px solid rgb(237, 233, 233);
-                border-radius: 5px;
-                padding: 20px;
-                flex-grow: 1;
-            }
-
-            .picture_wrapper {
-                margin-top: 40px;
-                border: 1px solid rgb(237, 233, 233);
-                border-radius: 5px;
-                height: 200px;
-            }
-
-
-            .image_container {
-                width: 200px;
-                height: 200px;
-                margin: auto;
-                border-radius: 50%;
-                /* background: gray; */
-                overflow: hidden;
-            }
-
-            .image_container img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-
-            .identity_section {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-            
-            .kyc_section {
-              border: 1px solid rgb(237, 233, 233); 
-              border-radius: 5px; 
-              height: 350px;
-              padding: 20px;
-              flex-grow: 1;
-            }
-
-            .kyc_wrapper {
-                margin-top: 40px;
-                border: 1px solid rgb(237, 233, 233);
-                border-radius: 5px;
-                height: 200px;
-            }
-
-            .kyc_wrapper img {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-                object-position: center;
-            }
-
-            @media screen and (min-width: 768px) {
-                 .dp_container {
-                    flex-grow: 0;
-                }
-            }
-
-            
-
-        </style>
-
         <div class="main_content_wrapper" >
             <div class="main_content" style="background: #fff; padding-bottom: 40px;">
                 <div class="user_overview">
                     <div class="withdrawal_code">
                         <div>
                             <p>withdraw code:</p>
-                            <span>2482y49y5</span>
+                            <span class="sub sub_code">453636256</span>
                         </div>
                         <div class="action">
-                            <button class="btn">change code</button>
+                            <button class="btn change_code">change code</button>
                         </div>
                     </div>
 
                     <div class="withdrawal_code">
                         <div>
                             <p>Account status:</p>
-                            <span class="sub_title">Active</span>
+                            <% if(user.accountStatus == 'closed' ||  user.accountStatus == 'suspended') { %>
+                                <span style="color: red;"><%= user.accountStatus %></span>
+                                <%} else if(user.accountStatus == 'active') { %>
+                                    <span class="sub_title"><%= user.accountStatus.slice(0,1).toUpperCase()+user.accountStatus.slice(1) %> </span>
+                            <% } %>
+                            
                         </div>
                         <div class="action">
-                            <button class="btn">change Status</button>
+                            <button class="btn account_status_btn">change Status</button>
                         </div>
                     </div>
 
                     <div class="withdrawal_code">
                         <div>
-                            <p>Ip Address:</p>
-                            <span>197.168.68.78</span>
+                            <p>Fund Account</p>
+                            <!-- <span class="sub">197.168.68.78</span> -->
                         </div>
                         <div class="action">
-                            <button class="btn">change code</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="user_overview">
-                    <div class="withdrawal_code">
-                        <div>
-                            <p>withdraw code:</p>
-                            <span>2482y49y5</span>
-                        </div>
-                        <div class="action">
-                            <button class="btn">change code</button>
-                        </div>
-                    </div>
-
-                    <div class="withdrawal_code">
-                        <div>
-                            <p>Account status:</p>
-                            <span class="sub_title">Active</span>
-                        </div>
-                        <div class="action">
-                            <button class="btn">change Status</button>
-                        </div>
-                    </div>
-
-                    <div class="withdrawal_code">
-                        <div>
-                            <p>Ip Address:</p>
-                            <span>197.168.68.78</span>
-                        </div>
-                        <div class="action">
-                            <button class="btn">change code</button>
+                            <button class="btn fund_user_account_btn">Fund User Account</button>
                         </div>
                     </div>
                 </div>
@@ -176,26 +48,58 @@
                         <div class="dp_top">
                             <div class="dp_status">
                                 <h4>Dp:</h4>
-                                <p>Dp status: <span style="color: red;">Not Uploaded</span></p>
+                                <p>Dp status: 
+                                    <% if(!user.picture) { %>
+                                        <span style="color: red;">Not Uploaded</span>
+                                        <%} else { %>
+                                            <span style="color: green;">Uploaded</span>
+                                    <% } %>
+                                </p>
                             </div>
                         </div>
 
                         <div class="picture_wrapper">
                             <div class="image_container">
-                                <image src="/admin/images/default-image.png" />
+
+                                <% if(!user?.picture) { %>
+                                    <image src="/admin/images/default-image.png" />
+                                <%} else { %>
+                                    <img src="data:image/png;base64,<%= user.picture.url %>" alt="">
+                                <% } %>
                             </div>
                         </div>
                     </div>
 
                     <div class="kyc_section">
                          <div class="dp_top">
-                            <div class="dp_status">
-                                <h4>KYC:</h4>
-                                <p>status: <span style="color: red;">Not Uploaded</span></p>
+                            <div class="dp_status" style="display: flex; justify-content: space-between;">
+                                <div class="left">
+                                    <h4>KYC: 
+                                        <% if(!doc) { %>
+                                        <span style="color: red;">Not Uploaded</span>
+                                        <%} else { %>
+                                            <span style="color: green;">Uploaded</span>
+                                        <% } %>
+                                    </h4>
+                                </div>
+
+                                <div class="right">
+                                    <h4>STATUS: 
+                                        <% if(!doc?.status) { %>
+                                        <span style="color: red;">Not yet veried</span>
+                                        <%} else { %>
+                                            <span style="color: green;">Veried</span>
+                                        <% } %>
+                                    </h4>
+                                </div>
                             </div>
                         </div>
                         <div class="kyc_wrapper">
+                            <% if(!doc) { %>
                             <img src="/admin/images/kyc.webp" alt="">
+                            <%} else { %>
+                                <img src="data:image/png;base64,<%= doc.doc.url %>" alt="">
+                            <% } %>
                         </div>
                         
                     </div>
@@ -204,30 +108,95 @@
             </div>
         </div>
     </div>
+
+    <!-- user account status modal  -->
+    <div class="account_status_modal_container">
+        <div class="modal">
+            <div class="fund_account_modal_content">
+                <div class="account_modal_head">
+                    <span class="account_status_modal_close_icon"><i class="fa-solid fa-xmark"></i></span>
+                </div>
+                <form class="update_account_status">
+                   <select name="account_status" id="account_">
+                    <option value="active">Active</option>
+                    <option value="suspended">Suspended</option>
+                    <option value="closed">Close</option>
+                   </select>
+                   <button class="btn account_form_btn">change status</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- user account status modal  ends -->
+
+    <!-- fund user account modal  -->
+    <div class="fund_account_modal_container">
+        <div class="modal">
+            <div class="account_status_modal_content">
+                <div class="account_modal_head">
+                    <span class="account_status_modal_close_icon"><i class="fa-solid fa-xmark"></i></span>
+                </div>
+                <form action="">
+                   <select name="" id="">
+                    <option value="active">Active</option>
+                    <option value="suspended">Suspended</option>
+                    <option value="close">Close</option>
+                   </select>
+                   <p class="message"></p>
+                   <button class="btn">change status</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- fund user account modal  ends -->
 </main>
 
 <script type="module" >
-    const reviewForm = document.querySelector('.review_form');
-    const message = document.querySelector('.message');
-    const formBtn = document.querySelector('.review_btn');
-
     const queryStrings = new URLSearchParams(document.location.search)
-    const propertyId = queryStrings.get('property')
+    const hostsletuser = queryStrings.get('hostsletuser');
 
-    const addReview = async (e) => {
+    const accountUpdateForm = document.querySelector('.update_account_status');
+    const accountFormBtn = document.querySelector('.account_form_btn')
+    const message = document.querySelector('.message');
+
+    const accountStatusBtn = document.querySelector('.account_status_btn');
+    const accountStatusModal = document.querySelector('.account_status_modal_container');
+    const accountModalCloseIcon = document.querySelector('.account_status_modal_close_icon');
+
+    const fundAccountModal = document.querySelector('.fund_account_modal_container');
+
+    const changeCode = document.querySelector('.change_code')
+
+    
+
+    const openAccountStatusModal = (e) => {
+        accountStatusModal.classList.add('show')
+    }
+
+    const closeAccountStatusModal = (e) => {
+        accountStatusModal.classList.remove('show')
+    }
+    accountStatusBtn.addEventListener('click', openAccountStatusModal);
+    accountModalCloseIcon.addEventListener('click',closeAccountStatusModal )
+
+
+    const updateUserAccountStatus = async (e) => {
         e.preventDefault();
 
-        formBtn.textContent = 'processing, please wait...';
+        accountFormBtn.textContent = 'Updating, please wait...';
         message.textContent = '';
         message.className = 'message'
 
-        let formData = new FormData(reviewForm);
+        let formData = {
+            accountStatus: accountUpdateForm.account_status.value
+        };
 
         try {
 
-            const response = await fetch(`/auth/admin/review/${propertyId}`, {
+            const response = await fetch(`/auth/admin/user-account-status/${hostsletuser}`, {
             method: 'POST',
-            body: formData
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(formData)
             });
 
             if(!response.ok) {
@@ -240,19 +209,56 @@
             }
 
             if(json.success) {
-                formBtn.textContent = 'Create property';
+                accountFormBtn.textContent = 'change status';
                 message.classList.add('success');
                 message.textContent = json.message;
-                reviewForm.reset();
+                location.reload()
+                accountUpdateForm.reset();
             }
             
         } catch (error) {
-            formBtn.textContent = 'Create property';
+            accountFormBtn.textContent = 'change status';
             message.classList.add('error');
             message.textContent = error.message;
         }
     }
-    reviewForm.addEventListener('submit', addReview)
+    accountUpdateForm.addEventListener('submit', updateUserAccountStatus);
+
+    const generateWithdrawalCode = async (e) => {
+        e.preventDefault();
+
+        changeCode.textContent = 'please wait...'
+
+        try {
+            const response = await fetch(`/auth/admin/code/${hostsletuser}`, {
+                method: "POST",
+                headers: {"Content-Type":"application/json"},
+            })
+
+            if(!response.ok) {
+                throw new Error('something went wrong please try again')
+            }
+
+            const json = await response.json()
+
+            if(json.error) {
+                throw new Error(json.error)
+            }
+
+            if(json.success) {
+                changeCode.textContent = 'change code'
+                const subCode =document.querySelector('.sub_code');
+                subCode.textContent = json.message
+            }
+            
+        } catch (error) {
+            changeCode.textContent = 'change code'
+            alert(error.message)
+        }
+    }
+    changeCode.addEventListener('click', generateWithdrawalCode)
+
+
 </script>
     
 <%- include('./partials/footer')  %>

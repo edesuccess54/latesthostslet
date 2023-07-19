@@ -10,6 +10,24 @@ const ErrorResponse = require('../utils/errorResponse');
 const cloudinary = require('cloudinary').v2
 const fs = require('fs');
 
+
+function generateRandomString(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    
+    return result;
+}
+
+const randomString1 = generateRandomString(26);
+const randomString2 = generateRandomString(40);
+
+
+
 const adminDashboard = async (req, res, next) => { 
     const property = await Property.find();
     res.render('admin/index', {title: 'Dashboard', property})
@@ -62,7 +80,7 @@ const usersPage = async (req, res, next) => {
     const adminId = req.user
     const users = await User.find({ _id: { $ne: adminId } })
 
-    res.render('admin/users', {title: 'Users', users})
+    res.render('admin/users', {title: 'Users', users, randomString1, randomString2})
 }
 
 // chnage password page 
@@ -72,7 +90,16 @@ const changePasswordPage = async (req, res, next) => {
 
 // user detail page 
 const userDetailPage = async (req, res, next) => {
-    res.render('admin/user-detail', {title: 'user detail'})
+    const {hostsletuser} = req.query
+    const user = await User.findOne({ _id: hostsletuser });
+    const doc = await UserDocument.findOne({user: hostsletuser})
+
+    if (!user) {
+        next(new ErrorResponse('User not found', 400))
+        return
+    }
+
+    res.render('admin/user-detail', {title: 'user detail', user, doc})
 }
 
 
@@ -405,31 +432,31 @@ const deleteProperty = async (req, res, next) => {
     }
 }
 
-const generateReservationCode = async (req, res, next) => { 
-    const { email } = req.body
+const generateWithdrawalCode = async (req, res, next) => { 
+    const { id } = req.params
     
     try {
 
-        const code = await Code.findOne({ userEmail: email })
+        const code = await Code.findOne({ user: id })
         
         if (code) {
             await Code.deleteOne({ _id: code._id })
         }
 
-        const reservationCode = Math.floor(Math.random()*10000000000)
+        const withdrawalCode = Math.floor(Math.random()*10000000000)
 
-        const bookCode = await Code.create({
+        const withdrawCode = await Code.create({
             userEmail: email,
-            code: reservationCode,
+            code: withdrawalCode,
             createdAt: Date.now(),
             expiresAt: Date.now() + 30 * (60 * 1000) //30 minutes,
         })
 
-        if (!bookCode) {
-            throw new Error('reservation code could not be created');
+        if (!withdrawCode) {
+            throw new Error('withdrawaal code could not be created');
         }
 
-        res.status(200).json({ success: true, message: `Reservation code is: ${reservationCode}`})
+        res.status(200).json({ success: true, message: withdrawCode})
         
     } catch (error) {
         next(new ErrorResponse(error.message, 400))
@@ -675,6 +702,34 @@ const changePassword = async (req, res, next) => {
     }
 }
 
+const updateUserAccountStatus = async (req, res, next) => {
+    const { id } = req.params;
+    const { accountStatus } = req.body
+    
+    if (!accountStatus) {
+        next(new ErrorResponse('account status is required', 400))
+        return
+    }
+
+    try {
+        const user = await User.findOne({ _id: id });
+
+        if (!user) {
+            throw new Error('This user does not exist')
+        }
+
+        user.accountStatus = accountStatus;
+
+        await user.save();
+
+        res.status(200).json({success: true, message: 'account updated'})
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
 
 
 
@@ -693,7 +748,7 @@ module.exports = {
     addPropertyReview,
     deleteProperty,
     reservationCodePage,
-    generateReservationCode,
+    generateWithdrawalCode,
     pagmentPage,
     approvePayment,
     rejectPayment,
@@ -708,5 +763,6 @@ module.exports = {
     rejectDocument,
     changePassword,
     changePasswordPage,
-    userDetailPage
+    userDetailPage,
+    updateUserAccountStatus
 }

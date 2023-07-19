@@ -63,6 +63,13 @@ const userSchema = Schema({
         default: false
     },
 
+    accountStatus: {
+        type: String,
+        // required: true,
+        default: 'active',
+        enum: ['active', 'suspended', 'closed']
+    },
+
     role: {
         type: String,
         required: true,

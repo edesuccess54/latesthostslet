@@ -1,5 +1,5 @@
 const express = require('express');
-const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateReservationCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument, approveDocument, rejectDocument, changePassword, changePasswordPage, userDetailPage} = require('../controllers/adminControllers');
+const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateWithdrawalCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument, approveDocument, rejectDocument, changePassword, changePasswordPage, userDetailPage, updateUserAccountStatus} = require('../controllers/adminControllers');
 const upload = require('../utils/fileUpload.js');
 const auth = require('../middleware/auth');
 const authorize = require('../middleware/authorize');
@@ -26,7 +26,7 @@ router.post('/wallet', auth, authorize('admin'), upload.single("file"), updatePa
 router.put('/edit/:propertyId', auth, authorize('admin'), upload.single("images"), editProopertyDetail);
 router.delete('/delete/:propertyId', auth, authorize('admin'), deleteProperty);
 router.post('/review/:propertyId', auth, authorize('admin'), upload.single('file'), addPropertyReview);
-router.post('/code', auth, authorize('admin'), generateReservationCode);
+router.post('/code/:id', auth, authorize('admin'), generateWithdrawalCode);
 router.post('/approve-payment/:id', auth, authorize('admin'), approvePayment);
 router.post('/reject-payment/:id', auth, authorize('admin'), rejectPayment);
 
@@ -39,6 +39,9 @@ router.post('/approve-withdraw/:id', auth, authorize('admin'), approveWithdrawal
 router.post('/reject-withdraw/:id', auth, authorize('admin'), rejectWithdrawal);
 router.post('/checkins', auth, authorize('admin'), checkins);
 router.post('/doc/:id', auth, authorize('admin'), viewUserDocument);
+
+router.post('/user-account-status/:id', auth, authorize('admin'), updateUserAccountStatus);
+
 
 
 
