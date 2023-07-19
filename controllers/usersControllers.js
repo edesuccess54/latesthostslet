@@ -8,7 +8,7 @@ const validator = require('validator');
 const fs = require('fs');
 const getIP = require('ipware')().get_ip;
 
-const generateToken = (id) => {
+const generateToken = async (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 }
 
@@ -404,13 +404,24 @@ const userRegisteration = async (req, res, next) => {
         //     throw new Error('reservation code does not exist')
         // }
 
-        // if (reservationCode.code !== reference) { 
+        // if (reservationCode.code !== reference) {
         //     throw new Error('you have entered a wrong reservation code')
         // }
 
-        if (!reservationCode.userEmail !== email) { 
-            throw new Error('email provided does not match reservation code email')
-        }
+        // if (!reservationCode.userEmail !== email) {
+        //     throw new Error('email provided does not match reservation code email')
+        // }
+        
+        const userExist = await User.find()
+
+        userExist.map((user) => {
+             if (user.email == email) {
+                throw new Error('This email already exist')
+             }
+             if (number == user.number) {
+                throw new Error('This number already exist')
+            }
+        })
 
         const user = await User.create({
             firstname,
@@ -476,6 +487,12 @@ const loginUser = async (req, res, next) => {
         })
         
         const { firstname, lastname, email, reference, role } = user
+
+        if (user.role == 'user') {
+            user.status = true;
+            
+            await user.save()
+        }
 
         res.status(200).json({
             firstname,

@@ -1,0 +1,258 @@
+<%- include('./partials/head') %>
+
+<main>
+    <div class="content_wrapper">
+        <%- include('./partials/sideNav') %>
+
+        <style>
+
+            .user_overview {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                margin-top: 10px;
+                padding: 40px 0;
+                gap: 10px;
+                
+                 /* flex-basis: 200px; */
+            }
+            .withdrawal_code {
+                display: flex;
+                justify-content: space-between;
+                width: 300px;
+                border: 1px solid rgb(237, 233, 233);
+                border-radius: 5px;
+                padding: 40px 10px;
+                flex-grow: 1;
+            }
+
+            .sub_title {
+                color: green;
+                font-size: 14px;
+            }
+
+            .action {
+                align-self: flex-end;
+                justify-self: baseline;
+            }
+
+            .dp_container {
+                width: 300px;
+                border: 1px solid rgb(237, 233, 233);
+                border-radius: 5px;
+                padding: 20px;
+                flex-grow: 1;
+            }
+
+            .picture_wrapper {
+                margin-top: 40px;
+                border: 1px solid rgb(237, 233, 233);
+                border-radius: 5px;
+                height: 200px;
+            }
+
+
+            .image_container {
+                width: 200px;
+                height: 200px;
+                margin: auto;
+                border-radius: 50%;
+                /* background: gray; */
+                overflow: hidden;
+            }
+
+            .image_container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .identity_section {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .kyc_section {
+              border: 1px solid rgb(237, 233, 233); 
+              border-radius: 5px; 
+              height: 350px;
+              padding: 20px;
+              flex-grow: 1;
+            }
+
+            .kyc_wrapper {
+                margin-top: 40px;
+                border: 1px solid rgb(237, 233, 233);
+                border-radius: 5px;
+                height: 200px;
+            }
+
+            .kyc_wrapper img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                object-position: center;
+            }
+
+            @media screen and (min-width: 768px) {
+                 .dp_container {
+                    flex-grow: 0;
+                }
+            }
+
+            
+
+        </style>
+
+        <div class="main_content_wrapper" >
+            <div class="main_content" style="background: #fff; padding-bottom: 40px;">
+                <div class="user_overview">
+                    <div class="withdrawal_code">
+                        <div>
+                            <p>withdraw code:</p>
+                            <span>2482y49y5</span>
+                        </div>
+                        <div class="action">
+                            <button class="btn">change code</button>
+                        </div>
+                    </div>
+
+                    <div class="withdrawal_code">
+                        <div>
+                            <p>Account status:</p>
+                            <span class="sub_title">Active</span>
+                        </div>
+                        <div class="action">
+                            <button class="btn">change Status</button>
+                        </div>
+                    </div>
+
+                    <div class="withdrawal_code">
+                        <div>
+                            <p>Ip Address:</p>
+                            <span>197.168.68.78</span>
+                        </div>
+                        <div class="action">
+                            <button class="btn">change code</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user_overview">
+                    <div class="withdrawal_code">
+                        <div>
+                            <p>withdraw code:</p>
+                            <span>2482y49y5</span>
+                        </div>
+                        <div class="action">
+                            <button class="btn">change code</button>
+                        </div>
+                    </div>
+
+                    <div class="withdrawal_code">
+                        <div>
+                            <p>Account status:</p>
+                            <span class="sub_title">Active</span>
+                        </div>
+                        <div class="action">
+                            <button class="btn">change Status</button>
+                        </div>
+                    </div>
+
+                    <div class="withdrawal_code">
+                        <div>
+                            <p>Ip Address:</p>
+                            <span>197.168.68.78</span>
+                        </div>
+                        <div class="action">
+                            <button class="btn">change code</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="identity_section">
+                    <div class="dp_container">
+                        <div class="dp_top">
+                            <div class="dp_status">
+                                <h4>Dp:</h4>
+                                <p>Dp status: <span style="color: red;">Not Uploaded</span></p>
+                            </div>
+                        </div>
+
+                        <div class="picture_wrapper">
+                            <div class="image_container">
+                                <image src="/admin/images/default-image.png" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kyc_section">
+                         <div class="dp_top">
+                            <div class="dp_status">
+                                <h4>KYC:</h4>
+                                <p>status: <span style="color: red;">Not Uploaded</span></p>
+                            </div>
+                        </div>
+                        <div class="kyc_wrapper">
+                            <img src="/admin/images/kyc.webp" alt="">
+                        </div>
+                        
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</main>
+
+<script type="module" >
+    const reviewForm = document.querySelector('.review_form');
+    const message = document.querySelector('.message');
+    const formBtn = document.querySelector('.review_btn');
+
+    const queryStrings = new URLSearchParams(document.location.search)
+    const propertyId = queryStrings.get('property')
+
+    const addReview = async (e) => {
+        e.preventDefault();
+
+        formBtn.textContent = 'processing, please wait...';
+        message.textContent = '';
+        message.className = 'message'
+
+        let formData = new FormData(reviewForm);
+
+        try {
+
+            const response = await fetch(`/auth/admin/review/${propertyId}`, {
+            method: 'POST',
+            body: formData
+            });
+
+            if(!response.ok) {
+                throw new Error('Failed to create property, please try again')
+            }
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error);
+            }
+
+            if(json.success) {
+                formBtn.textContent = 'Create property';
+                message.classList.add('success');
+                message.textContent = json.message;
+                reviewForm.reset();
+            }
+            
+        } catch (error) {
+            formBtn.textContent = 'Create property';
+            message.classList.add('error');
+            message.textContent = error.message;
+        }
+    }
+    reviewForm.addEventListener('submit', addReview)
+</script>
+    
+<%- include('./partials/footer')  %>

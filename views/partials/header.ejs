@@ -274,9 +274,13 @@ const signUpUser = async (e) => {
     const formData = {
     firstname: registerationForm.fname.value,
     lastname: registerationForm.lname.value,
+    gender: registerationForm.gender.value,
     email: registerationForm.email.value,
+    number: registerationForm.number.value,
+    country: registerationForm.country.value,
     password: registerationForm.password.value,
-    reserveCode: registerationForm.reserveCode.value
+    password2: registerationForm.password2.value,
+    reference: registerationForm.reference.value
     }
 
     try {
@@ -299,7 +303,8 @@ const signUpUser = async (e) => {
     if(json.success) {
         message.classList.add('success')
         message.textContent = json.message
-        regBtn.textContent = 'Continue'
+        regBtn.textContent = 'Continue';
+        registerationForm.reset()
     }
     
     } catch (error) {

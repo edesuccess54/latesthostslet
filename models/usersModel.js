@@ -60,7 +60,7 @@ const userSchema = Schema({
     status: {
         type: Boolean,
         required: true,
-        default: true
+        default: false
     },
 
     role: {

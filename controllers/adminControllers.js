@@ -70,6 +70,11 @@ const changePasswordPage = async (req, res, next) => {
     res.render('admin/change-password', {title: 'Change password'})
 }
 
+// user detail page 
+const userDetailPage = async (req, res, next) => {
+    res.render('admin/user-detail', {title: 'user detail'})
+}
+
 
 
 
@@ -628,8 +633,6 @@ const rejectDocument = async (req, res, next) => {
 const changePassword = async (req, res, next) => {
     const { oldpassword, password1, password2 } = req.body;
 
-    console.log(password2)
-
     // check for empty field 
     if (!oldpassword || !password1 || !password2) {
         next(new ErrorResponse("All fields are required", 400))
@@ -704,5 +707,6 @@ module.exports = {
     approveDocument,
     rejectDocument,
     changePassword,
-    changePasswordPage
+    changePasswordPage,
+    userDetailPage
 }

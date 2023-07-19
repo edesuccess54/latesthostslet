@@ -26,10 +26,11 @@
                                 <th>Email</th>
                                 <th>Number</th>
                                 <th>Country</th>
-                                <th>Ip address</th>
+                                <!-- <th>Ip address</th> -->
                                 <th>status</th>
-                                <!-- <th>password</th> -->
                                 <th>Doc</th>
+                                <th>View Client</th>
+                                
                             </tr>
                         </thead>
                         <tbody class="view_doc">
@@ -42,7 +43,7 @@
                                 <td><%= email %></td>
                                 <td><%= number %></td>
                                 <td><%= country %></td>
-                                <td>192.168.72.5</td>
+                                <!-- <td>192.168.72.5</td> -->
                                 <td>
                                     <% if(status) { %>
                                        <p class="online">online</p>
@@ -50,9 +51,15 @@
                                         <p class="offline">offline</p>
                                     <%} %> 
                                 </td>
-                                <!-- <td><%= password %></td> -->
+                                
                                 <td>
                                     <button class="btn view_doc_btn" data-user="<%= _id%>"> <span><i class="fa-solid fa-id-card-clip"></i></span> View Doc</button>
+                                </td>
+                                <td>
+                                    <a href="/auth/admin/user-detail?hostsletuser='yes'&user='okay'">
+                                        <span><i class="fa-solid fa-address-book"></i></span>
+                                        <span>view</span>
+                                    </a>
                                 </td>
                             </tr>
                             <% })} %>
