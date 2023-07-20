@@ -10,7 +10,7 @@
                     <div class="withdrawal_code">
                         <div>
                             <p>withdraw code:</p>
-                            <span class="sub sub_code">453636256</span>
+                            <span class="sub sub_code"><%= code.code %></span>
                         </div>
                         <div class="action">
                             <button class="btn change_code">change code</button>
@@ -23,7 +23,7 @@
                             <% if(user.accountStatus == 'closed' ||  user.accountStatus == 'suspended') { %>
                                 <span style="color: red;"><%= user.accountStatus %></span>
                                 <%} else if(user.accountStatus == 'active') { %>
-                                    <span class="sub_title"><%= user.accountStatus.slice(0,1).toUpperCase()+user.accountStatus.slice(1) %> </span>
+                                    <span class="sub_title"><i class="fa-solid fa-circle-check"></i> <%= user.accountStatus.slice(0,1).toUpperCase()+user.accountStatus.slice(1) %> </span>
                             <% } %>
                             
                         </div>
@@ -42,6 +42,8 @@
                         </div>
                     </div>
                 </div>
+
+                <%- include('./partials/other-status')  %>
 
                 <div class="identity_section">
                     <div class="dp_container">

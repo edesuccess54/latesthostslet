@@ -1,0 +1,208 @@
+
+
+<div class="other_status_container">
+    <h4>Other status</h4>
+
+    <div class="other_status_wrapper">
+
+        <div class="each_status">
+            <div class="status_icon">
+
+            </div>
+            <div class="status_details">
+                <div class="status_content">
+
+                    <% if(user.block) { %>
+                        <h5 class="error">
+                            <span class="icon"> <i class="fa-solid fa-gas-pump"></i></span>
+                            <span>Account Blocked</span>
+                        </h5>
+
+                    <% } else { %>
+
+                        <h5 class="success">
+                            <span class="icon"> <i class="fa-solid fa-gas-pump"></i></span>
+                            <span>Account Unblocked</span>
+                        </h5>
+
+                    <% } %>
+
+                    <span class="status_title">Account Status</span>
+                </div>
+                <div class="status_btn">
+                    <button class="btn block_btn">
+                        <% if(user.block) { %>
+
+                            <span class="btn_icon"><i class="fa-solid fa-ban"></i></span>
+                            <span class="btn_text">click to unblock</span>
+
+                        <% } else { %>
+                            <span class="btn_icon"><i class="fa-solid fa-check-double"></i></span>
+                            <span class="btn_text">click to block</span>
+                        <% } %>                        
+                        
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="each_status">
+            <div class="status_icon">
+
+            </div>
+            <div class="status_details">
+                <div class="status_content">
+
+                    <% if(user.withDrawStatus) { %>
+
+                        <h5 class="success">
+                            <span class="icon"> <i class="fa-solid fa-gas-pump"></i></span>
+                            <span>Withdrawal Active</span>
+                        </h5>
+                    
+                    <% } else { %>
+
+                        <h5 class="error">
+                            <span class="icon"> <i class="fa-solid fa-gas-pump"></i></span>
+                            <span>Withdrawal InActive</span>
+                        </h5>
+
+                    <% } %>
+                    <span class="status_title">Withdrawal Status</span>
+                </div>
+                <div class="status_btn">
+                    <button class="btn withdraw_btn">
+                        <% if(user.withDrawStatus) { %>
+
+                            <span class="btn_icon"><i class="fa-solid fa-check-double"></i></span>
+                            <span class="btn_text">click to Deactivate</span>
+
+                        <% } else { %>
+                            <span class="btn_icon"><i class="fa-solid fa-ban"></i></span>
+                            <span class="btn_text">click to Activate</span>
+                        <% } %>     
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="each_status">
+            <div class="status_icon" style="display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="status_details" style="display: flex; justify-content: space-between; gap: 40px;">
+                <div class="status_content">
+                   <% if(user.emailveirify) { %>
+
+                        <h5 class="success">
+                            <span class="icon"> <i class="fa-solid fa-gas-pump"></i></span>
+                            <span>Email Verified</span>
+                        </h5>
+                    
+                    <% } else { %>
+
+                        <h5 class="error">
+                            <span class="icon"> <i class="fa-solid fa-gas-pump"></i></span>
+                            <span>Email Unverified</span>
+                        </h5>
+
+                    <% } %>
+                    <span class="status_title">Email Status</span>
+                </div>
+
+                <div class="lastseen_wrapper">
+                    <h5>Last Seen</h5>
+                    <span class="status_title"><%= user.lastseen %></span>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const queryStrings = new URLSearchParams(document.location.search)
+    const hostsletuser = queryStrings.get('hostsletuser');
+
+    // block account section starts 
+    const blockBtn = document.querySelector('.block_btn');
+    const blockUserAccount = async (e) => {
+        blockBtn.textContent = 'Please wait...'
+        try {
+            const response = await fetch(`/auth/admin/block/${hostsletuser}`, {
+                method: "POST",
+                headers: {"Content-Type" : "application/json"}
+            });
+
+            if(!response.ok) {
+                throw new Error('oop!, something went wrong')
+            }
+
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error)
+            }
+
+            if(json.success) {
+                blockBtn.innerHTML = `
+                <span class="btn_icon"><i class="fa-solid fa-ban"></i></span>
+                <span class="btn_text">click to block</span>
+                `
+                location.reload()
+            }
+            
+        } catch (error) {
+            blockBtn.innerHTML = `
+                <span class="btn_icon"><i class="fa-solid fa-ban"></i></span>
+                <span class="btn_text">click to block</span>
+            `
+            alert(error.message)
+        }
+    }
+    blockBtn.addEventListener('click', blockUserAccount)
+    // block account section ends here 
+
+
+    // active withdrawal account section starts 
+    const withdrawBtn = document.querySelector('.withdraw_btn')
+
+
+    const activateUserWithdrawal = async (e) => {
+        withdrawBtn.textContent = 'Please wait...'
+        try {
+            const response = await fetch(`/auth/admin/activate-withdrawal/${hostsletuser}`, {
+                method: "POST",
+                headers: {"Content-Type" : "application/json"}
+            });
+
+            if(!response.ok) {
+                throw new Error('oop!, something went wrong')
+            }
+
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error)
+            }
+
+            if(json.success) {
+                withdrawBtn.innerHTML = `
+                <span class="btn_icon"><i class="fa-solid fa-ban"></i></span>
+                <span class="btn_text">click to Deactivate</span>
+                `
+                location.reload()
+            }
+            
+        } catch (error) {
+            withdrawBtn.innerHTML = `
+                <span class="btn_icon"><i class="fa-solid fa-ban"></i></span>
+                <span class="btn_text">click to Deactivate</span>
+            `
+            alert(error.message)
+        }
+    }
+    withdrawBtn.addEventListener('click', activateUserWithdrawal)
+    // active withdrawal  account section ends here 
+</script>

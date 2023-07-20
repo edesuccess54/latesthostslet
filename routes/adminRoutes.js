@@ -1,5 +1,5 @@
 const express = require('express');
-const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateWithdrawalCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument, approveDocument, rejectDocument, changePassword, changePasswordPage, userDetailPage, updateUserAccountStatus} = require('../controllers/adminControllers');
+const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateWithdrawalCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument, approveDocument, rejectDocument, changePassword, changePasswordPage, userDetailPage, updateUserAccountStatus, blockUserAccount, activateUserWithdrawal} = require('../controllers/adminControllers');
 const upload = require('../utils/fileUpload.js');
 const auth = require('../middleware/auth');
 const authorize = require('../middleware/authorize');
@@ -33,7 +33,11 @@ router.post('/reject-payment/:id', auth, authorize('admin'), rejectPayment);
 router.post('/change-password', auth, authorize('admin'), changePassword);
 
 router.post('/approve-document/:id', auth, authorize('admin'), approveDocument);
-router.post('/reject-document/:id', auth, authorize('admin'), rejectDocument)
+router.post('/reject-document/:id', auth, authorize('admin'), rejectDocument);
+
+router.post('/block/:id', auth, authorize('admin'), blockUserAccount);
+router.post('/activate-withdrawal/:id', auth, authorize('admin'), activateUserWithdrawal);
+
 
 router.post('/approve-withdraw/:id', auth, authorize('admin'), approveWithdrawal);
 router.post('/reject-withdraw/:id', auth, authorize('admin'), rejectWithdrawal);

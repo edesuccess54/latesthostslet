@@ -13,6 +13,13 @@ const userSchema = Schema({
         type: String,
         required: true
     },
+
+    emailveirify: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    
     number: {
         type: String,
         // required: true
@@ -58,6 +65,18 @@ const userSchema = Schema({
     },
 
     status: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+
+     withDrawStatus: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+
+     block: {
         type: Boolean,
         required: true,
         default: false

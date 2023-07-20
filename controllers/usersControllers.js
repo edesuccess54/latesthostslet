@@ -589,7 +589,7 @@ const logoutUser = async (req, res, next) => {
     }
 
     if (user.role == 'user') {
-        user.lastseen = currentdate;
+        user.lastseen = datetime;
         user.status = false;
 
         await user.save();

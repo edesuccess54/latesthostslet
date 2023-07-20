@@ -92,14 +92,15 @@ const changePasswordPage = async (req, res, next) => {
 const userDetailPage = async (req, res, next) => {
     const {hostsletuser} = req.query
     const user = await User.findOne({ _id: hostsletuser });
-    const doc = await UserDocument.findOne({user: hostsletuser})
+    const doc = await UserDocument.findOne({ user: hostsletuser });
+    const code = await Code.findOne({user: hostsletuser})
 
     if (!user) {
         next(new ErrorResponse('User not found', 400))
         return
     }
 
-    res.render('admin/user-detail', {title: 'user detail', user, doc})
+    res.render('admin/user-detail', {title: 'user detail', user, doc, code})
 }
 
 
@@ -443,10 +444,10 @@ const generateWithdrawalCode = async (req, res, next) => {
             await Code.deleteOne({ _id: code._id })
         }
 
-        const withdrawalCode = Math.floor(Math.random()*10000000000)
+        const withdrawalCode = Math.floor(Math.random() * 10000000000);
 
         const withdrawCode = await Code.create({
-            userEmail: email,
+            user: id,
             code: withdrawalCode,
             createdAt: Date.now(),
             expiresAt: Date.now() + 30 * (60 * 1000) //30 minutes,
@@ -456,7 +457,7 @@ const generateWithdrawalCode = async (req, res, next) => {
             throw new Error('withdrawaal code could not be created');
         }
 
-        res.status(200).json({ success: true, message: withdrawCode})
+        res.status(200).json({ success: true, message: withdrawCode.code})
         
     } catch (error) {
         next(new ErrorResponse(error.message, 400))
@@ -730,6 +731,54 @@ const updateUserAccountStatus = async (req, res, next) => {
     }
 }
 
+const blockUserAccount = async (req, res, next) => {
+    const { id } = req.params
+
+    try {
+        const user = await User.findOne({ _id: id });
+
+        console.log(user)
+
+        if (!user) {
+            throw new Error("This user does not exist");
+        }
+
+        user.block = !user.block;
+
+        await user.save();
+
+        res.status(200).json({success: true, message: user.block? 'user has been unblocked' : 'user has been blocked'})
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
+const activateUserWithdrawal = async (req, res, next) => {
+     const { id } = req.params
+
+    try {
+        const user = await User.findOne({ _id: id });
+
+        console.log(user)
+
+        if (!user) {
+            throw new Error("This user does not exist");
+        }
+
+        user.withDrawStatus = !user.withDrawStatus;
+
+        await user.save();
+
+        res.status(200).json({success: true, message: user.withDrawStatus? 'withdrawal deactivated' : 'withdrawal activated'})
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
 
 
 
@@ -764,5 +813,7 @@ module.exports = {
     changePassword,
     changePasswordPage,
     userDetailPage,
-    updateUserAccountStatus
+    updateUserAccountStatus,
+    blockUserAccount,
+    activateUserWithdrawal
 }

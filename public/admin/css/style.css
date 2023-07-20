@@ -80,7 +80,7 @@ main {
     background: var(--primary-text-color);
     border-radius: 5px;
     color: #fff;
-    font-size: 18px;
+    font-size: 14px;
     min-width: 100px;
     cursor: pointer;
 }
@@ -267,6 +267,50 @@ a  {
     padding: 20px;
     border-radius: 5px;
 }
+
+
+.other_status_container {
+    margin-bottom: 20px;
+    border: 1px solid #ede9e9;
+    border-radius: 5px;
+    padding:10px  20px;
+}
+
+.status_icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #ede9e9;
+
+}
+
+.other_status_wrapper {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.each_status {
+    display: flex;
+    gap: 20px;
+    width: 290px;
+}
+
+.status_title {
+    font-size: 14px;
+    color: #1e1e1e;
+}
+
+.status_content {
+    margin-bottom: 10px;
+}
+
+.each_status:nth-child(1), .each_status:nth-child(2) {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ede9e9;
+}
+
 
 .form_wrapper::-webkit-scrollbar {
     display: none;
@@ -530,6 +574,13 @@ a  {
     .table_section {
         max-width: 100%;
         overflow: scroll;
+    }
+
+
+    .each_status:nth-child(1), .each_status:nth-child(2) {
+        padding-bottom: 0;
+        border-right: 1px solid #ede9e9;
+        border-bottom: 0;
     }
 
     .form_wrapper {
