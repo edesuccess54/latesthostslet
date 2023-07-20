@@ -36,7 +36,7 @@
                         <tbody class="view_doc">
                             <% if(users) { %>
 
-                                <% users.map(({_id, firstname, lastname, email, number, country, lastseen, status, password }, index) => { %>
+                                <% users.map(({_id, firstname, lastname, email, number, country, lastseen, onlineStatus, password }, index) => { %>
                             <tr>
                                 <td><%= index + 1 %></td>
                                 <td><%= firstname %> <%= lastname %></td>
@@ -45,7 +45,7 @@
                                 <td><%= country %></td>
                                 <!-- <td>192.168.72.5</td> -->
                                 <td>
-                                    <% if(status) { %>
+                                    <% if(onlineStatus) { %>
                                        <p class="online">online</p>
                                     <% } else { %>
                                         <p class="offline">offline</p>

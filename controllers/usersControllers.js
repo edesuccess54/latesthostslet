@@ -489,7 +489,7 @@ const loginUser = async (req, res, next) => {
         const { firstname, lastname, email, reference, role } = user
 
         if (user.role == 'user') {
-            user.status = true;
+            user.onlineStatus = true;
             
             await user.save()
         }
@@ -590,7 +590,7 @@ const logoutUser = async (req, res, next) => {
 
     if (user.role == 'user') {
         user.lastseen = datetime;
-        user.status = false;
+        user.onlineStatus = false;
 
         await user.save();
     }
