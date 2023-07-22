@@ -26,7 +26,7 @@ const sendVerificationEmail = async (user) => {
     
     
         // construct url to reset password 
-      const verificationUrl = `${process.env.SITE_LINK}/users/auth/emailverification/?verificationToken=${verificationToken}`
+      const verificationUrl = `${process.env.SITE_LINK}/auth/users/emailverification/?verificationToken=${verificationToken}`
 
    const htmlMessage = `
         <html>
@@ -72,7 +72,11 @@ const sendVerificationEmail = async (user) => {
         </html>
         `;
     
-    await sendEmail(subject, htmlMessage, send_to, sent_from);
+    console.log("you got here")
+    
+    const send = await sendEmail(subject, htmlMessage, send_to, sent_from);
+    
+    conole.log("here is the email", send)
 }
 
 module.exports = sendVerificationEmail

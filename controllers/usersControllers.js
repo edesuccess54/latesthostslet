@@ -83,6 +83,11 @@ const checkinsPage = (req, res, next) => {
     res.render('user/checkins')
 }
 
+// email verification page 
+const emailVerificationPage = async (req, res, next) => {
+    res.render('user/email-verification')
+}
+
 // function to update user name 
 const updateName = async (req, res, next) => { 
     const {_id: authUser} = req.user
@@ -377,6 +382,8 @@ const updatePassword = async (req, res, next) => {
 const userRegisteration = async (req, res, next) => { 
     const { firstname, lastname, email, gender, country, reference, password2, password, number, } = req.body
 
+    console.log(1)
+
     let {clientIp} = getIP(req);
 
     if (!firstname || !lastname || !email || !reference || !password || !gender || !country || !password2 || !number) {
@@ -384,20 +391,28 @@ const userRegisteration = async (req, res, next) => {
         return
     }
 
+    console.log(2)
+
     if (!validator.isEmail(email)) { 
          next(new ErrorResponse('Please enter a valid email', 400))
         return
     }
+
+    console.log(3)
 
     if (password != password2) {
         next(new ErrorResponse("Password does not match"));
         return
     }
 
+    console.log(4)
+
     if (password.length < 6) {
         next(new ErrorResponse('Password must be atleast 6 character long', 400))
         return
     }
+
+    console.log(5)
     
     try {
 
@@ -414,8 +429,10 @@ const userRegisteration = async (req, res, next) => {
         // if (!reservationCode.userEmail !== email) {
         //     throw new Error('email provided does not match reservation code email')
         // }
-        
-        const userExist = await User.find()
+        console.log('six')
+        const userExist = await User.find();
+
+        console.log(6)
 
         userExist.map((user) => {
              if (user.email == email) {
@@ -425,6 +442,8 @@ const userRegisteration = async (req, res, next) => {
                 throw new Error('This number already exist')
             }
         })
+
+        console.log(7)
 
         const user = await User.create({
             firstname,
@@ -436,13 +455,17 @@ const userRegisteration = async (req, res, next) => {
             gender,
             number,
             country,
-        })
+        });
+
+        console.log(8)
 
         if (!user) {
             throw new Error('user was not created')
         }
 
-        const token = await generateToken(user._id)
+        const token = await generateToken(user._id);
+
+        console.log(9)
 
         res.cookie("token", token, {
             path: "/",
@@ -452,13 +475,16 @@ const userRegisteration = async (req, res, next) => {
             secure: true,
         })
 
+        console.log(10)
+
         // send user verification email 
-        const message = ``;
-            
-            // sendEmail()
         await sendVerificationEmail(user);
 
-        res.json({success: true, message: 'successfully registered', user, token})
+        console.log(11)
+
+        res.json({ success: true, message: 'successfully registered', user, token })
+        
+        console.log(12)
         
     } catch (error) {
         next(new ErrorResponse(error.message, 400))
@@ -638,5 +664,6 @@ module.exports = {
     payment,
     withdraw,
     changedp,
-    uploadUserIdentityDocument
+    uploadUserIdentityDocument,
+    emailVerificationPage
 }

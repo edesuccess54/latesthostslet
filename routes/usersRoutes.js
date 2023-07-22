@@ -1,5 +1,5 @@
 const express = require('express');
-const { userRegisteration, loginUser, logoutUser, userDashboardPage, personalInfoPage, accountPage, helpPage, howItWorksPage, tripspage, paymentPage, updateName, updateEmail, updateNumber, updatePassword, profilePage, withdrawalPage, transactionPage, checkinsPage, payment, withdraw, changedp, uploadUserIdentityDocument} = require('../controllers/usersControllers');
+const { userRegisteration, loginUser, logoutUser, userDashboardPage, personalInfoPage, accountPage, helpPage, howItWorksPage, tripspage, paymentPage, updateName, updateEmail, updateNumber, updatePassword, profilePage, withdrawalPage, transactionPage, checkinsPage, payment, withdraw, changedp, uploadUserIdentityDocument, emailVerificationPage} = require('../controllers/usersControllers');
 
 const upload = require('../utils/fileUpload.js');
 const auth = require('../middleware/auth');
@@ -19,6 +19,8 @@ router.get('/widthdraw', auth, authorize('user'), withdrawalPage)
 router.get('/profile', auth, authorize('user'), profilePage)
 router.get('/transaction', auth, authorize('user'), transactionPage)
 router.get('/checkins', auth, authorize('user'), checkinsPage);
+
+router.get('/emailverification', emailVerificationPage)
 
 
 
