@@ -72,11 +72,7 @@ const sendVerificationEmail = async (user) => {
         </html>
         `;
     
-    console.log("you got here")
-    
     const send = await sendEmail(subject, htmlMessage, send_to, sent_from);
-    
-    conole.log("here is the email", send)
 }
 
 module.exports = sendVerificationEmail
