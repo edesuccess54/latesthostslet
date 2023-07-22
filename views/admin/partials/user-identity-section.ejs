@@ -1,0 +1,61 @@
+<div class="identity_section tab-content">
+    <div class="dp_container">
+        <div class="dp_top">
+            <div class="dp_status">
+                <h4>Dp:</h4>
+                <p>Dp status: 
+                    <% if(!user.picture) { %>
+                        <span style="color: red;">Not Uploaded</span>
+                        <%} else { %>
+                            <span style="color: green;">Uploaded</span>
+                    <% } %>
+                </p>
+            </div>
+        </div>
+
+        <div class="picture_wrapper">
+            <div class="image_container">
+
+                <% if(!user?.picture) { %>
+                    <image src="/admin/images/default-image.png" />
+                <%} else { %>
+                    <img src="data:image/png;base64,<%= user.picture.url %>" alt="">
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <div class="kyc_section">
+            <div class="dp_top">
+            <div class="dp_status" style="display: flex; justify-content: space-between;">
+                <div class="left">
+                    <h4>KYC: 
+                        <% if(!doc) { %>
+                        <span style="color: red;">Not Uploaded</span>
+                        <%} else { %>
+                            <span style="color: green;">Uploaded</span>
+                        <% } %>
+                    </h4>
+                </div>
+
+                <div class="right">
+                    <h4>STATUS: 
+                        <% if(!doc?.status) { %>
+                        <span style="color: red;">Not yet veried</span>
+                        <%} else { %>
+                            <span style="color: green;">Veried</span>
+                        <% } %>
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="kyc_wrapper">
+            <% if(!doc) { %>
+            <img src="/admin/images/kyc.webp" alt="">
+            <%} else { %>
+                <img src="data:image/png;base64,<%= doc.doc.url %>" alt="">
+            <% } %>
+        </div>
+        
+    </div>
+</div>

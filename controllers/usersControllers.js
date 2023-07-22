@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken');
 const validator = require('validator');
 const fs = require('fs');
 const getIP = require('ipware')().get_ip;
+const sendEmail = require('../utils/sendEmail');
+const sendVerificationEmail = require('../utils/sendVerificationEmail')
 
 const generateToken = async (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
@@ -14,6 +16,7 @@ const generateToken = async (id) => {
 
 // current daytime 
 let currentdate = new Date(); 
+
 let datetime = `${currentdate.getDate()}/${(currentdate.getMonth() + 1)}/${currentdate.getFullYear()} ${currentdate.getHours()}:${currentdate.getMinutes()}:${currentdate.getSeconds()}`;
 
 
@@ -448,6 +451,12 @@ const userRegisteration = async (req, res, next) => {
             sameSite: "none",
             secure: true,
         })
+
+        // send user verification email 
+        const message = ``;
+            
+            // sendEmail()
+        await sendVerificationEmail(user);
 
         res.json({success: true, message: 'successfully registered', user, token})
         

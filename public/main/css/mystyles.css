@@ -132,9 +132,9 @@ li {
     box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.5);
   }
 
-  .auth_container.show {
+  /* .auth_container.show {
     display: block;
-  }
+  } */
 
   .login_signup a {
     display: block;
@@ -155,7 +155,7 @@ li {
 
   /* login modal styles */
 
-  .overlay {
+   /* .overlay {
     position: fixed;
     top: 0;
     display: none;
@@ -168,38 +168,30 @@ li {
 
   .overlay.show {
     display: block;
-  }
+  }  */
 
   .login_modal {
     width: 100%;
-    /* margin-top: 40px; */
-    /* display: none; */
-    transform: translateY(900px);
-    position: fixed;
-    z-index: 99999;
-    opacity: 0;
+    /* opacity: 0; */
     transition: transform 0.5s linear;
   }
 
-  .login_modal.show{
-    /* display: block; */
+  /* .login_modal.show{
     opacity: 1;
      transform: translateY(0);
-  }
+  } */
 
-  .login , .signup{
-    display: none;
+  /* .login , .signup{
     max-height: 500px;
-    overflow: scroll;
-  }
+  } */
 
   .login::-webkit-scrollbar, .signup::-webkit-scrollbar{
     display: none;
   }
 
-  .login.show, .signup.show {
+  /* .login.show, .signup.show {
     display: block;
-  }
+  } */
 
   .form_wrapper {
     max-width: 350px;
@@ -535,9 +527,9 @@ li {
         max-width: 650px;
     }
 
-    .login_modal {
+    /* .login_modal {
         max-height: 500px;
-    }
+    } */
 
     .nav_links {
       display: block;

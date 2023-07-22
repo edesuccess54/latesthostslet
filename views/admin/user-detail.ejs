@@ -1,111 +1,55 @@
 <%- include('./partials/head') %>
 
+
+<style>
+    .tab-buttons {
+        display: flex;
+        width: 100%;
+        background: #fff;
+    }
+
+    .tab-button {
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    margin-top: 10px;
+    gap: 10px;
+    text-align: center;
+    font-weight: bold;
+    }
+
+    .tab-button.active {
+    color: #ff385c;
+    border-bottom: 2px  solid #ff385c;
+    }
+
+    .tab-content {
+    display: none;
+    }
+
+    .tab-content.active {
+    display: block;
+    }
+</style>
+
 <main>
     <div class="content_wrapper">
         <%- include('./partials/sideNav') %>
 
         <div class="main_content_wrapper" >
+            <div class="tab-buttons">
+                <button class="tab-button active" data-tab="tab1">Overview</button>
+                <button class="tab-button" data-tab="tab2">Financial</button>
+                <button class="tab-button" data-tab="tab3">About</button>
+            </div>
+
             <div class="main_content" style="background: #fff; padding-bottom: 40px;">
-                <div class="user_overview">
-                    <div class="withdrawal_code">
-                        <div>
-                            <p>withdraw code:</p>
-                            <span class="sub sub_code"><%= code.code %></span>
-                        </div>
-                        <div class="action">
-                            <button class="btn change_code">change code</button>
-                        </div>
-                    </div>
-
-                    <div class="withdrawal_code">
-                        <div>
-                            <p>Account status:</p>
-                            <% if(user.accountStatus == 'closed' ||  user.accountStatus == 'suspended') { %>
-                                <span style="color: red;"><%= user.accountStatus %></span>
-                                <%} else if(user.accountStatus == 'active') { %>
-                                    <span class="sub_title"><i class="fa-solid fa-circle-check"></i> <%= user.accountStatus.slice(0,1).toUpperCase()+user.accountStatus.slice(1) %> </span>
-                            <% } %>
-                            
-                        </div>
-                        <div class="action">
-                            <button class="btn account_status_btn">change Status</button>
-                        </div>
-                    </div>
-
-                    <div class="withdrawal_code">
-                        <div>
-                            <p>Fund Account</p>
-                            <!-- <span class="sub">197.168.68.78</span> -->
-                        </div>
-                        <div class="action">
-                            <button class="btn fund_user_account_btn">Fund User Account</button>
-                        </div>
-                    </div>
-                </div>
-
-                <%- include('./partials/other-status')  %>
-
-                <div class="identity_section">
-                    <div class="dp_container">
-                        <div class="dp_top">
-                            <div class="dp_status">
-                                <h4>Dp:</h4>
-                                <p>Dp status: 
-                                    <% if(!user.picture) { %>
-                                        <span style="color: red;">Not Uploaded</span>
-                                        <%} else { %>
-                                            <span style="color: green;">Uploaded</span>
-                                    <% } %>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="picture_wrapper">
-                            <div class="image_container">
-
-                                <% if(!user?.picture) { %>
-                                    <image src="/admin/images/default-image.png" />
-                                <%} else { %>
-                                    <img src="data:image/png;base64,<%= user.picture.url %>" alt="">
-                                <% } %>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="kyc_section">
-                         <div class="dp_top">
-                            <div class="dp_status" style="display: flex; justify-content: space-between;">
-                                <div class="left">
-                                    <h4>KYC: 
-                                        <% if(!doc) { %>
-                                        <span style="color: red;">Not Uploaded</span>
-                                        <%} else { %>
-                                            <span style="color: green;">Uploaded</span>
-                                        <% } %>
-                                    </h4>
-                                </div>
-
-                                <div class="right">
-                                    <h4>STATUS: 
-                                        <% if(!doc?.status) { %>
-                                        <span style="color: red;">Not yet veried</span>
-                                        <%} else { %>
-                                            <span style="color: green;">Veried</span>
-                                        <% } %>
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="kyc_wrapper">
-                            <% if(!doc) { %>
-                            <img src="/admin/images/kyc.webp" alt="">
-                            <%} else { %>
-                                <img src="data:image/png;base64,<%= doc.doc.url %>" alt="">
-                            <% } %>
-                        </div>
-                        
-                    </div>
-                </div>
+                
+                <%- include('./partials/user-overview-section') %>
+                <%- include('./partials/user-identity-section') %>
                
             </div>
         </div>
@@ -258,7 +202,40 @@
             alert(error.message)
         }
     }
-    changeCode.addEventListener('click', generateWithdrawalCode)
+    changeCode.addEventListener('click', generateWithdrawalCode);
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  // Show the initial tab on page load
+  showTab(0);
+
+  tabButtons.forEach((button, index) => {
+    button.addEventListener('click', function () {
+      showTab(index);
+    });
+  });
+
+  function showTab(index) {
+    // Hide all tab contents
+    tabContents.forEach(content => {
+      content.classList.remove('active');
+    });
+
+    // Deactivate all tab buttons
+    tabButtons.forEach(button => {
+      button.classList.remove('active');
+    });
+
+    // Show the selected tab content and activate the button
+    tabContents[index].classList.add('active');
+    tabButtons[index].classList.add('active');
+  }
+});
+
 
 
 </script>

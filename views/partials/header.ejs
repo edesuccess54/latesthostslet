@@ -14,6 +14,9 @@
   }
 </style>
 <header>
+
+  <%- include("notification") %> 
+  
   <nav class="nav_bar">
     <div class="brand_logo" >
       <a href="/"> <img src="/main/images/logo.png" alt="logo"></a>
@@ -109,7 +112,7 @@
 </header>
 
 <div class="overlay"></div>
-<div class="login_modal">
+<!-- <div class="login_modal">
     <div class="form_wrapper">
         <span class="close_bar" ><i class="fa-solid fa-xmark"></i></span>
         <div class="login">
@@ -134,7 +137,7 @@
             </form>
         </div>
 
-        <!-- signup section  -->
+       
         <div class="signup">
             <h2 style="text-align: center;">Sign up</h2>
             <form class="signup_form">
@@ -198,170 +201,69 @@
         </div>
         
     </div>
-</div>
+</div> -->
 
 
 
   <script>
 
-const logins = document.querySelectorAll('.login_signup a');
+// const logins = document.querySelectorAll('.login_signup a');
 const authModal = document.querySelector('.login_modal');
-const loginForm = document.querySelector('.login');
-const signup = document.querySelector('.signup');
-const closeBtn = document.querySelector('.close_bar .fa-xmark');
-const overlay = document.querySelector('.overlay');
-const loginSignupLinks = document.querySelectorAll('.login_signup_link');
-const loginUserForm = document.querySelector('.login_form');
-const signIn = document.querySelector('.sigin_btn');
-const registerationForm = document.querySelector('.signup_form');
-const regBtn = document.querySelector('.reg_btn');
+// const loginForm = document.querySelector('.login');
+// const signup = document.querySelector('.signup');
+// const closeBtn = document.querySelector('.close_bar .fa-xmark');
+// const overlay = document.querySelector('.overlay');
+// const loginSignupLinks = document.querySelectorAll('.login_signup_link');
+// const loginUserForm = document.querySelector('.login_form');
+// const signIn = document.querySelector('.sigin_btn');
+
 
 const removeScroll = (e) => {
     window.scrollTo(0, 0)
 }
 
-const displayAuthModal = (e) => {
-    e.preventDefault();
-    authModal.classList.add('show');
-    overlay.classList.add('show');
-    toggletopLoginModal();
+// const displayAuthModal = (e) => {
+//     e.preventDefault();
+//     authModal.classList.add('show');
+//     overlay.classList.add('show');
+//     toggletopLoginModal();
 
-    window.addEventListener('scroll', removeScroll)
+//     window.addEventListener('scroll', removeScroll)
 
-    if(e.target.textContent.trim() == 'Login') {
-        signup.classList.remove('show');
-        loginForm.classList.add('show');
-    } else if(e.target.textContent.trim() == 'Sign up') {
-        loginForm.classList.remove('show');
-        signup.classList.add('show');
-    } else if(e.target.textContent.trim() == 'Host Now') {
-        loginForm.classList.remove('show');
-        signup.classList.add('show'); 
-    }
-}
-logins.forEach(login => {
-    login.addEventListener('click', displayAuthModal);
-})
-
-
-loginSignupLinks.forEach(loginSignupLink  => {
-    loginSignupLink.addEventListener('click', displayAuthModal)
-})
-
-function closeAuthModal() {
-    authModal.classList.remove('show');
-    loginForm.classList.remove('show');
-    signup.classList.remove('show');
-    overlay.classList.remove('show');
-    window.removeEventListener('scroll', removeScroll)
-}
-closeBtn.addEventListener('click', closeAuthModal);
-overlay.addEventListener('click', closeAuthModal);
-
-const topLoginModal = document.querySelector('.auth_container');
-function toggletopLoginModal() {
-    topLoginModal.classList.remove('show')
-}
+//     if(e.target.textContent.trim() == 'Login') {
+//         signup.classList.remove('show');
+//         loginForm.classList.add('show');
+//     } else if(e.target.textContent.trim() == 'Sign up') {
+//         loginForm.classList.remove('show');
+//         signup.classList.add('show');
+//     } else if(e.target.textContent.trim() == 'Host Now') {
+//         loginForm.classList.remove('show');
+//         signup.classList.add('show'); 
+//     }
+// }
+// logins.forEach(login => {
+//     login.addEventListener('click', displayAuthModal);
+// })
 
 
-// account registeration begins here
-const signUpUser = async (e) => {
-    e.preventDefault()
-    const message = document.querySelector('.message'); 
-    message.textContent = '';
-    regBtn.textContent = "Please wait...";
+// loginSignupLinks.forEach(loginSignupLink  => {
+//     loginSignupLink.addEventListener('click', displayAuthModal)
+// })
 
-    const formData = {
-    firstname: registerationForm.fname.value,
-    lastname: registerationForm.lname.value,
-    gender: registerationForm.gender.value,
-    email: registerationForm.email.value,
-    number: registerationForm.number.value,
-    country: registerationForm.country.value,
-    password: registerationForm.password.value,
-    password2: registerationForm.password2.value,
-    reference: registerationForm.reference.value
-    }
+// function closeAuthModal() {
+//     authModal.classList.remove('show');
+//     loginForm.classList.remove('show');
+//     signup.classList.remove('show');
+//     overlay.classList.remove('show');
+//     window.removeEventListener('scroll', removeScroll)
+// }
+// closeBtn.addEventListener('click', closeAuthModal);
+// overlay.addEventListener('click', closeAuthModal);
 
-    try {
-    const response = await fetch('/auth/users/signup', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(formData)
-    })
-
-    if(!response.ok) {
-        throw new Error('registration failed, please try again')
-    }
-
-    const json = await response.json();
-
-    if(json.error) {
-        throw new Error(json.error)
-    }
-
-    if(json.success) {
-        message.classList.add('success')
-        message.textContent = json.message
-        regBtn.textContent = 'Continue';
-        registerationForm.reset()
-    }
-    
-    } catch (error) {
-    regBtn.textContent = 'Continue'
-    message.classList.add('error')
-    message.textContent = error.message
-    }
-}
-registerationForm.addEventListener('submit', signUpUser);
-// account registeration ends here 
-
-
-// account loging begins here 
-const loginUser = async (e) => {
-    e.preventDefault()
-    const message = document.querySelector('.login_message');
-
-    message.textContent = '';
-    signIn.textContent = "Please wait...";
-
-    const formData = {
-    email: loginUserForm.email.value,
-    password: loginUserForm.password.value,
-    }
-
-    try {
-    const response = await fetch('/auth/users/login', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(formData)
-    })
-
-    if(!response.ok) {
-        throw new Error('login failed, please try again')
-    }
-
-    const json = await response.json();
-
-    if(json.error) {
-        throw new Error(json.error)
-    }
-
-    signIn.textContent = 'Redirecting...'
-
-    if(json.role == 'admin') {
-        location.assign('/auth/admin/dashboard')
-    } else if(json.role == 'user'){
-        location.assign('/auth/users/dashboard')
-    }
-    
-    } catch (error) {
-    signIn.textContent = 'Continue'
-    message.classList.add('error')
-    message.textContent = error.message
-    }
-}
-loginUserForm.addEventListener('submit', loginUser)
+// const topLoginModal = document.querySelector('.auth_container');
+// function toggletopLoginModal() {
+//     topLoginModal.classList.remove('show')
+// }
 
 
     const hamburgerBtn = document.querySelector('.open_close');

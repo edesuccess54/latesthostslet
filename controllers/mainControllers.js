@@ -62,15 +62,29 @@ const propertyDetails = async (req, res, next) => {
         if (!property) {
             throw new Error('Property not found')
         }
-        res.render('rooms', { title: 'Property Details', property, reviews });
+        res.render('rooms', { title: 'Property Details', property, reviews, randomString1, randomString2 });
     } catch (error) {
         next(new ErrorResponse(error.message, 400))
         return
     }
 }
 
+const loginPage = async (req, res, next) => {
+    res.render('login', {title: "Login"});
+}
 
 
+
+const signupPage = async (req, res, next) => {
+    res.render('signup', {title: "Signup"});
+}
+
+
+
+
+
+
+ 
 module.exports = {
     homePage,
     mansionPage, 
@@ -78,5 +92,7 @@ module.exports = {
     iconicPage, 
     tropicalPage, 
     islandPage,
-    propertyDetails
+    propertyDetails,
+    loginPage,
+    signupPage
 }

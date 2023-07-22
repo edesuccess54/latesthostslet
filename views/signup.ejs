@@ -1,0 +1,202 @@
+<%- include('./partials/head') %>
+
+<body class="with-new-header">
+    <%- include('./partials/header') %>
+    <main>
+        <div class="mobile_nav_wrapper">
+            <%- include('./partials/mobileTopNav')  %>
+        </div>
+        
+        <div class="">
+            <div class="login_modal">
+                <div class="form_wrapper">
+                    <!-- signup section  -->
+                    <div class="signup">
+                        <h2 style="text-align: center;">Sign up</h2>
+                        <form class="signup_form">
+                            <div class="input_group">
+                                <label for="fname">First name</label>
+                                <input id="fname" name="fname" type="text" required>
+                            </div>
+
+                            <div class="input_group">
+                                <label for="lname">Last name</label>
+                                <input id="lname" name="lname" type="text" required>
+                            </div>
+
+                            <div class="input_group">
+                                <label for="email">E-mail</label>
+                                <input id="email" name="email" type="email" required>
+                            </div>
+
+                            <div class="input_group">
+                                <label for="number">phone number</label>
+                                <input id="number" name="text" type="text" required>
+                            </div>
+
+                            <div class="input_group">
+                                <label for="gender">Gender</label>
+                                <select name="gender" id="gender">
+                                <option selected disabled>choose gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                                </select>
+                            </div>
+
+
+                            <div class="input_group">
+                                <label for="country">Country</label>
+                                <select name="country" id="country">
+                                    <option selected disabled>Select country</option>
+                                
+                                </select>
+                            </div>
+
+                            <div class="input_group" hidden>
+                                <label for="rcode">Property reference</label>
+                                <input id="rcode" name="reference" type="text" placeholder="Enter property reference" >
+                            </div>
+
+                            <div class="input_group">
+                                <label for="password">Password</label>
+                                <input id="password" name="password" type="password" required>
+                            </div>
+
+                            <div class="input_group">
+                                <label for="password2">Confirm password</label>
+                                <input id="password2" name="password2" type="password" required>
+                            </div>
+
+                            <p class="message"></p>
+
+                            <div class="input_group">
+                                <button type="submit" class="reg_btn">Continue</button>
+                            </div>
+                            <p>Already have an account?  <a class="login_signup_link" href="/login">Login</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    
+
+
+    <script type="module">
+        import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+
+
+        toastBtn.addEventListener('click', () => closeNotification(toast));
+
+
+        const queryStrings = new URLSearchParams(document.location.search)
+        const propertyreference = queryStrings.get('property_reference');
+
+        // fetching countries
+        document.addEventListener('DOMContentLoaded', function () {
+        const countrySelect = document.getElementById('country');
+
+        // Fetch the country data from the API
+        fetch('https://restcountries.com/v3.1/all')
+            .then(response => response.json())
+            .then(data => {
+
+            data.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.name.common;
+                option.textContent = country.name.common;
+
+
+                const flagSpan = document.createElement('span');
+                const image = document.createElement('img');
+
+                image.src = `${country.flags.svg}`;
+                
+                flagSpan.appendChild(image)
+
+                option.prepend(flagSpan);
+
+                countrySelect.appendChild(option);
+            });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+        });
+
+
+
+        const registerationForm = document.querySelector('.signup_form');
+        const regBtn = document.querySelector('.reg_btn');
+
+        // account registeration begins here
+        const signUpUser = async (e) => {
+            e.preventDefault()
+
+            const message = document.querySelector('.message'); 
+
+            showSpinner(regBtn)
+            // message.textContent = '';
+            // regBtn.textContent = "Please wait...";
+            
+
+            const formData = {
+            firstname: registerationForm.fname.value,
+            lastname: registerationForm.lname.value,
+            gender: registerationForm.gender.value,
+            email: registerationForm.email.value,
+            number: registerationForm.number.value,
+            country: registerationForm.country.value,
+            password: registerationForm.password.value,
+            password2: registerationForm.password2.value,
+            reference: propertyreference
+            }
+
+            try {
+            const response = await fetch('/auth/users/signup', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData)
+            })
+
+            if(!response.ok) {
+                throw new Error('registration failed, please try again')
+            }
+
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error)
+            }
+
+            if(json.success) {
+                // message.classList.add('success')
+                // message.textContent = json.message
+                // regBtn.textContent = 'Continue';
+
+                hideSpinner(regBtn, "Continue")
+                notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
+
+                registerationForm.reset()
+            }
+            
+            } catch (error) {
+            // regBtn.textContent = 'Continue'
+            hideSpinner(regBtn, "Continue")
+            // message.classList.add('error')
+            // message.textContent = error.message
+            notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
+            }
+        }
+        registerationForm.addEventListener('submit', signUpUser);
+        // account registeration ends here 
+    </script>
+
+    
+    
+    
+    
+    
+    
+    

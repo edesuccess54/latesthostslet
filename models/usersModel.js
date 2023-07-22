@@ -22,16 +22,16 @@ const userSchema = Schema({
     
     number: {
         type: String,
-        // required: true
+        required: true
     },
 
     gender: {
         type: String,
-        // required: true
+        required: true
     },
      country: {
         type: String,
-        // required: true
+        required: true
     },
      
      ip: {
@@ -45,13 +45,22 @@ const userSchema = Schema({
 
     reference: {
         type: String,
-        // required: true
+        required: true
     },
 
     profit: {
         type: String,
         default: '0.00',
-        // required: true
+    },
+
+    deposit: {
+        type: String,
+        default: '0.00',
+    },
+
+    bonus: {
+        type: String,
+        default: '0.00',
     },
 
     host: {
@@ -76,11 +85,11 @@ const userSchema = Schema({
         default: false
     },
 
-     block: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
+    //  block: {
+    //     type: Boolean,
+    //     required: true,
+    //     default: false
+    // },
 
     accountStatus: {
         type: String,

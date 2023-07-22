@@ -1,6 +1,6 @@
 
 
-<div class="other_status_container">
+<div class="other_status_container" style="margin-top: 20px;">
     <h4>Other status</h4>
 
     <div class="other_status_wrapper">
@@ -86,11 +86,11 @@
             </div>
         </div>
 
-        <div class="each_status">
+        <div class="each_status" style="flex-grow: 1; gap: 5px;">
             <div class="status_icon" style="display: flex; align-items: center; justify-content: center;">
                 <i class="fa-solid fa-envelope"></i>
             </div>
-            <div class="status_details" style="display: flex; justify-content: space-between; gap: 40px;">
+            <div class="status_details" style="display: flex; gap: 10px;">
                 <div class="status_content">
                    <% if(user.emailveirify) { %>
 
@@ -110,7 +110,7 @@
                     <span class="status_title">Email Status</span>
                 </div>
 
-                <div class="lastseen_wrapper">
+                <div class="lastseen_wrapper" style="margin-left: auto;">
                     <h5>Last Seen</h5>
                     <span class="status_title"><%= user.lastseen %></span>
                 </div>

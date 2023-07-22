@@ -1,0 +1,38 @@
+<div class="user_overview tab-content">
+    <div class="withdrawal_code">
+        <div>
+            <p>withdraw code:</p>
+            <span class="sub sub_code"><%= code.code %></span>
+        </div>
+        <div class="action">
+            <button class="btn change_code">change code</button>
+        </div>
+    </div>
+
+    <div class="withdrawal_code">
+        <div>
+            <p>Account status:</p>
+            <% if(user.accountStatus == 'closed' ||  user.accountStatus == 'suspended') { %>
+                <span style="color: red;"><%= user.accountStatus %></span>
+                <%} else if(user.accountStatus == 'active') { %>
+                    <span class="sub_title"><i class="fa-solid fa-circle-check"></i> <%= user.accountStatus.slice(0,1).toUpperCase()+user.accountStatus.slice(1) %> </span>
+            <% } %>
+            
+        </div>
+        <div class="action">
+            <button class="btn account_status_btn">change Status</button>
+        </div>
+    </div>
+
+    <div class="withdrawal_code">
+        <div>
+            <p>Fund Account</p>
+        </div>
+        <div class="action">
+            <button class="btn fund_user_account_btn">Fund User Account</button>
+        </div>
+    </div>
+
+    <%- include('./other-status')  %>
+</div>
+

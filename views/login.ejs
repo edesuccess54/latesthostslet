@@ -1,0 +1,86 @@
+<%- include('./partials/head') %>
+
+<body class="with-new-header">
+    <%- include('./partials/header') %>
+    <main>
+        <div class="mobile_nav_wrapper">
+            <%- include('./partials/mobileTopNav')  %>
+        </div>
+        
+        <div class="">
+            <div class="login_modal">
+                <div class="form_wrapper">
+                    <div class="login">
+                        <h2 style="text-align: center;">Log in</h2>
+                        <form class="login_form">
+                            <div class="input_group">
+                                <label for="email">E-mail</label>
+                                <input id="lemail" name="email" type="email">
+                            </div>
+
+                            <div class="input_group">
+                                <label for="password">Password</label>
+                                <input id="lpassword" name="password" type="password">
+                            </div>
+
+                            <p class="login_message"></p>
+
+                            <div class="input_group">
+                                <button class="sigin_btn" type="submit">Continue</button>
+                            </div>
+                            <p>Don't have an account?  <a class="login_signup_link" href="/signup">Sign up</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <script>
+        // account loging begins here 
+const loginUser = async (e) => {
+    e.preventDefault()
+    const message = document.querySelector('.login_message');
+
+    message.textContent = '';
+    signIn.textContent = "Please wait...";
+
+    const formData = {
+    email: loginUserForm.email.value,
+    password: loginUserForm.password.value,
+    }
+
+    try {
+    const response = await fetch('/auth/users/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(formData)
+    })
+
+    if(!response.ok) {
+        throw new Error('login failed, please try again')
+    }
+
+    const json = await response.json();
+
+    if(json.error) {
+        throw new Error(json.error)
+    }
+
+    signIn.textContent = 'Redirecting...'
+
+    if(json.role == 'admin') {
+        location.assign('/auth/admin/dashboard')
+    } else if(json.role == 'user'){
+        location.assign('/auth/users/dashboard')
+    }
+    
+    } catch (error) {
+    signIn.textContent = 'Continue'
+    message.classList.add('error')
+    message.textContent = error.message
+    }
+}
+loginUserForm.addEventListener('submit', loginUser)
+    </script>

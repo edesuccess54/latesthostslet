@@ -107,10 +107,10 @@ const userDetailPage = async (req, res, next) => {
 
 
 const createProperty = async (req, res, next) => { 
-    const { pname, plocation, pdistance, pamount, hostname, guest, bedroom, bed, bath, rating, review, pcategory } = req.body
+    const { pname, plocation, pdistance, pamount, guest, bedroom, bed, bath, rating, review, pcategory } = req.body
 
       
-    if (!pname || !plocation || !pdistance || !pamount || !hostname || !guest || !bed || !bath || !rating || !review || !pcategory) {
+    if (!pname || !plocation || !pdistance || !pamount || !guest || !bed || !bath || !rating || !review || !pcategory) {
         next(new ErrorResponse('please fill all field', 400))
         return
     }
@@ -154,7 +154,6 @@ const createProperty = async (req, res, next) => {
             plocation,
             pdistance,
             pamount,
-            hostname,
             guest,
             bedroom,
             bed,
