@@ -26,7 +26,7 @@ const sendVerificationEmail = async (user) => {
     
     
         // construct url to reset password 
-      const verificationUrl = `${process.env.SITE_LINK}/auth/users/emailverification/?verificationToken=${verificationToken}`
+      const verificationUrl = `${process.env.SITE_LINK}/auth/users/emailverification?verificationToken=${verificationToken}`
 
    const htmlMessage = `
         <html>
@@ -35,7 +35,7 @@ const sendVerificationEmail = async (user) => {
             </head>
             <body>
                 <div>
-                    <img src = "${process.env.SITE_LINK}/main/images/logo.png" style="height:auto;>
+                    <img src = "${process.env.SITE_LINK}/main/images/logo.png" style="height:200px; width: 400px">
                 </div>
 
             <p> Dear ${user.firstname},
