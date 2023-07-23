@@ -1,1 +1,21 @@
-<h2>Email Verification Page</h2>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Email verification page</title>
+    </head>
+    <body>
+        <div class="page_wrapper">
+            <% if(emailVerificationToken) { %>
+                <div class="veried">
+                    <h1>Congratulations, Your email has been verified. Thanks.</h1>
+                    <p>Go back to Homepage <a href="/auth/users/dashboard">Dashboard</a></p>
+                </div>
+            <%} else { %>
+                <div class="veried">
+                    <h1>Sorry, something went wrong and your email could not be veried</h1>
+                </div>
+            <% } %>
+        </div>
+    </body>
+</html>
