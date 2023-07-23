@@ -26,7 +26,7 @@
                 <p><%= (user.email).slice(0, 3) %>*****<%= (user.email).slice(8) %></p>
                 <p>
                     <% if(user.emailveirify) { %>
-                        <span style="color: green">Email Verified</span>
+                        <p style="color: green; font-size: 12px">Email Verified</p>
                     <%} else { %>
                         <button class="btn verify_email_btn" data-user="<%= user._id %>">click here to verify email</button>
                     <%}%> 

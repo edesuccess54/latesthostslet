@@ -2,13 +2,15 @@ const User = require('../models/usersModel');
 const Code = require('../models/codeModel');
 const Transaction = require('../models/transactionModel');
 const ErrorResponse = require('../utils/errorResponse');
-const UserDocument = require('../models/documentModel')
+const UserDocument = require('../models/documentModel');
+const Token = require('../models/tokenModel');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 const fs = require('fs');
 const getIP = require('ipware')().get_ip;
 const sendEmail = require('../utils/sendEmail');
-const sendVerificationEmail = require('../utils/sendVerificationEmail')
+const sendVerificationEmail = require('../utils/sendVerificationEmail');
+const crypto = require('crypto')
 
 const generateToken = async (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
@@ -86,7 +88,7 @@ const checkinsPage = (req, res, next) => {
 // email verification page 
 const emailVerificationPage = async (req, res, next) => {
 
-    const { verificationToken } = req.params
+    const { verificationToken } = req.query
 
     // hash token then compare token in the database 
         const hashedToken = crypto.createHash("sha256").update(verificationToken).digest("hex")
