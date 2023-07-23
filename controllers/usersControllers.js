@@ -85,7 +85,31 @@ const checkinsPage = (req, res, next) => {
 
 // email verification page 
 const emailVerificationPage = async (req, res, next) => {
-    res.render('user/email-verification')
+
+    const { verificationToken } = req.params
+
+    // hash token then compare token in the database 
+        const hashedToken = crypto.createHash("sha256").update(verificationToken).digest("hex")
+
+        // find token in db 
+        const emailVerificationToken = await Token.findOne({
+            token: hashedToken,
+            expiresAt: {$gt: Date.now()}
+        })
+
+        if(!emailVerificationToken) {
+            next(new ErrorResponse("Invalid or expired token", 400))
+            return
+        }
+
+        const user = await User.findOne({_id: emailVerificationToken.user})
+
+        user.emailveirify = true 
+       
+        await user.save()
+
+    
+    res.render('user/email-verification', {emailVerificationToken})
 }
 
 // function to update user name 
@@ -640,7 +664,7 @@ const logoutUser = async (req, res, next) => {
 }
 
 const resendVerificationEmail = async (req, res, next) => {
-    const { userId } = req.user
+    const  userId  = req.user
     
     try {
         const user = await User.findOne({ _id: userId });
@@ -653,7 +677,9 @@ const resendVerificationEmail = async (req, res, next) => {
             throw new Error('your email has already been verified')
         }
 
-        await sendVerificationEmail(user)
+        await sendVerificationEmail(user);
+
+        res.status(200).json({ success: true, message: "A verification mail has been sent to your email." })
         
     } catch (error) {
         next(new ErrorResponse(error.message, 400))

@@ -81,7 +81,9 @@
         </div>
     </main>
 
-    <script>
+    <script type="module">
+        import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+        toastBtn.addEventListener('click', () => closeNotification(toast));
 
         const nameEdit = document.querySelector('.edit_name');
         const nameEditForm = document.querySelector('.name_edit');
@@ -148,8 +150,11 @@
         const resendEMailBtn = document.querySelector('.verify_email_btn')
         // function to resend verification email 
         const resendVerificationEmail = async (e) => {
+            e.preventDefault();
+
+            showSpinner(resendEMailBtn)
             try {
-                const response = await fetch('/auth/user/resend-email', {
+                const response = await fetch('/auth/users/resend-email', {
                     method: "POST",
                     headers: {"Content-Type" : "application/json"}
                 });
@@ -165,10 +170,12 @@
                 }
 
                 if(json.success) {
+                    hideSpinner(resendEMailBtn,"click here to verify email")
                     notification.success(json.message, toast, toastIcon, toastMessage, closeNotification)
                 }
                 
             } catch (error) {
+                hideSpinner(resendEMailBtn,"click here to verify email")
                 notification.error(error.message, toast, toastIcon, toastMessage, closeNotification)
             }
         }

@@ -42,10 +42,16 @@ const sendVerificationEmail = async (user) => {
 
             Thank you for signing up with ${process.env.SITE_NAME}! We are excited to have you as a part of our community. 
             <br />
+            <br />
 
-            To ensure the security of your account and to complete the registration process, we kindly ask you to verify your email address by clicking on this link: 
+            To ensure the security of your account and to complete the registration process, we kindly ask you to verify your email address by clicking on this link or copy the link below to your browser url
 
-            <a style="color: #ff385c" href="${verificationUrl}">Verify your email</a> 
+            <a href="${verificationUrl}">Verify your email</a>
+            <br />
+            <br />
+
+            <a href="#">${verificationUrl}</a>
+
             <br />
             <br />
             
@@ -53,7 +59,9 @@ const sendVerificationEmail = async (user) => {
             Please note that this link is valid for the next 24 hours. After that, you will need to request a new verification email. <br />
             <br />
 
-            If you did not sign up for an account on ${process.env.SITE_NAME}, please disregard this email. Your account will not be activated. <br />
+            If you did not sign up for an account on ${process.env.SITE_NAME}, please disregard this email. Your account will not be activated. 
+            <br />
+            <br />
 
             By verifying your email, you gain access to a wide range of features and benefits, including: <br />
 
