@@ -35,7 +35,7 @@ const sendVerificationEmail = async (user) => {
             </head>
             <body>
                 <div>
-                    <img src = "${process.env.SITE_LINK}/main/images/logo.png" style="height:50px; width: 100%">
+                    <img src = "${process.env.SITE_LINK}/main/images/logo.png" style="height:auto;>
                 </div>
 
             <p> Dear ${user.firstname},
