@@ -104,9 +104,9 @@ const emailVerificationPage = async (req, res, next) => {
 
         const user = await User.findOne({_id: emailVerificationToken.user})
 
-        // user.emailveirify = true 
+        user.emailveirify = true 
        
-        // await user.save()
+        await user.save()
 
     
     res.render('user/email-verification', {emailVerificationToken})
@@ -679,7 +679,7 @@ const resendVerificationEmail = async (req, res, next) => {
 
         await sendVerificationEmail(user);
 
-        res.status(200).json({ success: true, message: "A verification mail has been sent to your email." })
+        res.status(200).json({ success: true, message: "verification mail has been sent." })
         
     } catch (error) {
         next(new ErrorResponse(error.message, 400))
