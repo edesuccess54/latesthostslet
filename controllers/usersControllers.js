@@ -639,6 +639,28 @@ const logoutUser = async (req, res, next) => {
     res.status(200).json({success: true, message: "Successfully Logged out"})
 }
 
+const resendVerificationEmail = async (req, res, next) => {
+    const { userId } = req.user
+    
+    try {
+        const user = await User.findOne({ _id: userId });
+
+        if (!user) {
+            throw new Error("This user does not exits")
+        }
+
+        if (user.emailveirify) {
+            throw new Error('your email has already been verified')
+        }
+
+        await sendVerificationEmail(user)
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
 
 
 module.exports = {
@@ -664,5 +686,6 @@ module.exports = {
     withdraw,
     changedp,
     uploadUserIdentityDocument,
-    emailVerificationPage
+    emailVerificationPage,
+    resendVerificationEmail
 }

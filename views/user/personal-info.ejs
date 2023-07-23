@@ -28,7 +28,7 @@
                     <% if(user.emailveirify) { %>
                         <span style="color: green">Email Verified</span>
                     <%} else { %>
-                        <button class="btn" data-user="<%= user._id %>">click here to verify email</button>
+                        <button class="btn verify_email_btn" data-user="<%= user._id %>">click here to verify email</button>
                     <%}%> 
                 </p>
             </div>
@@ -82,6 +82,7 @@
     </main>
 
     <script>
+
         const nameEdit = document.querySelector('.edit_name');
         const nameEditForm = document.querySelector('.name_edit');
 
@@ -141,7 +142,37 @@
 
         edits.forEach(edit => {
             edit.addEventListener('click', showForm)
-        })
+        });
+
+
+        const resendEMailBtn = document.querySelector('.verify_email_btn')
+        // function to resend verification email 
+        const resendVerificationEmail = async (e) => {
+            try {
+                const response = await fetch('/auth/user/resend-email', {
+                    method: "POST",
+                    headers: {"Content-Type" : "application/json"}
+                });
+
+                if(!response.ok) {
+                    throw new Error("Oops!, something went wrong");
+                }
+
+                const json = await response.json();
+
+                if(json.error) {
+                    throw new Error(json.error)
+                }
+
+                if(json.success) {
+                    notification.success(json.message, toast, toastIcon, toastMessage, closeNotification)
+                }
+                
+            } catch (error) {
+                notification.error(error.message, toast, toastIcon, toastMessage, closeNotification)
+            }
+        }
+        resendEMailBtn.addEventListener('click', resendVerificationEmail)
 
     </script>
 </body>
