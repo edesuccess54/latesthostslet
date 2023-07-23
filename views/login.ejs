@@ -37,50 +37,55 @@
     </main>
 
 
-    <script>
+    <script type="module">
+        import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+
+
+        toastBtn.addEventListener('click', () => closeNotification(toast));
+
+        const loginUserForm = document.querySelector('.login_form');
+        const signinBtn = document.querySelector('.sigin_btn');
+
         // account loging begins here 
-const loginUser = async (e) => {
-    e.preventDefault()
-    const message = document.querySelector('.login_message');
+        const loginUser = async (e) => {
+            e.preventDefault()
 
-    message.textContent = '';
-    signIn.textContent = "Please wait...";
+            showSpinner(signinBtn)
 
-    const formData = {
-    email: loginUserForm.email.value,
-    password: loginUserForm.password.value,
-    }
+            const formData = {
+            email: loginUserForm.email.value,
+            password: loginUserForm.password.value,
+            }
 
-    try {
-    const response = await fetch('/auth/users/login', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(formData)
-    })
+            try {
+            const response = await fetch('/auth/users/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData)
+            })
 
-    if(!response.ok) {
-        throw new Error('login failed, please try again')
-    }
+            if(!response.ok) {
+                throw new Error('login failed, please try again')
+            }
 
-    const json = await response.json();
+            const json = await response.json();
 
-    if(json.error) {
-        throw new Error(json.error)
-    }
+            if(json.error) {
+                throw new Error(json.error)
+            }
 
-    signIn.textContent = 'Redirecting...'
+            hideSpinner(signinBtn, "Redirecting...");
 
-    if(json.role == 'admin') {
-        location.assign('/auth/admin/dashboard')
-    } else if(json.role == 'user'){
-        location.assign('/auth/users/dashboard')
-    }
-    
-    } catch (error) {
-    signIn.textContent = 'Continue'
-    message.classList.add('error')
-    message.textContent = error.message
-    }
-}
-loginUserForm.addEventListener('submit', loginUser)
-    </script>
+            if(json.role == 'admin') {
+                location.assign('/auth/admin/dashboard')
+            } else if(json.role == 'user'){
+                location.assign('/auth/users/dashboard')
+            }
+            
+            } catch (error) {
+                hideSpinner(signinBtn, "Continue");
+                notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
+            }
+        }
+        loginUserForm.addEventListener('submit', loginUser)
+</script>

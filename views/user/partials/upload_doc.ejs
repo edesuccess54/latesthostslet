@@ -8,17 +8,19 @@
         <form class="document_form">
             <div class="input_group">
                 <label for="idtype">Type of Id</label>
-                <input id="idtype" type="text" name="idtype" placeholder="Drivers license" required>
+                <select name="idtype" id="idtype" required>
+                    <option value="Drivers License">Drivers License</option>
+                    <option value="passport">Passport</option>
+                    <option value="Identity card">Identity card</option>
+                </select>
             </div>
 
             <div class="input_group">
                 <label for="country">Country</label>
+                <select name="country" id="country">
+                    
+                </select>
                 <input id="country" type="text" name="country" placeholder="USA" required>
-            </div>
-
-            <div class="input_group">
-                <label for="expire">Expiring date</label>
-                <input id="expire" type="date" name="date" required>
             </div>
 
             <div class="input_group">
@@ -26,19 +28,55 @@
                 <input id="id" type="file" name="file" required>
             </div>
             
-            <p class="message4"></p>
             <button class=" btn document_btn edit_btn">Save</button>
         </form>
     </div>
 </div>
 
-<script>
+<script type="module">
+    import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+    toastBtn.addEventListener('click', () => closeNotification(toast));
+
     const documentUploadForm = document.querySelector('.document_form');
-    const documentUploadMessage = document.querySelector('.message4');
     const documentUploadFormBtn = document.querySelector('.document_btn');
 
     const uploadCancel = document.querySelector('.upload_cancel');
-    const uploadDocument = document.querySelector('.upload_document')
+    const uploadDocument = document.querySelector('.upload_document');
+
+
+
+    // fetching countries
+        document.addEventListener('DOMContentLoaded', function () {
+        const countrySelect = document.getElementById('country');
+
+        // Fetch the country data from the API
+        fetch('https://restcountries.com/v3.1/all')
+            .then(response => response.json())
+            .then(data => {
+
+            data.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.name.common;
+                option.textContent = country.name.common;
+
+
+                const flagSpan = document.createElement('span');
+                const image = document.createElement('img');
+
+                image.src = `${country.flags.svg}`;
+                
+                flagSpan.appendChild(image)
+
+                option.prepend(flagSpan);
+
+                countrySelect.appendChild(option);
+            });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+        });
+
+
+
 
     // close upload id form 
     const closeDocumentUpload = (e) => {
@@ -49,9 +87,7 @@
     const uploadUserDocument = async (e) => {
         e.preventDefault();
 
-        documentUploadFormBtn.textContent = 'Please wait...';
-        documentUploadMessage.textContent = '';
-        documentUploadMessage.className = 'message4';
+        showSpinner()
 
         try {
             const response = await fetch('/auth/users/document', {
@@ -70,17 +106,15 @@
             }
 
             if(json.success) {
-                documentUploadFormBtn.textContent = 'Save';
-                documentUploadMessage.textContent = json.message;
-                documentUploadMessage.classList.add('success');
+                hideSpinner(documentUploadFormBtn, "Save");
+                notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
 
                 documentUploadForm.reset()
             }
             
         } catch (error) {
-            documentUploadFormBtn.textContent = 'Save';
-            documentUploadMessage.textContent = error.message;
-            documentUploadMessage.classList.add('error');
+            hideSpinner(documentUploadFormBtn, "Save");
+            notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
         }
 
     }

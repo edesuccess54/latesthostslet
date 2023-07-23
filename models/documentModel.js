@@ -18,11 +18,6 @@ const documentSchema = mongoose.Schema({
         trim: true
     },
 
-    date: {
-        type: String,
-        required: true
-    },
-
     doc: {
         type: Object,
         required: true

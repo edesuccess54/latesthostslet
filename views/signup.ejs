@@ -85,113 +85,113 @@
     
 
 
-    <script type="module">
-        import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+<script type="module">
+    import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
 
 
-        toastBtn.addEventListener('click', () => closeNotification(toast));
+    toastBtn.addEventListener('click', () => closeNotification(toast));
 
 
-        const queryStrings = new URLSearchParams(document.location.search)
-        const propertyreference = queryStrings.get('property_reference');
+    const queryStrings = new URLSearchParams(document.location.search)
+    const propertyreference = queryStrings.get('property_reference');
 
-        // fetching countries
-        document.addEventListener('DOMContentLoaded', function () {
-        const countrySelect = document.getElementById('country');
+    // fetching countries
+    document.addEventListener('DOMContentLoaded', function () {
+    const countrySelect = document.getElementById('country');
 
-        // Fetch the country data from the API
-        fetch('https://restcountries.com/v3.1/all')
-            .then(response => response.json())
-            .then(data => {
+    // Fetch the country data from the API
+    fetch('https://restcountries.com/v3.1/all')
+        .then(response => response.json())
+        .then(data => {
 
-            data.forEach(country => {
-                const option = document.createElement('option');
-                option.value = country.name.common;
-                option.textContent = country.name.common;
+        data.forEach(country => {
+            const option = document.createElement('option');
+            option.value = country.name.common;
+            option.textContent = country.name.common;
 
 
-                const flagSpan = document.createElement('span');
-                const image = document.createElement('img');
+            const flagSpan = document.createElement('span');
+            const image = document.createElement('img');
 
-                image.src = `${country.flags.svg}`;
-                
-                flagSpan.appendChild(image)
+            image.src = `${country.flags.svg}`;
+            
+            flagSpan.appendChild(image)
 
-                option.prepend(flagSpan);
+            option.prepend(flagSpan);
 
-                countrySelect.appendChild(option);
-            });
-            })
-            .catch(error => console.error('Error fetching data:', error));
+            countrySelect.appendChild(option);
         });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    });
 
 
 
-        const registerationForm = document.querySelector('.signup_form');
-        const regBtn = document.querySelector('.reg_btn');
+    const registerationForm = document.querySelector('.signup_form');
+    const regBtn = document.querySelector('.reg_btn');
 
-        // account registeration begins here
-        const signUpUser = async (e) => {
-            e.preventDefault()
+    // account registeration begins here
+    const signUpUser = async (e) => {
+        e.preventDefault()
 
-            const message = document.querySelector('.message'); 
+        const message = document.querySelector('.message'); 
 
-            showSpinner(regBtn)
-            // message.textContent = '';
-            // regBtn.textContent = "Please wait...";
-            
+        showSpinner(regBtn)
+        // message.textContent = '';
+        // regBtn.textContent = "Please wait...";
+        
 
-            const formData = {
-            firstname: registerationForm.fname.value,
-            lastname: registerationForm.lname.value,
-            gender: registerationForm.gender.value,
-            email: registerationForm.email.value,
-            number: registerationForm.number.value,
-            country: registerationForm.country.value,
-            password: registerationForm.password.value,
-            password2: registerationForm.password2.value,
-            reference: propertyreference
-            }
-
-            try {
-            const response = await fetch('/auth/users/signup', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(formData)
-            })
-
-            if(!response.ok) {
-                throw new Error('registration failed, please try again')
-            }
-
-            const json = await response.json();
-
-            if(json.error) {
-                throw new Error(json.error)
-            }
-
-            if(json.success) {
-                // message.classList.add('success')
-                // message.textContent = json.message
-                // regBtn.textContent = 'Continue';
-
-                hideSpinner(regBtn, "Continue")
-                notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
-
-                registerationForm.reset()
-            }
-            
-            } catch (error) {
-            // regBtn.textContent = 'Continue'
-            hideSpinner(regBtn, "Continue")
-            // message.classList.add('error')
-            // message.textContent = error.message
-            notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
-            }
+        const formData = {
+        firstname: registerationForm.fname.value,
+        lastname: registerationForm.lname.value,
+        gender: registerationForm.gender.value,
+        email: registerationForm.email.value,
+        number: registerationForm.number.value,
+        country: registerationForm.country.value,
+        password: registerationForm.password.value,
+        password2: registerationForm.password2.value,
+        reference: propertyreference
         }
-        registerationForm.addEventListener('submit', signUpUser);
-        // account registeration ends here 
-    </script>
+
+        try {
+        const response = await fetch('/auth/users/signup', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(formData)
+        })
+
+        if(!response.ok) {
+            throw new Error('registration failed, please try again')
+        }
+
+        const json = await response.json();
+
+        if(json.error) {
+            throw new Error(json.error)
+        }
+
+        if(json.success) {
+            // message.classList.add('success')
+            // message.textContent = json.message
+            // regBtn.textContent = 'Continue';
+
+            hideSpinner(regBtn, "Continue")
+            notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
+
+            // registerationForm.reset()
+        }
+        
+        } catch (error) {
+        // regBtn.textContent = 'Continue'
+        hideSpinner(regBtn, "Continue")
+        // message.classList.add('error')
+        // message.textContent = error.message
+        notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
+        }
+    }
+    registerationForm.addEventListener('submit', signUpUser);
+    // account registeration ends here 
+</script>
 
     
     

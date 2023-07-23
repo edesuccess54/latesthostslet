@@ -24,6 +24,13 @@
             <div class="detail">
                 <h4 class="title">Email address</h4>
                 <p><%= (user.email).slice(0, 3) %>*****<%= (user.email).slice(8) %></p>
+                <p>
+                    <% if(user.emailveirify) { %>
+                        <span style="color: green">Email Verified</span>
+                    <%} else { %>
+                        <button class="btn" data-user="<%= user._id %>">click here to verify email</button>
+                    <%}%> 
+                </p>
             </div>
             <div class="edit">
                 <p class="edit_email">Edit</p>

@@ -449,7 +449,9 @@
                 <div class="details_top" style="display: flex; justify-content: space-between;">
                     <h2><%= property.pname %></h2>
                     <div class="host_now_button_container">
-                        <button class="host_now_btn" type="button">Host Now</button>
+                        <a href="/signup?hostslet=<%= randomString1 %>&dominant=<%=randomString2 %>&property_reference=<%=property._id %>">
+                            <button class="host_now_btn" type="button">Host Now</button>
+                        </a>
                     </div>
                 </div>
                 
@@ -573,7 +575,7 @@
                                     <span>Shared backyard – Fully fenced</span>
                                 </span>
                             </li>
-                            <button class="show_amenities"> 59 other amenities</button>
+                            <!-- <button class="show_amenities"> 59 other amenities</button> -->
                         </ul>
                 
                     </div>

@@ -588,7 +588,6 @@ const uploadUserIdentityDocument = async (req, res, next) => {
         if (userDocument) {
             userDocument.idType = idtype,
             userDocument.country = country,
-            userDocument.date = date,
             userDocument.doc = imageResults
             
             await userDocument.save()
