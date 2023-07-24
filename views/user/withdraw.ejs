@@ -5,7 +5,7 @@
             <div class="back">
                 <a href="/auth/users/dashboard"><span><i class="fa-solid fa-angle-left"></i></span></a>
             </div>
-            <h3>Widthdraw</h3>
+            <h3>Withdraw</h3>
             <%  if(!user.host) { %>
                 <%- include('./partials/alert') %>
             <% } %>
@@ -18,17 +18,26 @@
                 <form class="withdrawal_form" enctype="multipart/form-data">
                     <div class="input_group">
                         <label for="balance">Net balance</label>
-                        <input id="balance" type="text" value="23000" name="balance" readonly>
+                        <p>$<%= user.netBalance.toLocaleString() %></p>
                     </div>
 
                     <div class="input_group">
                         <label for="amount">Withdrawal amount</label>
-                        <input id="amount" type="number" name="amount">
+                        <input id="amount" type="number" name="amount" required>
+                    </div>
+
+                    <div class="input_group">
+                        <label for="earning">Earning</label>
+                        <select name="earning" class="" required>
+                            <option selected disabled>Earning to withdraw</option>
+                            <option value="profit">Profit</option>
+                            <option value="bonus">Bonus</option>
+                        </select>
                     </div>
 
                     <div class="input_group">
                         <label for="method">Withdrawal Method</label>
-                        <select name="method" class="payment_method">
+                        <select name="method" class="payment_method" required>
                             <option selected disabled>select Widthdrawal method</option>
                             <option value="bitcoin">Bitcoin</option>
                             <option value="etherum">Etherum</option>
@@ -37,7 +46,7 @@
 
                     <div class="input_group">
                         <label for="address">Wallet Address</label>
-                        <input id="address" type="text" name="address" placeholder="Enter your wallet address">
+                        <input id="address" type="text" name="address" placeholder="Enter your wallet address" required>
                     </div>
 
                     <button class="btn widthdraw_btn" type="submit">Submit</button>
@@ -56,18 +65,21 @@
         new DataTable('#payment');
     </script>
 
-<script>
+<script type="module">
+    import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+    toastBtn.addEventListener('click', () => closeNotification(toast));
+
     const withdrawalForm = document.querySelector('.withdrawal_form');
     const withdrawalBtn = document.querySelector('.widthdraw_btn');
 
     const handleWithdrawal = async (e) => {
         e.preventDefault();
 
-        withdrawalBtn.textContent = 'Processing...'
+        showSpinner(withdrawalBtn)
 
         const formData = {
-            balance: withdrawalForm.balance.value, 
             amount: withdrawalForm.amount.value, 
+            earning: withdrawalForm.earning.value,
             method: withdrawalForm.method.value, 
             address: withdrawalForm.address.value
         }
@@ -90,12 +102,13 @@
             }
 
             if(json.success) {
+                hideSpinner(withdrawalBtn, "Submit");
+                notification.success(json.message, toast, toastIcon, toastMessage, closeNotification)
                 withdrawalForm.reset()
-                throw new Error(json.message)
             }
         } catch (error) {
-            withdrawalBtn.textContent = 'Submit'
-            alert(error.message);
+            hideSpinner(withdrawalBtn, "Submit");
+            notification.error(error.message, toast, toastIcon, toastMessage, closeNotification)
         }
     }
     withdrawalForm.addEventListener('submit', handleWithdrawal)

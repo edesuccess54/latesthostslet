@@ -87,8 +87,6 @@
 
 <script type="module">
     import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
-
-
     toastBtn.addEventListener('click', () => closeNotification(toast));
 
 
@@ -178,7 +176,7 @@
             hideSpinner(regBtn, "Continue")
             notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
 
-            // registerationForm.reset()
+            registerationForm.reset()
         }
         
         } catch (error) {

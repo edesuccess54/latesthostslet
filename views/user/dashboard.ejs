@@ -138,16 +138,31 @@
             </ul>
         </div>
 
+        <style>
+            .language_select {
+                border-radius: 3px;
+                border: none;
+                outline: none;
+                font-weight: bold;
+            }
+        </style>
+
         <div class="footer_section">
             <div class="lang_curreny">
                 <span class="lang_section">
                     <img src="/user/images/lang.svg" alt="">
-                    <h3>English(US)</h3>
+                    <!-- <select class="language_select" id="google_translate_element">
+
+                    </select> -->
+                    <div id="google_translate_element"></div>
+                    
                 </span>
                 <span>
                     $&nbsp;USD
                 </span>
             </div>
+
+            
 
             <div class="button_section">
                 <button class="user_logout" type="button">Log out</button>
@@ -261,7 +276,20 @@
             }
         }
 
-        changeProfile.addEventListener('change', uploadNewProfieImage)
+        changeProfile.addEventListener('change', uploadNewProfieImage);
+
+
+
+        // function to change website page begins here
+
     </script>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en', attribution: null,}, 'google_translate_element');
+        }
+    </script>
+
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>

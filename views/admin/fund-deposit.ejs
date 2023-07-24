@@ -1,0 +1,95 @@
+<%- include('./partials/head') %>
+
+<main>
+    <div class="content_wrapper">
+        <%- include('./partials/sideNav') %>
+
+        <div class="main_content_wrapper">
+            <div class="main_content">
+            
+                <!-- create propety section  -->
+                <section class="form_section">
+                    <h3>Fund Deposit Balance</h3>
+                    <div class="form_wrapper">
+                        <div class="form_container">
+                            <form id="deposit_form">
+                                <div class="input_group">
+                                    <label for="amount">Amount</label>
+                                    <input id="amount" type="number" name="amount" required>
+                                </div>
+
+                                <div class="input_group">
+                                    <label for="amount">Fund/Reduce</label>
+                                    <select name="action" id="">
+                                        <option value="increase">Fund Balance</option>
+                                        <option value="reduce">Reduce Balance</option>
+                                    </select>
+                                </div>
+
+                                <div class="input_group">
+                                    <button class="btn fund_btn">Fund Account</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script type="module">
+    import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+    toastBtn.addEventListener('click', () => closeNotification(toast));
+
+    const queryStrings = new URLSearchParams(document.location.search)
+    const hostsletuser = queryStrings.get('hostsletuser');
+
+    let depositForm = document.querySelector('.deposit_form');
+    const formBtn = document.querySelector('.fund_btn');
+
+    const fundUserDeposit = async (e) => {
+        e.preventDefault();
+
+        const formData = {
+            amount: depositForm.amount.value,
+            action: depositForm.action.value
+        }
+
+        try {
+            showSpinner(formBtn);
+
+            const response = await fetch(`/auth/admin/fund-deposit/${hostsletuser}`, {
+                method: "POST",
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify(formData)
+            })
+
+            if(!response.ok) {
+                throw new Error("something went wrong, please try again")
+            }
+
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error)
+            }
+
+            if(json.succes) {
+                hideSpinner(formBtn, "Fund Account")
+                notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
+            }
+            
+        } catch (error) {
+            hideSpinner(formBtn, "Fund Account")
+            notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
+        }
+
+    }
+    depositForm.addEventListener('submit', fundUserDeposit)
+
+  
+</script>
+    
+<%- include('./partials/footer')  %>

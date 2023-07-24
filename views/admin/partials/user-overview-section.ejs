@@ -1,8 +1,8 @@
-<div class="user_overview tab-content">
+<div class="user_overview">
     <div class="withdrawal_code">
         <div>
             <p>withdraw code:</p>
-            <span class="sub sub_code"><%= code.code %></span>
+            <span class="sub sub_code"><%= code?.code %></span>
         </div>
         <div class="action">
             <button class="btn change_code">change code</button>
@@ -26,10 +26,11 @@
 
     <div class="withdrawal_code">
         <div>
-            <p>Fund Account</p>
+            <p>Regisered Ip</p>
+            
         </div>
         <div class="action">
-            <button class="btn fund_user_account_btn">Fund User Account</button>
+            <span><%= user.ip %></span>
         </div>
     </div>
 

@@ -435,25 +435,25 @@ main {
     padding: 10px;
 }
 
-.detail span {
+.single_overview .detail span {
     font-size: 80px;
     color: #e2e2e2;
 }
 
-.detail h5 {
+.single_overview .detail h5 {
     color: #757373;
 }
 
-/* .detail p {
+.single_overview .detail p {
     font-size: 23px;
     color: #232121;
-} */
+}
 
-/* .detail {
+.single_overview .detail {
     display: flex;
     align-items: center;
     justify-content: space-between;
-} */
+}
  
 
 

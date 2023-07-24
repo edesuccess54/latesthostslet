@@ -5,7 +5,7 @@
             <div class="back">
                 <a href="/auth/users/dashboard"><span><i class="fa-solid fa-angle-left"></i></span></a>
             </div>
-            <h3>Payments</h3>
+            <h3>Payment</h3>
         </div>
 
         <div class="upload_section">
@@ -23,7 +23,7 @@
 
                     <div class="input_group">
                         <label for="ref">Amount to pay</label>
-                        <input id="ref" type="number" name="amount" placeholder="$6,000" required>
+                        <input id="ref" type="number" name="amount" required>
                     </div>
 
                     <div class="input_group">
@@ -36,25 +36,22 @@
                     </div>
 
                     <div class="payment_address">
-                        <div class="bitcoin">
-                            <h4>Bitcoin Wallet Address</h4>
-                            <div class="bitcoin_code">
-                                <img src="/main/images/qrcode.jpeg" alt="">
-                            </div>
-                            <div class="bitcoin_address">
-                                <p>16irHf9Qajxha9ih4syLKMGwZUXFGtp2mD</p>
-                            </div>
-                        </div>
+                        <% if(wallets) { %>
+                            <% wallets.map(({walletAssets, address, qrcode}) => { %>
 
-                        <div class="etherum">
-                            <h4>Etherum Wallet Address</h4>
-                            <div class="etherum_code">
-                                <img src="/main/images/qrcode.jpeg" alt="">
-                            </div>
-                            <div class="etherum_address">
-                                <p>16irHf9Qajxha9ih4syLKMGwZUXFGtp2mD</p>
-                            </div>
-                        </div>
+                                <div class="<%= walletAssets %>">
+                                    <h4><%= walletAssets %> wallet address</h4>
+                                    <div class="<%= walletAssets %>_code">
+                                        <img src="data:image/png;base64,<%= qrcode.url %>" alt="">
+                                    </div>
+                                    <div class="<%= walletAssets %>_address">
+                                        <p><%= address %></p>
+                                    </div>
+                                </div>
+
+                            <% })%>
+                        <% } %>
+                        
                     </div>
 
                     <div class="input_group">

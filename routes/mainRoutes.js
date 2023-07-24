@@ -1,21 +1,23 @@
 const express = require('express');
 const { homePage, mansionPage, luxePage, iconicPage, tropicalPage, islandPage, propertyDetails,loginPage,
-signupPage } = require('../controllers/mainControllers')
+signupPage } = require('../controllers/mainControllers');
+
+const generalAuth = require('../middleware/generalAuth');
 
 const router = express.Router();
 
 
-router.get('/', homePage)
-router.get('/mansion', mansionPage)
-router.get('/luxe', luxePage)
-router.get('/iconic', iconicPage)
-router.get('/tropical', tropicalPage)
-router.get('/islands', islandPage);
+router.get('/', generalAuth, homePage)
+router.get('/mansion', generalAuth, mansionPage)
+router.get('/luxe', generalAuth, luxePage)
+router.get('/iconic', generalAuth, iconicPage)
+router.get('/tropical', generalAuth, tropicalPage)
+router.get('/islands', generalAuth, islandPage);
 
 router.get('/login', loginPage);
 router.get('/signup', signupPage)
 
-router.get('/rooms/property/details', propertyDetails)
+router.get('/rooms/property/details', generalAuth, propertyDetails)
 
 
 

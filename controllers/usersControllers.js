@@ -3,6 +3,7 @@ const Code = require('../models/codeModel');
 const Transaction = require('../models/transactionModel');
 const ErrorResponse = require('../utils/errorResponse');
 const UserDocument = require('../models/documentModel');
+const Wallet = require('../models/walletModel');
 const Token = require('../models/tokenModel');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
@@ -62,8 +63,10 @@ const tripspage = (req, res, next) => {
 }
 
 // payment page 
-const paymentPage = (req, res, next) => { 
-    res.render('user/payment')
+const paymentPage = async (req, res, next) => { 
+    const wallets = await Wallet.find();
+
+    res.render('user/payment', {wallets})
 }
 
 // widthdrawal page
@@ -253,19 +256,33 @@ const changedp = async (req, res, next) => {
 }
 
 const withdraw = async (req, res, next) => {
-    const { balance, amount, method, address } = req.body;
-    const user = req.user
+    const {earning, amount, method, address } = req.body;
+    const user = req.user;
+    const netBalance = user.netBalance
+
     
     try {
 
-        if (!balance || !amount || !method || !address) {
+        if (!earning || !amount || !method || !address) {
             throw new Error('All fields are required')
         }
 
-        // check if amount greater than net balance 
-        if (Number(amount) > Number(balance)) {
-            throw new Error('Insufficient balance')
+        if(earning == 'profit') {
+            // check if amount greater than net balance 
+            if (Number(amount) > Number(user.profit)) {
+                throw new Error('Insufficient balance')
+            }
+
         }
+
+        if(earning == 'bonus') {
+            // check if amount greater than net balance 
+            if (Number(amount) > Number(user.bonus)) {
+                throw new Error('Insufficient balance')
+            }
+        }
+
+    
 
         const withdraw = await Transaction.create({
             user: user._id,
@@ -281,14 +298,28 @@ const withdraw = async (req, res, next) => {
             return
         }
 
-        // update user balance 
-        const currentBalance = Number(balance) - Number(amount);
-        user.profit = currentBalance
-        
-        const updateUserBalance = await user.save();
+        if(earning == 'profit') {
+            // update user balance 
+            const currentBalance = Number(user.profit) - Number(amount);
+            user.profit = currentBalance
+            
+            const updateUserBalance = await user.save();
 
-        if (!updateUserBalance) {
-            throw new Error('user balance was not updated')
+            if (!updateUserBalance) {
+                throw new Error('user balance was not updated')
+            }
+        } 
+
+        if(earning == 'bonus') {
+            // update user balance 
+            const currentBalance = Number(user.bonus) - Number(amount);
+            user.bonus = currentBalance
+            
+            const updateUserBalance = await user.save();
+
+            if (!updateUserBalance) {
+                throw new Error('user balance was not updated')
+            }
         }
 
         res.status(200).json({success: true, message: 'withdrawal is being processed'})
@@ -572,9 +603,9 @@ const loginUser = async (req, res, next) => {
 
 const uploadUserIdentityDocument = async (req, res, next) => {
     const user = req.user
-    const { idtype, country, date} = req.body;
+    const { idtype, country} = req.body;
     
-    if (!idtype || !country || !date) {
+    if (!idtype || !country) {
         next(new ErrorResponse('All fields are required', 400))
         return
     }
@@ -625,7 +656,6 @@ const uploadUserIdentityDocument = async (req, res, next) => {
                 user,
                 idType: idtype,
                 country,
-                date,
                 doc: imageResults
             })
 

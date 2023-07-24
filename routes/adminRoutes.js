@@ -1,5 +1,5 @@
 const express = require('express');
-const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateWithdrawalCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument, approveDocument, rejectDocument, changePassword, changePasswordPage, userDetailPage, updateUserAccountStatus, blockUserAccount, activateUserWithdrawal} = require('../controllers/adminControllers');
+const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateWithdrawalCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument, approveDocument, rejectDocument, changePassword, changePasswordPage, userDetailPage, updateUserAccountStatus, blockUserAccount, activateUserWithdrawal, fundDepositPage, fundProfitPage, fundBonusPage, fundDeposit, fundProfit, fundBonus} = require('../controllers/adminControllers');
 const upload = require('../utils/fileUpload.js');
 const auth = require('../middleware/auth');
 const authorize = require('../middleware/authorize');
@@ -19,6 +19,9 @@ router.get('/checkins', auth, authorize('admin'), checkinsPage);
 router.get('/users', auth, authorize('admin'), usersPage);
 router.get('/change-password', auth, authorize('admin'), changePasswordPage);
 router.get('/user-detail', auth, authorize('admin'), userDetailPage);
+router.get('/fund-deposit', auth, authorize('admin'), fundDepositPage);
+router.get('/fund-profit', auth, authorize('admin'), fundProfitPage);
+router.get('/fund-bonus', auth, authorize('admin'), fundBonusPage);
 
 
 router.post('/create', auth, authorize('admin'),  upload.array("images"), createProperty);
@@ -45,6 +48,10 @@ router.post('/checkins', auth, authorize('admin'), checkins);
 router.post('/doc/:id', auth, authorize('admin'), viewUserDocument);
 
 router.post('/user-account-status/:id', auth, authorize('admin'), updateUserAccountStatus);
+
+router.post('/fund-deposit/:id', auth, authorize('admin'), fundDeposit);
+router.post('/fund-profit/:id', auth, authorize('admin'), fundProfit);
+router.post('/fund-bonus/:id', auth, authorize('admin'), fundBonus);
 
 
 

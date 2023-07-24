@@ -9,29 +9,29 @@
     }
 
     .tab-button {
-    padding: 10px 20px;
-    border: none;
-    outline: none;
-    background-color: #fff;
-    color: #333;
-    cursor: pointer;
-    margin-top: 10px;
-    gap: 10px;
-    text-align: center;
-    font-weight: bold;
+        padding: 10px 20px;
+        border: none;
+        outline: none;
+        background-color: #fff;
+        color: #333;
+        cursor: pointer;
+        margin-top: 10px;
+        gap: 10px;
+        text-align: center;
+        font-weight: bold;
     }
 
     .tab-button.active {
-    color: #ff385c;
-    border-bottom: 2px  solid #ff385c;
+        color: #ff385c;
+        border-bottom: 2px  solid #ff385c;
     }
 
     .tab-content {
-    display: none;
+        display: none;
     }
 
     .tab-content.active {
-    display: block;
+        display: block;
     }
 </style>
 
@@ -47,10 +47,19 @@
             </div>
 
             <div class="main_content" style="background: #fff; padding-bottom: 40px;">
-                
-                <%- include('./partials/user-overview-section') %>
-                <%- include('./partials/user-identity-section') %>
-               
+
+                <div class="tab-content">
+                    <%- include('./partials/user-overview-section') %>
+                </div>
+
+                <div class="tab-content">
+                    <%- include('./partials/user-financial-section') %>
+                </div>
+
+                <div class="tab-content">
+                    <%- include('./partials/user-identity-section') %>
+                </div>
+        
             </div>
         </div>
     </div>
@@ -75,26 +84,6 @@
     </div>
     <!-- user account status modal  ends -->
 
-    <!-- fund user account modal  -->
-    <div class="fund_account_modal_container">
-        <div class="modal">
-            <div class="account_status_modal_content">
-                <div class="account_modal_head">
-                    <span class="account_status_modal_close_icon"><i class="fa-solid fa-xmark"></i></span>
-                </div>
-                <form action="">
-                   <select name="" id="">
-                    <option value="active">Active</option>
-                    <option value="suspended">Suspended</option>
-                    <option value="close">Close</option>
-                   </select>
-                   <p class="message"></p>
-                   <button class="btn">change status</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- fund user account modal  ends -->
 </main>
 
 <script type="module" >
@@ -207,8 +196,8 @@
 
 
     document.addEventListener('DOMContentLoaded', function () {
-  const tabButtons = document.querySelectorAll('.tab-button');
-  const tabContents = document.querySelectorAll('.tab-content');
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
 
   // Show the initial tab on page load
   showTab(0);

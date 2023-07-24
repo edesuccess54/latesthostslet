@@ -53,6 +53,8 @@ const propertyReviewPage = async (req, res, next) => {
     res.render('admin/review', { title: 'Add property review', review})
 }
 
+
+
 // reservation code page 
 const reservationCodePage = async (req, res, next) => { 
     res.render('admin/code', { title: 'Reservation Code'})
@@ -100,7 +102,21 @@ const userDetailPage = async (req, res, next) => {
         return
     }
 
-    res.render('admin/user-detail', {title: 'user detail', user, doc, code})
+    res.render('admin/user-detail', {title: 'user detail', user, doc, code, randomString1, randomString2})
+}
+
+// fund user deposit 
+const fundDepositPage = async (req, res, next) => {
+    res.render('admin/fund-deposit', {title: 'Fund Deposit'})
+}
+// fund user profit 
+const fundProfitPage = async (req, res, next) => {
+    res.render('admin/fund-profit', {title: 'Fund Profit'})
+}
+
+// fund user bonus 
+const fundBonusPage = async (req, res, next) => {
+    res.render('admin/fund-bonus', {title: 'Fund Bonus'})
 }
 
 
@@ -778,6 +794,129 @@ const activateUserWithdrawal = async (req, res, next) => {
     }
 }
 
+const fundDeposit = async (req, res, next) => {
+    const { amount, action} = req.body
+    const { id } = req.params
+    
+    try {
+        if (!amount || !action) {
+           throw new Error("Please fill all field") 
+        }
+
+        const user = await User.findOne({ _id: id });
+
+        if (!user) {
+            throw new Error("user does not exits")
+        }
+
+        const currentBalance = user.deposit;
+        let newBalance;
+
+        if (action == 'increase') {
+             newBalance = Number(user.deposit) + Number(amount); 
+        }
+        
+         if (action == 'reduce') {
+             newBalance = Number(user.deposit) - Number(amount); 
+        }
+
+        user.deposit = newBalance
+        await user.save();
+
+        res.status(200).json(
+            {
+                success: true,
+                message: action == "increase" ? "user deposit has been funded" : "user deposit has been reduced"
+            })
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
+const fundProfit = async (req, res, next) => {
+    const { amount, action} = req.body
+    const { id } = req.params
+    
+    try {
+        if (!amount || !action) {
+           throw new Error("Please fill all field") 
+        }
+
+        const user = await User.findOne({ _id: id });
+
+        if (!user) {
+            throw new Error("user does not exits")
+        }
+
+        const currentBalance = user.profit;
+        let newBalance;
+
+        if (action == 'increase') {
+             newBalance = Number(user.profit) + Number(amount); 
+        }
+        
+         if (action == 'reduce') {
+             newBalance = Number(user.profit) - Number(amount); 
+        }
+
+        user.profit = newBalance
+        await user.save();
+
+        res.status(200).json(
+            {
+                success: true,
+                message: action == "increase" ? "user profit has been funded" : "user profit has been reduced"
+            })
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
+const fundBonus = async (req, res, next) => {
+    const { amount, action} = req.body
+    const { id } = req.params
+    
+    try {
+        if (!amount || !action) {
+           throw new Error("Please fill all field") 
+        }
+
+        const user = await User.findOne({ _id: id });
+
+        if (!user) {
+            throw new Error("user does not exits")
+        }
+
+        const currentBalance = user.bonus;
+        let newBalance;
+
+        if (action == 'increase') {
+             newBalance = Number(user.bonus) + Number(amount); 
+        }
+        
+         if (action == 'reduce') {
+             newBalance = Number(user.bonus) - Number(amount); 
+        }
+
+        user.bonus = newBalance
+        await user.save();
+
+        res.status(200).json(
+            {
+                success: true,
+                message: action == "increase" ? "user bonus has been funded" : "user bonus has been reduced"
+            })
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
 
 
 
@@ -814,5 +953,11 @@ module.exports = {
     userDetailPage,
     updateUserAccountStatus,
     blockUserAccount,
-    activateUserWithdrawal
+    activateUserWithdrawal,
+    fundDepositPage,
+    fundProfitPage,
+    fundBonusPage,
+    fundDeposit,
+    fundProfit,
+    fundBonus
 }

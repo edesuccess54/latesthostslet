@@ -87,7 +87,7 @@
     const uploadUserDocument = async (e) => {
         e.preventDefault();
 
-        showSpinner()
+        showSpinner(documentUploadFormBtn)
 
         try {
             const response = await fetch('/auth/users/document', {

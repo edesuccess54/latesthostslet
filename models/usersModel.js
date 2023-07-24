@@ -48,15 +48,21 @@ const userSchema = Schema({
         required: true
     },
 
+    deposit: {
+        type: String,
+        default: '0.00',
+    },
+
     profit: {
         type: String,
         default: '0.00',
     },
 
-    deposit: {
+    unitAmount: {
         type: String,
-        default: '0.00',
+        default: '0',
     },
+
 
     bonus: {
         type: String,
@@ -108,7 +114,11 @@ const userSchema = Schema({
         type: String,
         required: true
     }
-})
+});
+
+userSchema.virtual('netBalance').get(function () {
+  return Number(this.profit) + Number(this.bonus);
+});
 
 const User = model('User', userSchema)
 module.exports = User

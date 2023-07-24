@@ -1,0 +1,66 @@
+<div class="identity_section" style="margin-top: 10px; padding-top: 10px">
+    <div class="dp_container">
+        <div class="dp_top">
+            <div class="user_fund_balance">
+                <h4>$<%= Number(user.deposit).toLocaleString() %></h4>
+                <p>Deposited balance</p>
+            </div>
+            <div class="fund_icon">
+                <span></span>
+            </div>
+        </div>
+
+        <div class="user_fund_wrapper">
+            <div class="fund_image_container">
+                <img src="data:image/png;base64,<%= user.picture.url %>" alt="">
+            </div>
+        </div>
+        <div class="link">
+            <a href="/auth/admin/fund-deposit?account=<%= randomString1 %>&fund=<%= randomString2 %>&hostsletuser=<%= user._id %>">Fund Deposit &nbsp; <i class="fa-solid fa-arrow-right"></i> </a>
+        </div>
+    </div>
+
+    <div class="dp_container">
+        <div class="dp_top">
+            <div class="user_fund_balance">
+                <h4>$<%= Number(user.profit).toLocaleString() %></h4>
+                <p>Profit balance</p>
+            </div>
+            <div class="fund_icon">
+                <span></span>
+            </div>
+        </div>
+
+        <div class="user_fund_wrapper">
+            <div class="fund_image_container">
+                <img src="data:image/png;base64,<%= user.picture.url %>" alt="">
+            </div>
+        </div>
+        <div class="link">
+            <a href="/auth/admin/fund_deposit?account=<%= randomString1 %>&fund=<%= randomString2 %>&hostsletuser=<%= user._id %>">Fund Profit &nbsp; <i class="fa-solid fa-arrow-right"></i> </a>
+        </div>
+    </div>
+
+    <div class="dp_container">
+        <div class="dp_top">
+            <div class="user_fund_balance">
+                <h4>$<%= Number(user.bonus).toLocaleString() %></h4>
+                <p>Bonus balance</p>
+            </div>
+            <div class="fund_icon">
+                <span></span>
+            </div>
+        </div>
+
+        <div class="user_fund_wrapper">
+            <div class="fund_image_container">
+                <img src="data:image/png;base64,<%= user.picture.url %>" alt="">
+            </div>
+        </div>
+        <div class="link">
+            <a href="/auth/admin/fund_deposit?account=<%= randomString1 %>&fund=<%= randomString2 %>&hostsletuser=<%= user._id %>">Fund Bonus &nbsp; <i class="fa-solid fa-arrow-right"></i> </a>
+        </div>
+    </div>
+
+    
+</div>
