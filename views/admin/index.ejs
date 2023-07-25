@@ -16,50 +16,6 @@
                     </div>
                 </section>
 
-                <!-- display all property section  -->
-                <section class="table_section">
-                    <table id="example" class="display" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Apartment Name</th>
-                                <th>Host Name</th>
-                                <th>Amount(per night)</th>
-                                <th>Review</th>
-                                <th>Location</th>
-                                <th>add review</th>
-                                <th>action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% if(property.length > 0) { %>
-                               <% for(let i = 0; i < property.length ; i++) { %>
-                                    <tr>
-                                        <td><%= property[i].pname %> </td>
-                                        <td><%= property[i].hostname %> </td>
-                                        <td>$<%= (Number(property[i].pamount)).toLocaleString() %> .00 </td>
-                                        <td><%= property[i].review %> reviews</td>
-                                        <td><%= property[i].plocation %> </td>
-                                         <td>
-                                            <a href="/auth/admin/review/?property=<%= property[i]._id %>">
-                                                add review &nbsp;
-                                                <i class="fa-solid fa-pen-to-square edit"></i>
-                                            </a>
-                                         </td>
-                                        <td class="action_column">
-                                            <span>
-                                                <a href="/auth/admin/edit/?property=<%= property[i]._id %>">
-                                                    <i class="fa-solid fa-pen-to-square edit"></i>
-                                                </a>
-                                            </span>
-                                            <span><i class="fa-solid fa-trash trash" data-trash="<%= property[i]._id %>"></i></span>
-                                        </td>
-                                    </tr>
-                            <%  }
-                            } %>
-
-                        </tbody>
-                    </table>
-                </section>
             </div>
         </div>
 

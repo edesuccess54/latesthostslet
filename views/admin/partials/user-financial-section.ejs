@@ -1,66 +1,104 @@
 <div class="identity_section" style="margin-top: 10px; padding-top: 10px">
-    <div class="dp_container">
-        <div class="dp_top">
-            <div class="user_fund_balance">
-                <h4>$<%= Number(user.deposit).toLocaleString() %></h4>
-                <p>Deposited balance</p>
+
+        <div class="dp_container">
+            <div class="dp_top">
+                <div class="user_fund_balance">
+                    <h4>$<%= Number(user.deposit).toLocaleString() %></h4>
+                    <p>Deposited balance</p>
+                </div>
+                <div class="fund_icon">
+                    <span></span>
+                </div>
             </div>
-            <div class="fund_icon">
-                <span></span>
+
+            <!-- <div class="user_fund_wrapper">
+                <div class="fund_image_container">
+                    <img src="data:image/png;base64,<%= user.picture.url %>" alt="">
+                </div>
+            </div> -->
+            <div class="link">
+                <a href="/auth/admin/fund-deposit?account=<%= randomString1 %>&fund=<%= randomString2 %>&hostsletuser=<%= user._id %>">Fund Deposit &nbsp; <i class="fa-solid fa-arrow-right"></i> </a>
             </div>
         </div>
 
-        <!-- <div class="user_fund_wrapper">
-            <div class="fund_image_container">
-                <img src="data:image/png;base64,<%= user.picture.url %>" alt="">
+        <div class="dp_container">
+            <div class="dp_top">
+                <div class="user_fund_balance">
+                    <h4>$<%= Number(user.profit).toLocaleString() %></h4>
+                    <p>Profit balance</p>
+                </div>
+                <div class="fund_icon">
+                    <span></span>
+                </div>
             </div>
-        </div> -->
-        <div class="link">
-            <a href="/auth/admin/fund-deposit?account=<%= randomString1 %>&fund=<%= randomString2 %>&hostsletuser=<%= user._id %>">Fund Deposit &nbsp; <i class="fa-solid fa-arrow-right"></i> </a>
-        </div>
-    </div>
 
-    <div class="dp_container">
-        <div class="dp_top">
-            <div class="user_fund_balance">
-                <h4>$<%= Number(user.profit).toLocaleString() %></h4>
-                <p>Profit balance</p>
-            </div>
-            <div class="fund_icon">
-                <span></span>
+            <div class="link">
+                <a href="/auth/admin/fund-profit?account=<%= randomString1 %>&fund=<%= randomString2 %>&hostsletuser=<%= user._id %>">Fund Profit &nbsp; <i class="fa-solid fa-arrow-right"></i> </a>
             </div>
         </div>
 
-        <!-- <div class="user_fund_wrapper">
-            <div class="fund_image_container">
-                <img src="data:image/png;base64,<%= user.picture.url %>" alt="">
+        <div class="dp_container">
+            <div class="dp_top">
+                <div class="user_fund_balance">
+                    <h4>$<%= Number(user.bonus).toLocaleString() %></h4>
+                    <p>Bonus balance</p>
+                </div>
+                <div class="fund_icon">
+                    <span></span>
+                </div>
             </div>
-        </div> -->
-        <div class="link">
-            <a href="/auth/admin/fund-profit?account=<%= randomString1 %>&fund=<%= randomString2 %>&hostsletuser=<%= user._id %>">Fund Profit &nbsp; <i class="fa-solid fa-arrow-right"></i> </a>
-        </div>
-    </div>
 
-    <div class="dp_container">
-        <div class="dp_top">
-            <div class="user_fund_balance">
-                <h4>$<%= Number(user.bonus).toLocaleString() %></h4>
-                <p>Bonus balance</p>
-            </div>
-            <div class="fund_icon">
-                <span></span>
+            <div class="link">
+                <a href="/auth/admin/fund-bonus?account=<%= randomString1 %>&fund=<%= randomString2 %>&hostsletuser=<%= user._id %>">Fund Bonus &nbsp; <i class="fa-solid fa-arrow-right"></i> </a>
             </div>
         </div>
-
-        <!-- <div class="user_fund_wrapper">
-            <div class="fund_image_container">
-                <img src="data:image/png;base64,<%= user.picture.url %>" alt="">
-            </div>
-        </div> -->
-        <div class="link">
-            <a href="/auth/admin/fund-bonus?account=<%= randomString1 %>&fund=<%= randomString2 %>&hostsletuser=<%= user._id %>">Fund Bonus &nbsp; <i class="fa-solid fa-arrow-right"></i> </a>
-        </div>
-    </div>
-
-    
 </div>
+
+<div>
+    <div class="user-account-history" style="margin-top: 20px;">
+        <div class="tab-history-buttons">
+            <button class="tab-history-button active" data-tab="tab1">Deposits History</button>
+            <button class="tab-history-button" data-tab="tab2">Withdrawals History</button>
+        </div>
+    </div>
+    
+    <div class="account-history-content">
+        <%- include('./deposit-history') %>
+    </div>
+
+    <div class="account-history-content">
+        <%- include('./withdrawals-history') %>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabButtons = document.querySelectorAll('.tab-history-button');
+        const tabContents = document.querySelectorAll('.account-history-content');
+
+        // Show the initial tab on page load
+        showAccountHistoryTap(0);
+
+        tabButtons.forEach((button, index) => {
+            button.addEventListener('click', function () {
+            showAccountHistoryTap(index);
+            });
+        });
+
+        function showAccountHistoryTap(index) {
+            // Hide all tab contents
+            tabContents.forEach(content => {
+            content.classList.remove('active');
+            });
+
+            // Deactivate all tab buttons
+            tabButtons.forEach(button => {
+            button.classList.remove('active');
+            });
+
+            // Show the selected tab content and activate the button
+            tabContents[index].classList.add('active');
+            tabButtons[index].classList.add('active');
+        }
+    });
+</script>

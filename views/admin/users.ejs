@@ -6,18 +6,9 @@
 
         <div class="main_content_wrapper">
             <div class="main_content">
-                <section class="overview">
-                    <div class="total_property">
-
-                    </div>
-
-                    <div class="total_testimony">
-
-                    </div>
-                </section>
 
                 <!-- display all property section  -->
-                <section class="table_section">
+                <section class="table_section" style="padding-top: 40px;">
                     <table id="example" class="display responsive">
                         <thead>
                             <tr>
@@ -26,7 +17,6 @@
                                 <th>Email</th>
                                 <th>Number</th>
                                 <th>Country</th>
-                                <!-- <th>Ip address</th> -->
                                 <th>status</th>
                                 <th>Doc</th>
                                 <th>View Client</th>
@@ -43,7 +33,6 @@
                                 <td><%= email %></td>
                                 <td><%= number %></td>
                                 <td><%= country %></td>
-                                <!-- <td>192.168.72.5</td> -->
                                 <td>
                                     <% if(onlineStatus) { %>
                                        <p class="online">online</p>

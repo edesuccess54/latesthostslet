@@ -1,4 +1,4 @@
-<%- include('./partials/head') %>
+
 
 <style>
 
@@ -72,7 +72,7 @@
     }
 </style>
 
-<main>
+
     <div class="modal_wrapper">
         <div class="modal_container">
             <div class="modal_content">
@@ -83,66 +83,59 @@
         </div>
     </div>
 
-    <div class="content_wrapper">
 
-        <%- include('./partials/sideNav') %>
+    <!-- display all property section  -->
+    <section class="table_section" style="margin-top: 40px;">
+        <table id="example" class="display" style="width:100%">
+            <style>
+                th, td {
+                    white-space: nowrap;
+                }
+            </style>
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Unit purchased</th>
+                    <th>Method</th>
+                    <th>Proof</th>
+                    <th>Time</th>
+                    <th>status</th>
+                    <th>action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(deposits.length > 0) { %>
+                    <% for(let i = 0; i < deposits.length ; i++) { %>
+                        <tr>
+                            <td>$<%= Number(deposits[i].amount).toLocaleString() %> </td>
+                            <td><%= deposits[i].unitAmount%></td>
+                            <td><%= deposits[i].method %> </td>
+                            <td class="view_proof" >
+                                <button class="action_btn" style="background: green;" data-image="<%= deposits[i].proof %>">view proof</button>
+                            </td>
+                            <td><%= deposits[i].datetime %></td>
+                            <td>
+                                <% if(deposits[i].status) { %>
+                                    <p class="completed">Approved</p>
+                                <%} else { %>
+                                    <p class="pending"><%= deposits[i].statusMessage === 'Rejected'? 'Rejected' : 'Pending' %></p>
+                                <% } %>
+                                
+                            </td>
+                            <td class="action_tab">
+                                <button class="action_btn" style="background: green;"  data-paymentid="<%= deposits[i]._id %>">Approve</button>
+                                <button class="action_btn reject" data-paymentid="<%= deposits[i]._id %>">Reject</button>
+                            </td>
+                        </tr>
+                <%  }
+                } %> 
 
+            </tbody>
+        </table>
 
-        <div class="main_content_wrapper">
-            <div class="main_content" style="margin-top: 40px;">
+    </section>
+  
 
-                <!-- display all property section  -->
-                <section class="table_section">
-                    <table id="example" class="display" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Amount</th>
-                                <th>Unit purchased</th>
-                                <th>Method</th>
-                                <th>Proof</th>
-                                <th>Time</th>
-                                <th>status</th>
-                                <th>action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% if(payment.length > 0) { %>
-                               <% for(let i = 0; i < payment.length ; i++) { %>
-                                    <tr>
-                                        <td>$<%= Number(payment[i].amount).toLocaleString() %> </td>
-                                        <td><%= payment[i].unitAmount%></td>
-                                        <td><%= payment[i].method %> </td>
-                                        <td class="view_proof">
-                                            <button class="action_btn approve" data-image="<%= payment[i].proof %>">view proof</button>
-                                        </td>
-                                        <td><%= payment[i].datetime %></td>
-                                        <td>
-                                            <% if(payment[i].status) { %>
-                                                <p class="completed">Approved</p>
-                                            <%} else { %>
-                                                <p class="pending"><%= payment[i].statusMessage === 'Rejected'? 'Rejected' : 'Pending' %></p>
-                                           <% } %>
-                                            
-                                         </td>
-                                        <td class="action_tab">
-                                            <button class="action_btn approve" data-paymentid="<%= payment[i]._id %>">Approve</button>
-                                            <button class="action_btn reject" data-paymentid="<%= payment[i]._id %>">Reject</button>
-                                        </td>
-                                    </tr>
-                            <%  }
-                            } %> 
-
-                        </tbody>
-                    </table>
-
-                </section>
-            </div>
-        </div>
-
-    </div>
-</main>
-
-<%- include('./partials/footer')  %>
 
 <script>
     const viewProof = document.querySelector('.view_proof');

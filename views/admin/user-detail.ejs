@@ -1,41 +1,14 @@
 <%- include('./partials/head') %>
-
-
-<style>
-    .tab-buttons {
-        display: flex;
-        width: 100%;
-        background: #fff;
-    }
-
-    .tab-button {
-        padding: 10px 20px;
-        border: none;
-        outline: none;
-        background-color: #fff;
-        color: #333;
-        cursor: pointer;
-        margin-top: 10px;
-        gap: 10px;
-        text-align: center;
-        font-weight: bold;
-    }
-
-    .tab-button.active {
-        color: #ff385c;
-        border-bottom: 2px  solid #ff385c;
-    }
-
-    .tab-content {
-        display: none;
-    }
-
-    .tab-content.active {
-        display: block;
-    }
-</style>
-
 <main>
+    <!-- user identity document modal  -->
+        <div class="docu_modal_wrapper">
+            <div class="modal_content">
+                <div class="spinner_container">
+                    <image class="spinner" src="/admin/images/spinner.gif" />
+                </div>  
+            </div>
+        </div>
+
     <div class="content_wrapper">
         <%- include('./partials/sideNav') %>
 
@@ -44,6 +17,7 @@
                 <button class="tab-button active" data-tab="tab1">Overview</button>
                 <button class="tab-button" data-tab="tab2">Financial</button>
                 <button class="tab-button" data-tab="tab3">About</button>
+                <button class="tab-button" data-tab="tab3">Property</button>
             </div>
 
             <div class="main_content" style="background: #fff; padding-bottom: 40px;">
@@ -54,6 +28,10 @@
 
                 <div class="tab-content">
                     <%- include('./partials/user-financial-section') %>
+                </div>
+
+                <div class="tab-content">
+                    <%- include('./partials/user-identity-section') %>
                 </div>
 
                 <div class="tab-content">
@@ -83,6 +61,8 @@
         </div>
     </div>
     <!-- user account status modal  ends -->
+
+    
 
 </main>
 

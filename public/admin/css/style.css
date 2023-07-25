@@ -78,6 +78,58 @@ main {
     cursor: pointer;
 }
 
+.tab-buttons {
+    display: flex;
+    width: 100%;
+    background: #fff;
+}
+
+.tab-history-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background: #fff;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    margin-top: 10px;
+    gap: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.tab-history-button {
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    margin-top: 10px;
+    gap: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.tab-button.active, .tab-history-button.active {
+    color: #ff385c;
+    border-bottom: 2px  solid #ff385c;
+}
+
+.tab-content, .account-history-content {
+    display: none;
+}
+
+.tab-content.active, .account-history-content.active {
+    display: block;
+}
+
 .btn {
     padding: 10px;
     border: none;
@@ -377,7 +429,7 @@ a  {
 }
 
 .dp_container {
-    width: 300px;
+    flex-basis: 300px;
     border: 1px solid rgb(237, 233, 233);
     border-radius: 5px;
     padding: 20px;

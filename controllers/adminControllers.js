@@ -95,14 +95,17 @@ const userDetailPage = async (req, res, next) => {
     const {hostsletuser} = req.query
     const user = await User.findOne({ _id: hostsletuser });
     const doc = await UserDocument.findOne({ user: hostsletuser });
-    const code = await Code.findOne({user: hostsletuser})
+    const code = await Code.findOne({ user: hostsletuser });
+
+    const deposits = await Transaction.find({ transactionType: 'Deposit', user: hostsletuser })
+    const withdraws = await Transaction.find({transactionType: 'Withdrawal', user: hostsletuser})
 
     if (!user) {
         next(new ErrorResponse('User not found', 400))
         return
     }
 
-    res.render('admin/user-detail', {title: 'user detail', user, doc, code, randomString1, randomString2})
+    res.render('admin/user-detail', {title: 'user detail', user, doc, code, randomString1, randomString2, deposits, withdraws})
 }
 
 // fund user deposit 

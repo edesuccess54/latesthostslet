@@ -1,0 +1,199 @@
+
+
+<style>
+
+    .modal_wrapper {
+        position: fixed;
+        display: none;
+        align-items: center; 
+        background: rgba(0, 0, 0, 0.5);
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 99999;
+    }
+    .modal_wrapper.show {
+        display: flex;
+    }
+
+    .modal_container {
+        width: 320px;
+        border-radius: 5px;
+        margin: auto;
+        background: #fff;
+        overflow-y: scroll;
+        max-height: 800px;
+    }
+
+    .modal_container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .modal_content {
+        padding: 20px;
+    }
+
+    .image_proof {
+        position: relative;
+        width: 100%;
+        background: green;
+    }
+
+    .image_proof img {
+        max-width: 100%;
+        object-fit: cover;
+    }
+
+    .close_proof_modal {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        border-radius: 50%;
+        background: gray;
+    }
+
+    .pay_modal_btn {
+        color: #fff;
+        cursor: pointer;
+        font-size: 20px;
+    }
+
+    @media screen and (min-width: 768px) {
+        .modal_container {
+            width: 600px;
+        }
+    }
+</style>
+
+    <div class="modal_wrapper">
+        <div class="modal_container">
+            <div class="modal_content">
+                <div class="image_proof">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- display all property section  -->
+    <section class="table_section" style="margin-top: 40px;">
+        <table id="withdraw" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Method</th>
+                    <th>Address</th>
+                    <th>Time</th>
+                    <th>status</th>
+                    <th>action</th>
+                </tr>
+            </thead>
+            <tbody class="withdrawal_action_tab">
+                <% if(withdraws.length > 0) { %>
+                    <% for(let i = 0; i < withdraws.length ; i++) { %>
+                        <tr>
+                            <td>$<%= Number(withdraws[i].amount).toLocaleString() %> </td>
+                            <td><%= withdraws[i].method %></td>
+                            <td class="view_proof">
+                                <p><%= withdraws[i].wallet %></p>
+                            </td>
+                            <td><%= withdraws[i].datetime %></td>
+                            <td>
+                                <% if(withdraws[i].status) { %>
+                                    <p class="completed">Approved</p>
+                                <%} else { %>
+                                    <p class="pending"><%= withdraws[i].statusMessage === 'Rejected'? 'Rejected' : 'Pending' %></p>
+                                <% } %>
+                                
+                                </td>
+                            <td>
+                                <button class="action_btn" style="background: green;" data-paymentid="<%= withdraws[i]._id %>">Approve</button>
+                                <button class="action_btn reject" data-paymentid="<%= withdraws[i]._id %>">Reject</button>
+                            </td>
+                        </tr>
+                <%  }
+                } %> 
+
+            </tbody>
+        </table>
+
+    </section>
+
+
+<script>
+    const viewProof = document.querySelector('.view_proof');
+    const modalWrapper = document.querySelector('.modal_wrapper');
+    const withdrawwalActionTab = document.querySelector('.withdrawal_action_tab');
+
+    
+    // function to approve user payment 
+    const approveWithdrawal = async (e) => {
+        try {
+            const paymentId = e.target.dataset.paymentid;
+            
+            if(e.target.classList.contains('approve')) {
+                e.target.textContent = 'Approving...'
+                const response = await fetch(`/auth/admin/approve-withdraw/${paymentId}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify()
+                })
+
+                if(!response.ok) {
+                    throw new Error('something went wrong, please try again')
+                }
+                const json = await response.json();
+
+                if(json.error) {
+                    throw new Error(json.Error)
+                }
+
+                if(json.success) {
+                    e.target.textContent = 'Approve'
+                    location.reload()
+                }
+
+            } else if(e.target.classList.contains('reject')) {
+                e.target.textContent = 'Rejecting...'
+                const response = await fetch(`/auth/admin/reject-withdraw/${paymentId}`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify()
+                })
+
+                if(!response.ok) {
+                    throw new Error('something went wrong, please try again')
+                }
+                const json = await response.json();
+
+                if(json.error) {
+                    throw new Error(json.Error)
+                }
+
+                if(json.success) {
+                    location.reload()
+                }
+            }
+            
+        } catch (error) {
+            if(e.target.classList.contains('approve')) {
+                e.target.textContent = 'Approve'
+            } else {
+                e.target.textContent = 'Reject'
+            }
+            throw new Error(error.message, 400)
+        }
+    }
+
+    withdrawwalActionTab.addEventListener('click', approveWithdrawal)
+
+</script>
+    

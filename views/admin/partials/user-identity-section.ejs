@@ -1,4 +1,4 @@
-<div class="identity_section" style="margin-top: 10px; padding-top: 10px">
+<div class="identity_section" style="margin-top: 10px; padding-top: 10px; position: relative;">
     <div class="dp_container">
         <div class="dp_top">
             <div class="dp_status">
@@ -55,7 +55,180 @@
             <%} else { %>
                 <img src="data:image/png;base64,<%= doc.doc.url %>" alt="">
             <% } %>
+
+            <div class="view_doc_btn" style="margin-top: 10px;">
+                <button class="btn view_doc_btn" data-user="<%= %>"> <span><i class="fa-solid fa-id-card-clip"></i></span> View Doc</button>
+            </div>
         </div>
         
     </div>
+
+    
 </div>
+
+
+
+<script>
+    const viewDocuBtn =document.querySelector('.view_doc_btn');
+    const documodalShow = document.querySelector('.docu_modal_wrapper');
+    const modalContent = document.querySelector('.modal_content');
+
+    const showUserDocumentModal = async (e) => {
+
+        if(e.target.textContent.includes('View Doc')) {
+            const userId = e.target.dataset.user;
+            
+            documodalShow.classList.add('show')
+            overlay.classList.add('show');
+            modalContent.classList.add('active');
+
+            await fetchUserDocument(userId)
+        }
+
+    }
+    viewDocuBtn.addEventListener('click', showUserDocumentModal);
+
+    // close user document modal 
+    const closeUserDocumentModal = (e) => {
+        documodalShow.classList.remove('show');
+         overlay.classList.remove('show');
+    }
+    
+     overlay.addEventListener('click', closeUserDocumentModal);
+
+     async function fetchUserDocument (userId){
+        // make request to fetch user image 
+        try {
+
+            modalContent.innerHTML = ` 
+                <div class="spinner_container">
+                    <image class="spinner" src="/admin/images/spinner.gif" />
+                </div>`;
+
+            const response = await fetch(`/auth/admin/doc/${userId}`, {
+                method: 'POST',
+                headers: {"Content-Type": "application/json"},
+            });
+
+            if(!response.ok) {
+                throw new Error('oops! something went wrong please try again')
+            }
+
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error)
+            }
+
+            if(json.success) {
+                modalContent.classList.remove('active');
+
+                let html = `
+                    <div class="doc_modal_header">
+                        <h2>Verify user document</h2>
+                        <span class="close_user_doc"><i class="fa-solid fa-xmark"></i></span>
+                    </div>
+                    <div class="doc_wrapper">
+                        <div class="doc">
+                            <image class="doc_image" src="data:image/png;base64,${json.userDocument.doc.url}" alt="user document" />
+                        </div>
+                        <div class="doc_info">
+                            <ul>
+                                <li>Type of Id: <span>${json.userDocument.idType}</span></li>
+                                <li>Issuers Country: <span>${json.userDocument.country}</span></li>
+                                <li>Expiring Date: <span>${json.userDocument.date}</span></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="doc_action_container">
+                                <button class="approve doc_approve" data-userid = ${json.userDocument.user}>Approve Doc</button>
+                                <button class="btn reject doc_reject" data-userid = ${json.userDocument.user}>Reject Doc</button>
+                            </div>
+                             <p class="message"></p>
+                        </div>
+                    </div>
+                `
+                modalContent.innerHTML = html
+                document.querySelector('.close_user_doc').addEventListener('click', closeUserDocumentModal);
+                
+
+            }
+            
+        } catch (error) {
+            modalContent.innerHTML = error.message
+        }
+     }
+
+     const documentVerification = async (e) => {
+        const message = document.querySelector('.message');
+        message.textContent="";
+
+        if(e.target.textContent == 'Approve Doc') {
+            const userId = e.target.dataset.userid;
+            message.className="message";
+            
+            e.target.textContent = "Processing...";
+            try {
+                const response = await fetch(`/auth/admin/approve-document/${userId}`, {
+                    method: "POST",
+                    headers: {"Content-Type":"application/json"},
+                })
+
+                
+                if(!response.ok) {
+                    throw new Error("something went wrong, please try again")
+                }
+                const json = await response.json()
+
+                if(json.error) {
+                    throw new Error(json.error)
+                }
+
+                if(json.success) {
+                    e.target.textContent = "Approve Doc";
+                    message.classList.add('success');
+                    message.textContent = json.message
+                }
+                
+            } catch (error) {
+                e.target.textContent = "Approve Doc";
+                message.classList.add('error');
+                message.textContent = error.message
+            }
+            
+        } else if(e.target.textContent == 'Reject Doc') {
+            const userId = e.target.dataset.userid;
+            message.className="message";
+            
+            e.target.textContent = "Rejecting...";
+            try {
+                const response = await fetch(`/auth/admin/reject-document/${userId}`, {
+                    method: "POST",
+                    headers: {"Content-Type":"application/json"},
+                })
+                
+                if(!response.ok) {
+                    throw new Error("something went wrong, please try again")
+                }
+                const json = await response.json()
+
+                if(json.error) {
+                    throw new Error(json.error)
+                }
+
+                if(json.success) {
+                    e.target.textContent = "Reject Doc";
+                    message.classList.add('error');
+                    message.textContent = json.message
+                }
+                
+            } catch (error) {
+                e.target.textContent = "Reject Doc";
+                message.classList.add('error');
+                message.textContent = error.message;
+            }
+        }
+     }
+
+     modalContent.addEventListener('click', documentVerification)
+</script>
