@@ -17,7 +17,7 @@
     }
 
     .modal_container {
-        width: 320px;
+        max-width: 320px;
         border-radius: 5px;
         margin: auto;
         background: #fff;
@@ -41,7 +41,7 @@
 
     .image_proof img {
         max-width: 100%;
-        object-fit: cover;
+        object-fit: contain;
     }
 
     .close_proof_modal {
@@ -103,14 +103,14 @@
                     <th>action</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="view_proof">
                 <% if(deposits.length > 0) { %>
                     <% for(let i = 0; i < deposits.length ; i++) { %>
                         <tr>
                             <td>$<%= Number(deposits[i].amount).toLocaleString() %> </td>
                             <td><%= deposits[i].unitAmount%></td>
                             <td><%= deposits[i].method %> </td>
-                            <td class="view_proof" >
+                            <td>
                                 <button class="action_btn" style="background: green;" data-image="<%= deposits[i].proof %>">view proof</button>
                             </td>
                             <td><%= deposits[i].datetime %></td>
@@ -143,18 +143,20 @@
     const actionTab = document.querySelector('.action_tab');
 
     const viewPaymentproof = (e) => {
-        const imageProof = document.querySelector('.image_proof');
-        modalWrapper.classList.add('show');
+        if(e.target.textContent == 'view proof') {
+            const imageProof = document.querySelector('.image_proof');
+            modalWrapper.classList.add('show');
 
-        let html = `
-            <img class="proof" src="data:image/png;base64,${e.target.dataset.image}" alt="payment proof">
-            <span class="close_proof_modal">
-                <i class="fa-solid fa-xmark pay_modal_btn"></i>
-            </span>
-        `;
+            let html = `
+                <img class="proof" src="data:image/png;base64,${e.target.dataset.image}" alt="payment proof">
+                <span class="close_proof_modal">
+                    <i class="fa-solid fa-xmark pay_modal_btn"></i>
+                </span>
+            `;
 
-        imageProof.innerHTML = html;
-        window.addEventListener('scroll', stopScroll)
+            imageProof.innerHTML = html;
+            window.addEventListener('scroll', stopScroll)
+        }
     }
 
     const closeViewPayment = (e) => {
