@@ -12,7 +12,7 @@
                     <h3>Fund Profit Balance</h3>
                     <div class="form_wrapper">
                         <div class="form_container">
-                            <form id="deposit_form">
+                            <form class="deposit_form">
                                 <div class="input_group">
                                     <label for="amount">Amount</label>
                                     <input id="amount" type="number" name="amount" required>
@@ -76,7 +76,7 @@
                 throw new Error(json.error)
             }
 
-            if(json.succes) {
+            if(json.success) {
                 hideSpinner(formBtn, "Fund Account")
                 notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
             }

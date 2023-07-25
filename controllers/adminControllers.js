@@ -823,6 +823,8 @@ const fundDeposit = async (req, res, next) => {
         user.deposit = newBalance
         await user.save();
 
+        console.log(amount, action)
+
         res.status(200).json(
             {
                 success: true,
