@@ -15,7 +15,7 @@
                             <form class="deposit_form">
                                 <div class="input_group">
                                     <label for="amount">Amount</label>
-                                    <input id="amount" type="number" name="amount" required>
+                                    <input id="amount" type="text" name="amount" required>
                                 </div>
 
                                 <div class="input_group">
@@ -60,7 +60,7 @@
         try {
             showSpinner(formBtn);
 
-            const response = await fetch(`/auth/admin/fund-deposit/${hostsletuser}`, {
+            const response = await fetch(`/auth/admin/fund-bonus/${hostsletuser}`, {
                 method: "POST",
                 headers: {"Content-Type" : "application/json"},
                 body: JSON.stringify(formData)

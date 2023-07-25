@@ -92,7 +92,7 @@
 
     const accountUpdateForm = document.querySelector('.update_account_status');
     const accountFormBtn = document.querySelector('.account_form_btn')
-    const message = document.querySelector('.message');
+    // const message = document.querySelector('.message');
 
     const accountStatusBtn = document.querySelector('.account_status_btn');
     const accountStatusModal = document.querySelector('.account_status_modal_container');
@@ -119,8 +119,8 @@
         e.preventDefault();
 
         accountFormBtn.textContent = 'Updating, please wait...';
-        message.textContent = '';
-        message.className = 'message'
+        // message.textContent = '';
+        // message.className = 'message'
 
         let formData = {
             accountStatus: accountUpdateForm.account_status.value
@@ -145,16 +145,16 @@
 
             if(json.success) {
                 accountFormBtn.textContent = 'change status';
-                message.classList.add('success');
-                message.textContent = json.message;
+                // message.classList.add('success');
+                // message.textContent = json.message;
                 location.reload()
                 accountUpdateForm.reset();
             }
             
         } catch (error) {
             accountFormBtn.textContent = 'change status';
-            message.classList.add('error');
-            message.textContent = error.message;
+            // message.classList.add('error');
+            // message.textContent = error.message;
         }
     }
     accountUpdateForm.addEventListener('submit', updateUserAccountStatus);
@@ -196,34 +196,34 @@
 
 
     document.addEventListener('DOMContentLoaded', function () {
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabContents = document.querySelectorAll('.tab-content');
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
 
-  // Show the initial tab on page load
-  showTab(0);
+        // Show the initial tab on page load
+        showTab(0);
 
-  tabButtons.forEach((button, index) => {
-    button.addEventListener('click', function () {
-      showTab(index);
+        tabButtons.forEach((button, index) => {
+            button.addEventListener('click', function () {
+            showTab(index);
+            });
+        });
+
+        function showTab(index) {
+            // Hide all tab contents
+            tabContents.forEach(content => {
+            content.classList.remove('active');
+            });
+
+            // Deactivate all tab buttons
+            tabButtons.forEach(button => {
+            button.classList.remove('active');
+            });
+
+            // Show the selected tab content and activate the button
+            tabContents[index].classList.add('active');
+            tabButtons[index].classList.add('active');
+        }
     });
-  });
-
-  function showTab(index) {
-    // Hide all tab contents
-    tabContents.forEach(content => {
-      content.classList.remove('active');
-    });
-
-    // Deactivate all tab buttons
-    tabButtons.forEach(button => {
-      button.classList.remove('active');
-    });
-
-    // Show the selected tab content and activate the button
-    tabContents[index].classList.add('active');
-    tabButtons[index].classList.add('active');
-  }
-});
 
 
 
