@@ -320,6 +320,7 @@ main {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
+    color:var(--primary-color);;
     border: none;
     outline: none;
     border: 1px solid var(--neutral-color-100);
