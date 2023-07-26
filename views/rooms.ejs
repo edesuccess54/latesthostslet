@@ -32,6 +32,11 @@
         border-bottom: 0.1px solid rgba(0 ,0, 0, 0.3);
     }
 
+    .other_features {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
     .apartment_details {
         flex-grow: 1;
     }
@@ -333,6 +338,10 @@
             max-width: 100%;
             max-height: 100%;
         }
+
+        .p_reference {
+            display: none;
+        }
     }
 
 
@@ -361,6 +370,12 @@
         .mobile_reservation_section {
             display: none;
         }
+
+        .other_features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
 
         .potos_container {
             display: grid;
@@ -424,6 +439,10 @@
             border: none;
         }
 
+        .amenities {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
         .host_main {
             display: flex;
         }
@@ -448,7 +467,8 @@
                 
                 <div class="details_top" style="display: flex; justify-content: space-between;">
                     <h2><%= property.pname %></h2>
-                    <div class="host_now_button_container">
+                    <div class="host_now_button_container" style="display: flex; align-items: center;">
+                        <p class="p_reference" style="margin-right: 20px;">Reference: <%= property._id %></p>
                         <a href="/signup?hostslet=<%= randomString1 %>&dominant=<%=randomString2 %>&property_reference=<%=property._id %>">
                             <button class="host_now_btn" type="button">Host Now</button>
                         </a>
@@ -472,14 +492,14 @@
                 <div class="apartment_details">
                     <div class="heading-section">
                         <h2>
-                            <!-- <p><%= property.pname %> hosted by <%= property.hostname %></p> -->
+                            <p style="font-size: 14px; margin-right: 20px;">Reference: <%= property._id %></p>
                             <span style="font-size: 14px; color: gray; font-weight: 300;"><%= property.guest %> . <%= property.bedroom %> . <%= property.bed %> . <%= property.bath %></span>
                         </h2>
                             
                         <!-- <img class="heading-img" src="/main/images/christopher.webp" alt=""> -->
          
                     </div>
-                    <ul class="list_margin_top" style="margin: 20px 0; padding-bottom: 20px; border-bottom: 0.1px solid rgba(0 ,0, 0, 0.3);">
+                    <ul class="list_margin_top other_features" style="margin: 20px 0; padding-bottom: 20px; border-bottom: 0.1px solid rgba(0 ,0, 0, 0.3);">
                         <li>
                             <span style="display: flex; align-items: center; gap: 10px;">
                                 <img src="/main/images/workspace.svg" alt="" style="width: 25px">
