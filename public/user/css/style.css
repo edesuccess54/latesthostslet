@@ -15,9 +15,14 @@
     --neutral-color-200: #ddd
 }
 
+body {
+    color: var(--primary-color);
+}
+
 .btn {
     padding: 8px;
     border: 1px solid var(--neutral-color-100);
+    color: var(--primary-color);
     border-radius: 5px;
     outline: none;
     cursor: pointer;
@@ -46,7 +51,7 @@ a {
 }
 
 .message, .message1 {
-    margin: 10px 0;
+    margin: 0.625rem 0;
 }
 
 .error {
@@ -146,7 +151,7 @@ main {
     margin: 20px 0;
 }
 .tab-button {
-    padding: 10px 20px;
+    padding: 0.625rem 20px;
     border: none;
     outline: none;
     background-color: #fff;
@@ -186,9 +191,9 @@ main {
     min-height: 130px;
     align-items: center;
     border: 1px solid var(--neutral-color-200);
-    margin: 10px 0;
-    border-radius: 10px;
-    padding: 10px;
+    margin: 0.625rem 0;
+    border-radius: 0.625rem;
+    padding: 0.625rem;
     box-shadow: 1px 2px 8px var(--neutral-color-200);
 }
 
@@ -232,7 +237,7 @@ main {
 
 .lang_section {
     display: flex;
-    gap: 10px;
+    gap: 0.625rem;
 }
 
 .lang_section h3 {
@@ -251,7 +256,7 @@ main {
 .button_section button {
     width: 100%;
     padding: 15px;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     border: 1px solid var(--neutral-color-200);
     outline: none;
     background: transparent;
@@ -310,14 +315,14 @@ main {
 
 .edit_form_wrapper {
     position: absolute;
-    padding-top: 10px;
+    padding-top: 0.625rem;
     top: 0px;
     width: 100%;
     background: #fff;
     z-index: 9999;
 }
 .form_title {
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
     font-weight: bold;
 }
 
@@ -338,7 +343,7 @@ main {
 }
 
 .input_group {
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
 }
 
 .input_group label {
@@ -347,7 +352,7 @@ main {
 
 .input_group input, .input_group select {
     width: 100%;
-    padding: 10px;
+    padding: 0.625rem !important;
     border-radius: 5px;
     color:var(--primary-color);;
     border: none;
@@ -356,7 +361,7 @@ main {
 }
 
 .edit_btn {
-    padding: 10px;
+    padding: 0.625rem;
     background: var(--primary-color);
     border: none;
     outline: none;
@@ -401,7 +406,7 @@ main {
 }
 
 .actual_detail {
-    margin-top: 10px;
+    margin-top: 0.625rem;
     font-size: 18px;
 }
 
@@ -454,7 +459,7 @@ main {
 .profile_overview {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    gap: 10px;
+    gap: 0.625rem;
 }
 
 .single_overview {
@@ -462,7 +467,7 @@ main {
     height: 100px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 10px;
+    padding: 0.625rem;
 }
 
 .single_overview .detail span {
