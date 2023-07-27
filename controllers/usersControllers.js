@@ -3,6 +3,7 @@ const Code = require('../models/codeModel');
 const Transaction = require('../models/transactionModel');
 const ErrorResponse = require('../utils/errorResponse');
 const UserDocument = require('../models/documentModel');
+const Property = require('../models/propertyModel');
 const Wallet = require('../models/walletModel');
 const Token = require('../models/tokenModel');
 const jwt = require('jsonwebtoken');
@@ -45,7 +46,9 @@ const accountPage = (req, res, next) => {
 // profile page 
 const profilePage = async (req, res, next) => {
     const user = req.user
-    res.render('user/profile', {user})
+
+    const property = await Property.findOne({_id: user.reference})
+    res.render('user/profile', {user, property})
 }
 
 // help page 
@@ -439,37 +442,32 @@ const updatePassword = async (req, res, next) => {
 const userRegisteration = async (req, res, next) => { 
     const { firstname, lastname, email, gender, country, reference, password2, password, number, } = req.body
 
-    console.log(1)
-
-    let {clientIp} = getIP(req);
-
-    if (!firstname || !lastname || !email || !reference || !password || !gender || !country || !password2 || !number) {
-        next(new ErrorResponse('Please fill all fields', 400))
+    let { clientIp } = getIP(req);
+    
+    if (!reference) { 
+         next(new ErrorResponse('Please enter property reference', 400))
         return
     }
 
-    console.log(2)
+    if (!firstname || !lastname || !email || !password || !gender || !country || !password2 || !number) {
+        next(new ErrorResponse('Please fill all fields', 400))
+        return
+    }
 
     if (!validator.isEmail(email)) { 
          next(new ErrorResponse('Please enter a valid email', 400))
         return
     }
 
-    console.log(3)
-
     if (password != password2) {
         next(new ErrorResponse("Password does not match"));
         return
     }
 
-    console.log(4)
-
     if (password.length < 6) {
         next(new ErrorResponse('Password must be atleast 6 character long', 400))
         return
     }
-
-    console.log(5)
     
     try {
 
@@ -486,10 +484,8 @@ const userRegisteration = async (req, res, next) => {
         // if (!reservationCode.userEmail !== email) {
         //     throw new Error('email provided does not match reservation code email')
         // }
-        console.log('six')
+    
         const userExist = await User.find();
-
-        console.log(6)
 
         userExist.map((user) => {
              if (user.email == email) {
@@ -499,8 +495,6 @@ const userRegisteration = async (req, res, next) => {
                 throw new Error('This number already exist')
             }
         })
-
-        console.log(7)
 
         const user = await User.create({
             firstname,
@@ -513,8 +507,6 @@ const userRegisteration = async (req, res, next) => {
             number,
             country,
         });
-
-        console.log(8)
 
         if (!user) {
             throw new Error('user was not created')
@@ -532,16 +524,10 @@ const userRegisteration = async (req, res, next) => {
             secure: true,
         })
 
-        console.log(10)
-
         // send user verification email 
         await sendVerificationEmail(user);
 
-        console.log(11)
-
         res.json({ success: true, message: 'successfully registered', user, token })
-        
-        console.log(12)
         
     } catch (error) {
         next(new ErrorResponse(error.message, 400))

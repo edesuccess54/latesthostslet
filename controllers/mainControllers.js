@@ -79,6 +79,14 @@ const signupPage = async (req, res, next) => {
     res.render('signup', {title: "Signup"});
 }
 
+const termsPage = async (req, res, next) => {
+    res.render('terms', { title: "Terms" });
+}
+
+const privacyPage = async (req, res, next) => {
+    res.render("privacy", {title: "Privacy"})
+}
+
 
 
 
@@ -94,5 +102,7 @@ module.exports = {
     islandPage,
     propertyDetails,
     loginPage,
-    signupPage
+    signupPage,
+    termsPage,
+    privacyPage
 }

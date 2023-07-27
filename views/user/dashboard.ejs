@@ -24,6 +24,12 @@
                     <div class="name">
                         <p class="username"><%= user.firstname %></p>
                         <span class="show_profile">Show profile</span>
+                        <% if(user.accountStatus == "active") {%>
+                            <p class="show_profile">Status: <span style="color: green; font-size: 14px;"><%=  user.accountStatus%></span> </p>
+                        <% } else { %>
+                            <p class="show_profile">Status: <span style="color: red">account <%=  user.accountStatus%></span> </p>
+                        <% } %>
+                        
                     </div>
                 </div>
                 <span ><i class="fa-solid fa-angle-up"></i></span>
@@ -80,16 +86,6 @@
                         </li>
                     </ul>
                 </li>
-
-                <!-- <li>
-                    <a href="/auth/users/trips">
-                        <span class="profile_image">
-                            <img src="/user/images/trips.svg" alt="">
-                            <p>Trips</p>
-                        </span>
-                        <span><i class="fa-solid fa-angle-up"></i></span>
-                    </a>
-                </li> -->
 
                 <li>
                     <a href="/auth/users/transaction">

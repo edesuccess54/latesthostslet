@@ -9,58 +9,199 @@
             <%  if(!user.host) { %>
                 <%- include('./partials/alert') %>
             <% } %>
+
         </div>
 
         <% if(user.host) { %>
+            <%  if(!user.withDrawStatus) { %>
+                <%- include('./partials/alert2') %>
+            <% } else { %>
 
-            <div class="profile_overview">
-            <div class="single_overview">
-                <div class="detail">
-                    <span><i class="fa-solid fa-money-check-dollar"></i></span>
-                    <div class="amount_section">
-                        <h5>Amount Paid</h5>
-                        <p>$<%=user.deposit %></p>
+                <div class="tab-buttons">
+                    <button class="tab-button active" data-tab="tab2">Financial</button>
+                    <button class="tab-button" data-tab="tab3">Property</button>
+                </div>
+
+                <div class="tab-content">
+                    <div class="profile_overview">
+                        <div class="single_overview">
+                            <div class="detail">
+                                <span><i class="fa-solid fa-money-check-dollar"></i></span>
+                                <div class="amount_section">
+                                    <h5>Amount Paid</h5>
+                                    <p>$<%=Number(user.deposit) %></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="single_overview">
+                            <div class="detail">
+                                <span><i class="fa-sharp fa-solid fa-money-bill-trend-up"></i></span>
+                                
+                            <div class="amount_section">
+                                    <h5>Profit</h5>
+                                    <p>$<%=Number(user.profit) %></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="single_overview">
+                            <div class="detail">
+                                <span><i class="fa-solid fa-piggy-bank"></i></span>
+                                <div class="amount_section">
+                                    <h5>Bonus</h5>
+                                    <p>$<%=Number(user.bonus) %></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="single_overview">
+                            <div class="detail">
+                                <span><i class="fa-sharp fa-solid fa-coins"></i></span>
+                                <div class="amount_section">
+                                    <h5>Unit</h5>
+                                    <p><%=user.unitAmount %> units</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="single_overview">
-                <div class="detail">
-                    <span><i class="fa-sharp fa-solid fa-money-bill-trend-up"></i></span>
-                    
-                   <div class="amount_section">
-                        <h5>Profit</h5>
-                        <p>$<%=user.profit %></p>
+                <style>
+                    .propety_details {
+                        display: grid;
+                        grid-template-columns: repeat(1, 1fr);
+                        gap: 20px;
+                    }
+
+                    .user-property {
+                        flex-grow: 1;
+                    }
+
+                    .user-property-title {
+                        font-weight: bold;
+                        color: #222;
+                    }
+
+                    .user-property-doc {
+                        color: #1e1e1e;
+                        padding: 0;
+                    }
+
+                    .property-carousel {
+                        display: flex;
+                        gap: 20px;
+                        margin: 20px 0;
+                        max-height: 400px;
+                    }
+
+                    .responsive {
+                        width: 600px;
+                        max-height: 100%;
+                        margin: 0 10px;
+                    }
+
+                    .responsive img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+
+                    @media screen and (min-width: 768px) {
+                        .propety_details {
+                            grid-template-columns: repeat(3, 1fr);
+                        }
+
+                        .large-show {
+                            display: block;
+                        }
+
+                        .tab-buttons {
+                            display: none;
+                        }
+                    }
+                </style>
+
+                <div class="tab-content large-show" style="margin-top: 40px;">
+                    <div class="propety_details">
+                        <div class="user-property">
+                            <p class="user-property-title">Property Name</p>
+                            <p class="user-property-doc"><%= property.pname  %></p>
+                        </div>
+
+                        <div class="user-property">
+                            <p class="user-property-title">Property Location</p>
+                            <p class="user-property-doc"><%= property.plocation  %></p>
+                        </div>
+
+                        <div class="user-property">
+                            <p class="user-property-title">Property Amount</p>
+                            <p class="user-property-doc">$<%= Number(property.pamount).toLocaleString()  %></p>
+                        </div>
+                    </div>
+
+                    <div class="property-carousel" style="margin-top: 20px;">
+                        <% if(property) { %>
+                            <% property.pimages.map(({url}) => { %>
+                                <div class="responsive">
+                                    <img src="data:image/png;base64,<%= url %>" alt="">
+                                </div>
+                            <%})%>
+                        <%} %>
+
                     </div>
                 </div>
-            </div>
 
-            <div class="single_overview">
-                <div class="detail">
-                    <span><i class="fa-solid fa-piggy-bank"></i></span>
-                    <div class="amount_section">
-                        <h5>Bonus</h5>
-                        <p>$<%=user.bonus %></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="single_overview">
-                <div class="detail">
-                    <span><i class="fa-sharp fa-solid fa-coins"></i></span>
-                    <div class="amount_section">
-                        <h5>Unit</h5>
-                        <p><%=user.unitAmount %> units</p>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-
-        <% } %>
-
+            <%} %>
+        <%}%>
     </main>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
 
+        // Show the initial tab on page load
+        showTab(0);
+
+        tabButtons.forEach((button, index) => {
+            button.addEventListener('click', function () {
+            showTab(index);
+            });
+        });
+
+        function showTab(index) {
+            // Hide all tab contents
+            tabContents.forEach(content => {
+            content.classList.remove('active');
+            });
+
+            // Deactivate all tab buttons
+            tabButtons.forEach(button => {
+            button.classList.remove('active');
+            });
+
+            // Show the selected tab content and activate the button
+            tabContents[index].classList.add('active');
+            tabButtons[index].classList.add('active');
+            }
+        });
+
+    </script>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="/slick/slick.min.js"></script>
+
+    <script>
+        $('.property-carousel').slick({
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        autoplay: true,
+        // dots: true,
+        autoplaySpeed: 2000,
+    });
+			
+    </script>
 </body>
 </html>

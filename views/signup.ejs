@@ -37,7 +37,7 @@
                             <div class="input_group">
                                 <label for="gender">Gender</label>
                                 <select name="gender" id="gender">
-                                <option selected disabled>choose gender</option>
+                                <option selected disabled style="color: #222;">choose gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                                 <option value="other">Other</option>
@@ -53,7 +53,7 @@
                                 </select>
                             </div>
 
-                            <div class="input_group" hidden>
+                            <div class="input_group">
                                 <label for="rcode">Property reference</label>
                                 <input id="rcode" name="reference" type="text" placeholder="Enter property reference" >
                             </div>
@@ -140,15 +140,15 @@
         
 
         const formData = {
-        firstname: registerationForm.fname.value,
-        lastname: registerationForm.lname.value,
-        gender: registerationForm.gender.value,
-        email: registerationForm.email.value,
-        number: registerationForm.number.value,
-        country: registerationForm.country.value,
-        password: registerationForm.password.value,
-        password2: registerationForm.password2.value,
-        reference: propertyreference
+            firstname: registerationForm.fname.value,
+            lastname: registerationForm.lname.value,
+            gender: registerationForm.gender.value,
+            email: registerationForm.email.value,
+            number: registerationForm.number.value,
+            country: registerationForm.country.value,
+            password: registerationForm.password.value,
+            password2: registerationForm.password2.value,
+            reference:  registerationForm.reference.value || propertyreference
         }
 
         try {
