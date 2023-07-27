@@ -230,7 +230,7 @@ li {
   } */
 
   .form_wrapper {
-    max-width: 350px;
+    max-width: 21.875rem;
     margin: auto;
     background: #fff;
     padding: 20px;
@@ -303,7 +303,7 @@ li {
 }
 
 .mobile_nav_wrapper {
-    max-width: 350px;
+    max-width: 21.875rem;
     overflow: scroll;
     padding-left: 40px;
     margin: auto;
@@ -460,8 +460,8 @@ li {
 }
 
 .payment_content {
-    max-width: 350px;
-    min-height: 400px;
+    max-width: 21.875rem;
+    min-height: 25rem;
     border-radius: 5px;
     overflow: scroll;
     margin: auto;
@@ -528,7 +528,7 @@ li {
 
 .wallet_address .address {
     font-size: 18px;
-    width: 400px;
+    width: 25rem;
     border: none;
     outline: none;
 }
