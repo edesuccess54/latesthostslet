@@ -27,7 +27,7 @@
                         <% if(user.accountStatus == "active") {%>
                             <p class="show_profile">Status: <span style="color: green; font-size: 14px;"><%=  user.accountStatus%></span> </p>
                         <% } else { %>
-                            <p class="show_profile">Status: <span style="color: red">account <%=  user.accountStatus%></span> </p>
+                            <p class="show_profile">Status: <span style="color: red"><%=  user.accountStatus%></span> </p>
                         <% } %>
                         
                     </div>

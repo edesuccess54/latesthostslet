@@ -104,6 +104,10 @@ const userSchema = Schema({
         enum: ['active', 'suspended', 'closed']
     },
 
+    regDate: {
+        type: String,
+    },
+
     role: {
         type: String,
         required: true,

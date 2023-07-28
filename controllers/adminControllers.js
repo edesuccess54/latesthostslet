@@ -53,8 +53,6 @@ const propertyReviewPage = async (req, res, next) => {
     res.render('admin/review', { title: 'Add property review', review})
 }
 
-
-
 // reservation code page 
 const reservationCodePage = async (req, res, next) => { 
     res.render('admin/code', { title: 'Reservation Code'})
@@ -121,7 +119,6 @@ const fundProfitPage = async (req, res, next) => {
 const fundBonusPage = async (req, res, next) => {
     res.render('admin/fund-bonus', {title: 'Fund Bonus'})
 }
-
 
 
 
@@ -789,7 +786,7 @@ const activateUserWithdrawal = async (req, res, next) => {
 
         await user.save();
 
-        res.status(200).json({success: true, message: user.withDrawStatus? 'withdrawal deactivated' : 'withdrawal activated'})
+        res.status(200).json({success: true, message: !user.withDrawStatus? 'withdrawal deactivated' : 'withdrawal activated'})
         
     } catch (error) {
         next(new ErrorResponse(error.message, 400))

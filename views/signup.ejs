@@ -48,8 +48,7 @@
                             <div class="input_group">
                                 <label for="country">Country</label>
                                 <select name="country" id="country">
-                                    <option selected disabled>Select country</option>
-                                
+                            
                                 </select>
                             </div>
 
@@ -82,9 +81,6 @@
     </main>
 
 
-    
-
-
 <script type="module">
     import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
     toastBtn.addEventListener('click', () => closeNotification(toast));
@@ -98,14 +94,16 @@
     const countrySelect = document.getElementById('country');
 
     // Fetch the country data from the API
-    fetch('https://restcountries.com/v3.1/all')
+    fetch('https://restcountries.com/v2/all')
         .then(response => response.json())
         .then(data => {
 
+            console.log(data)
+
         data.forEach(country => {
             const option = document.createElement('option');
-            option.value = country.name.common;
-            option.textContent = country.name.common;
+            option.value = country.name;
+            option.textContent = country.name;
 
 
             const flagSpan = document.createElement('span');

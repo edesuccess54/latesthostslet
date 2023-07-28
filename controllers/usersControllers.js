@@ -33,9 +33,11 @@ const userDashboardPage = async (req, res, next) => {
 }
 
 // personal info page 
-const personalInfoPage = (req, res, next) => { 
+const personalInfoPage = async (req, res, next) => { 
     const { user } = req;
-    res.render('user/personal-info', {user})
+    const doc = await UserDocument.findOne({_id: user._id})
+
+    res.render('user/personal-info', {user, doc})
 }
 
 // account page 
@@ -153,7 +155,8 @@ const updateName = async (req, res, next) => {
 // functionto execute transaction 
 const payment = async (req, res, next) => {
     const { reference, unit, amount, method } = req.body
-    const {_id} = req.user
+    const { _id } = req.user
+    const user = req.user
     
     try {
         if (!reference || !amount || !method || !unit) {
@@ -162,6 +165,14 @@ const payment = async (req, res, next) => {
 
         if (!req.file) {
             throw new Error('No file was provided');
+        }
+
+        if (user.accountStatus == 'suspended') {
+            throw new Error('Your account is suspended')
+        }
+
+        if (user.accountStatus == 'closed') {
+            throw new Error('Your account is closed')
         }
 
         // Create a helper function to read a file and return a promise
@@ -268,6 +279,14 @@ const withdraw = async (req, res, next) => {
 
         if (!earning || !amount || !method || !address) {
             throw new Error('All fields are required')
+        }
+
+        if (user.accountStatus == 'suspended') {
+            throw new Error('Your account is suspended')
+        }
+
+        if (user.accountStatus == 'closed') {
+            throw new Error('Your account is closed')
         }
 
         if(earning == 'profit') {

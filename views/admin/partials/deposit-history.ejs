@@ -3,11 +3,12 @@
 <style>
 
     .modal_wrapper {
-        position: fixed;
+        position: absolute;
         display: none;
         align-items: center; 
         background: rgba(0, 0, 0, 0.5);
         top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
         z-index: 99999;
@@ -36,12 +37,11 @@
     .image_proof {
         position: relative;
         width: 100%;
-        background: green;
     }
 
     .image_proof img {
-        max-width: 100%;
-        object-fit: contain;
+        width: 100%;
+        object-fit: cover;
     }
 
     .close_proof_modal {
@@ -103,7 +103,7 @@
                     <th>action</th>
                 </tr>
             </thead>
-            <tbody class="view_proof">
+            <tbody class="view_proof" id="action_tab">
                 <% if(deposits.length > 0) { %>
                     <% for(let i = 0; i < deposits.length ; i++) { %>
                         <tr>
@@ -123,7 +123,7 @@
                                 
                             </td>
                             <td class="action_tab">
-                                <button class="action_btn" style="background: green;"  data-paymentid="<%= deposits[i]._id %>">Approve</button>
+                                <button class="action_btn approved" style="background: green;"  data-paymentid="<%= deposits[i]._id %>">Approve</button>
                                 <button class="action_btn reject" data-paymentid="<%= deposits[i]._id %>">Reject</button>
                             </td>
                         </tr>
@@ -137,10 +137,13 @@
   
 
 
-<script>
+<script type="module">
     const viewProof = document.querySelector('.view_proof');
     const modalWrapper = document.querySelector('.modal_wrapper');
-    const actionTab = document.querySelector('.action_tab');
+    const actionTab = document.querySelector('#action_tab');
+
+    import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+    toastBtn.addEventListener('click', () => closeNotification(toast));
 
     const viewPaymentproof = (e) => {
         if(e.target.textContent == 'view proof') {
@@ -178,8 +181,10 @@
         try {
             const paymentId = e.target.dataset.paymentid;
             
-            if(e.target.classList.contains('approve')) {
-                e.target.textContent = 'Approving...'
+            if(e.target.classList.contains('approved')) {
+
+                showSpinner(e.target)
+
                 const response = await fetch(`/auth/admin/approve-payment/${paymentId}`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
@@ -196,12 +201,16 @@
                 }
 
                 if(json.success) {
-                    e.target.textContent = 'Approve'
-                    location.reload()
+                    hideSpinner(e.target, "Approve")
+                    notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
+                    
+                    setTimeout(() => {
+                        location.reload()
+                    },3000)
                 }
 
             } else if(e.target.classList.contains('reject')) {
-                e.target.textContent = 'Rejecting...'
+                showSpinner(e.target)
                 const response = await fetch(`/auth/admin/reject-payment/${paymentId}`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
@@ -218,17 +227,22 @@
                 }
 
                 if(json.success) {
-                    location.reload()
+                    hideSpinner(e.target, "Reject")
+                    notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
+                    
+                    setTimeout(() => {
+                        location.reload()
+                    },3000)
                 }
             }
             
         } catch (error) {
             if(e.target.classList.contains('approve')) {
-                e.target.textContent = 'Approve'
+                hideSpinner(e.target, "Approve")
             } else {
-                e.target.textContent = 'Reject'
+                hideSpinner(e.target, "Reject")
             }
-            throw new Error(error.message, 400)
+            notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
         }
     }
 

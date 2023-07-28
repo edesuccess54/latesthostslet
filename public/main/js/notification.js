@@ -31,7 +31,7 @@ export const notification = new toastNotification()
 // show spinner function 
 export function showSpinner(button) {
     button.disabled = true
-    button.innerHTML = ' <span style=" display: block; overflow: hidden;"><img style="width: 100px; height: 30px; object-fit:contain" src="/main/images/loading.gif" alt=""></span'
+    button.innerHTML = ' <span style=" display: block; overflow: hidden;"><img style="max-width: 100%; height: 1.875rem; object-fit:contain" src="/main/images/loading.gif" alt=""></span'
 }
 
 // hide spinner function 

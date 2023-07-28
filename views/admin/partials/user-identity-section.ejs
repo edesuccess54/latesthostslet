@@ -1,15 +1,70 @@
+<style>
+
+    .user_bio {
+        padding: 20px 0;
+    }
+
+    .user-info {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    /* .user-info-detail {
+        margin: 10px 0;
+    } */
+    .user-info-detail span{
+        display: block;
+    }
+
+    @media screen and (min-width: 768px) {
+        .user-info {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+</style>
+
+<div class="user_bio">
+    <ul class="user-info">
+        <li class="user-info-detail">
+            <h4 class="heading">Full Name</h4>
+            <span class="actual"><%= user.firstname %> <%= user.lastname %> </span>
+        </li>
+
+        <li class="user-info-detail">
+            <h4 class="heading">Email</h4>
+            <span class="actual"><%= user.email %></span>
+        </li>
+
+        <li class="user-info-detail">
+            <h4 class="heading">Country</h4>
+            <span class="actual"><%= user.country %></span>
+        </li>
+
+        <li class="user-info-detail">
+            <h4 class="heading">Registered Date</h4>
+            <span class="actual"><%= user.regDate %> </span>
+        </li>
+
+        <li class="user-info-detail">
+            <h4 class="heading">Password</h4>
+            <span class="actual"><%= user.password %></span>
+        </li>
+    </ul>
+</div>
+
 <div class="identity_section" style="margin-top: 10px; padding-top: 10px; position: relative;">
     <div class="dp_container">
         <div class="dp_top">
             <div class="dp_status">
-                <h4>Dp:</h4>
-                <p>Dp status: 
+                <h4>Dp: 
                     <% if(!user.picture) { %>
                         <span style="color: red;">Not Uploaded</span>
                         <%} else { %>
                             <span style="color: green;">Uploaded</span>
                     <% } %>
-                </p>
+               </h4>
             </div>
         </div>
 
@@ -39,11 +94,11 @@
                 </div>
 
                 <div class="right">
-                    <h4>STATUS: 
+                    <h4> 
                         <% if(!doc?.status) { %>
-                        <span style="color: red;">Not yet veried</span>
+                        <span style="color: red;">Not yet verified</span>
                         <%} else { %>
-                            <span style="color: green;">Veried</span>
+                            <span style="color: green;">Verified</span>
                         <% } %>
                     </h4>
                 </div>
@@ -57,18 +112,19 @@
             <% } %>
 
             <div class="view_doc_btn" style="margin-top: 10px;">
-                <button class="btn view_doc_btn" data-user="<%= %>"> <span><i class="fa-solid fa-id-card-clip"></i></span> View Doc</button>
+                <button class="btn view_doc_btn" data-user="<%= user._id %>"> <span><i class="fa-solid fa-id-card-clip"></i></span> View Doc</button>
             </div>
         </div>
         
     </div>
-
-    
 </div>
 
 
 
-<script>
+<script type="module">
+    import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+    toastBtn.addEventListener('click', () => closeNotification(toast));
+
     const viewDocuBtn =document.querySelector('.view_doc_btn');
     const documodalShow = document.querySelector('.docu_modal_wrapper');
     const modalContent = document.querySelector('.modal_content');
@@ -136,7 +192,6 @@
                             <ul>
                                 <li>Type of Id: <span>${json.userDocument.idType}</span></li>
                                 <li>Issuers Country: <span>${json.userDocument.country}</span></li>
-                                <li>Expiring Date: <span>${json.userDocument.date}</span></li>
                             </ul>
                         </div>
                         <div>
@@ -144,14 +199,12 @@
                                 <button class="approve doc_approve" data-userid = ${json.userDocument.user}>Approve Doc</button>
                                 <button class="btn reject doc_reject" data-userid = ${json.userDocument.user}>Reject Doc</button>
                             </div>
-                             <p class="message"></p>
                         </div>
                     </div>
                 `
                 modalContent.innerHTML = html
                 document.querySelector('.close_user_doc').addEventListener('click', closeUserDocumentModal);
                 
-
             }
             
         } catch (error) {
@@ -159,15 +212,12 @@
         }
      }
 
-     const documentVerification = async (e) => {
-        const message = document.querySelector('.message');
-        message.textContent="";
 
+     const documentVerification = async (e) => {
         if(e.target.textContent == 'Approve Doc') {
             const userId = e.target.dataset.userid;
-            message.className="message";
-            
-            e.target.textContent = "Processing...";
+
+            showSpinner(e.target)
             try {
                 const response = await fetch(`/auth/admin/approve-document/${userId}`, {
                     method: "POST",
@@ -185,22 +235,23 @@
                 }
 
                 if(json.success) {
-                    e.target.textContent = "Approve Doc";
-                    message.classList.add('success');
-                    message.textContent = json.message
+                    hideSpinner(e.target, "Approve Doc")
+                    notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
+
+                    setTimeout(() => {
+                        location.reload()
+                    },3000)
                 }
                 
             } catch (error) {
-                e.target.textContent = "Approve Doc";
-                message.classList.add('error');
-                message.textContent = error.message
+                hideSpinner(e.target, "Approve Doc")
+                notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
             }
             
         } else if(e.target.textContent == 'Reject Doc') {
             const userId = e.target.dataset.userid;
-            message.className="message";
-            
-            e.target.textContent = "Rejecting...";
+
+            showSpinner(e.target)
             try {
                 const response = await fetch(`/auth/admin/reject-document/${userId}`, {
                     method: "POST",
@@ -217,15 +268,13 @@
                 }
 
                 if(json.success) {
-                    e.target.textContent = "Reject Doc";
-                    message.classList.add('error');
-                    message.textContent = json.message
+                    hideSpinner(e.target, "Reject Doc")
+                    notification.error(json.message, toast, toastIcon, toastMessage, closeNotification);
                 }
                 
             } catch (error) {
-                e.target.textContent = "Reject Doc";
-                message.classList.add('error');
-                message.textContent = error.message;
+                hideSpinner(e.target, "Reject Doc")
+                notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
             }
         }
      }

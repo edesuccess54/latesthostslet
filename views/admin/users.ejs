@@ -7,6 +7,12 @@
         <div class="main_content_wrapper">
             <div class="main_content">
 
+                <style>
+                    td, th {
+                        white-space: nowrap;
+                    }
+                </style>
+
                 <!-- display all property section  -->
                 <section class="table_section" style="padding-top: 40px;">
                     <table id="example" class="display responsive">
@@ -18,14 +24,12 @@
                                 <th>Number</th>
                                 <th>Country</th>
                                 <th>status</th>
-                                <th>Doc</th>
                                 <th>View Client</th>
                                 
                             </tr>
                         </thead>
                         <tbody class="view_doc">
                             <% if(users) { %>
-
                                 <% users.map(({_id, firstname, lastname, email, number, country, lastseen, onlineStatus, password }, index) => { %>
                             <tr>
                                 <td><%= index + 1 %></td>
@@ -41,9 +45,6 @@
                                     <%} %> 
                                 </td>
                                 
-                                <td>
-                                    <button class="btn view_doc_btn" data-user="<%= _id%>"> <span><i class="fa-solid fa-id-card-clip"></i></span> View Doc</button>
-                                </td>
                                 <td>
                                     <a href="/auth/admin/user-detail?single=<%= randomString1 %>&hostnow=<%= randomString2 %>&hostsletuser=<%= _id %>">
                                         <span><i class="fa-solid fa-address-book"></i></span>
