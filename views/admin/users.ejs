@@ -7,15 +7,9 @@
         <div class="main_content_wrapper">
             <div class="main_content">
 
-                <style>
-                    td, th {
-                        white-space: nowrap;
-                    }
-                </style>
-
                 <!-- display all property section  -->
                 <section class="table_section" style="padding-top: 40px;">
-                    <table id="example" class="display responsive">
+                    <table id="users" class="display responsive">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -25,12 +19,11 @@
                                 <th>Country</th>
                                 <th>status</th>
                                 <th>View Client</th>
-                                
                             </tr>
                         </thead>
                         <tbody class="view_doc">
                             <% if(users) { %>
-                                <% users.map(({_id, firstname, lastname, email, number, country, lastseen, onlineStatus, password }, index) => { %>
+                                <% users.map(({_id, firstname, lastname, email, number, country, onlineStatus }, index) => { %>
                             <tr>
                                 <td><%= index + 1 %></td>
                                 <td><%= firstname %> <%= lastname %></td>
@@ -87,7 +80,6 @@
 
             await fetchUserDocument(userId)
         }
-
     }
     viewDocuBtn.addEventListener('click', showUserDocumentModal);
 
@@ -96,7 +88,6 @@
         documodalShow.classList.remove('show');
          overlay.classList.remove('show');
     }
-    
      overlay.addEventListener('click', closeUserDocumentModal);
 
      async function fetchUserDocument (userId){
@@ -152,9 +143,7 @@
                     </div>
                 `
                 modalContent.innerHTML = html
-                document.querySelector('.close_user_doc').addEventListener('click', closeUserDocumentModal);
-                
-
+                document.querySelector('.close_user_doc').addEventListener('click', closeUserDocumentModal); 
             }
             
         } catch (error) {
@@ -237,3 +226,11 @@
 </script>
     
 <%- include('./partials/footer')  %>
+
+        <script>
+            $(document).ready(function () {
+                $('#users').DataTable({
+                    scrollX: true,
+                });
+            });
+        </script>

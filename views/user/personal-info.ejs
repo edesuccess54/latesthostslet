@@ -73,7 +73,7 @@
                 <h4 class="title">Document</h4>
                 <p>Verify your identity</p>
                 <p>
-                    <% if(doc.status) { %>
+                    <% if(doc?.status) { %>
                         <p style="color: green; font-size: 12px">Verified</p>
                     <%} else { %>
                         <p style="color: yellow; font-size: 12px">Pending</p>
@@ -81,7 +81,7 @@
                 </p>
             </div>
             <div class="edit">
-                <% if(!doc.status) {%>
+                <% if(!doc?.status) {%>
                     <p class="document_upload">upload</p>
                 <%} %>
             </div>

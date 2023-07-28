@@ -10,7 +10,7 @@
         toastMessage.textContent = message
         toastIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>'
 
-        setTimeout(() => closeNotification(toast), 3000)
+        // setTimeout(() => closeNotification(toast), 3000)
     }
 
     error(message, toast, toastIcon, toastMessage, closeNotification) {
@@ -21,7 +21,7 @@
         toastMessage.textContent = message
         toastIcon.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i>'
 
-        setTimeout(() => closeNotification(toast), 3000)
+        // setTimeout(() => closeNotification(toast), 3000)
     }
 }
 

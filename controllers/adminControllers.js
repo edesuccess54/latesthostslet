@@ -33,8 +33,9 @@ const adminDashboard = async (req, res, next) => {
     res.render('admin/index', {title: 'Dashboard', property})
 }
 
-const createProductPage = (req, res, next) => { 
-    res.render('admin/create', {title: 'Create Property'})
+const createProductPage = async (req, res, next) => { 
+    const propertys = await Property.find()
+    res.render('admin/create', {title: 'Create Property', propertys})
 }
 
 const walletPage = async (req, res, next) => { 
