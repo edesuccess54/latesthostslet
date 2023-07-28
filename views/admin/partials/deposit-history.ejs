@@ -228,7 +228,7 @@
 
                 if(json.success) {
                     hideSpinner(e.target, "Reject")
-                    notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
+                    notification.error(json.message, toast, toastIcon, toastMessage, closeNotification);
                     
                     setTimeout(() => {
                         location.reload()
@@ -237,7 +237,7 @@
             }
             
         } catch (error) {
-            if(e.target.classList.contains('approve')) {
+            if(e.target.classList.contains('approved')) {
                 hideSpinner(e.target, "Approve")
             } else {
                 hideSpinner(e.target, "Reject")

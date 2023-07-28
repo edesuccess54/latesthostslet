@@ -154,12 +154,12 @@ const updateName = async (req, res, next) => {
 
 // functionto execute transaction 
 const payment = async (req, res, next) => {
-    const { reference, unit, amount, method } = req.body
-    const { _id } = req.user
+    const {unit, amount, method } = req.body
+    const { _id, reference } = req.user
     const user = req.user
     
     try {
-        if (!reference || !amount || !method || !unit) {
+        if (!amount || !method || !unit) {
             throw new Error('All fields are required');
         }
 
