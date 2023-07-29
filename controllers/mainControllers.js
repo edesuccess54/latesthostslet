@@ -15,7 +15,7 @@ function generateRandomString(length) {
     return result;
 }
 
-    const randomString1 = generateRandomString(26);
+    const randomString1 = generateRandomString(40);
     const randomString2 = generateRandomString(40);
 
 

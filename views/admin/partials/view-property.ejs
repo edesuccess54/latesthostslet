@@ -19,10 +19,10 @@
                         <td><%= pamount %></td>
                         <td>
                            <div class="action-td">
-                            <span class="edit-icon" data-id="<%= _id %>">
-                                <a href="/auth/admin/edit?hostslet=<%= randomString1  %>&host=<%= randomString2 %>&property=<%= _id %>"><i class="fa-solid fa-pen-to-square"></i></a>
-                            </span>
-                            <span class="delete-icon"><i class="fa-solid fa-trash trash" data-id="<%= _id %>"></i></span>
+                                <span class="edit-icon" data-id="<%= _id %>">
+                                    <a href="/auth/admin/edit?hostslet=<%= randomString1  %>&host=<%= randomString2 %>&property=<%= _id %>"><i class="fa-solid fa-pen-to-square"></i></a>
+                                </span>
+                                <span class="delete-icon"><i class="fa-solid fa-trash trash" data-id="<%= _id %>"></i></span>
                            </div>
                         </td>
                     </tr>
@@ -58,7 +58,7 @@
 
                 const json = response.json();
 
-                if(json.errir) {
+                if(json.error) {
                     throw new Error(json.error)
                 }
 
@@ -77,17 +77,10 @@
                     location.reload()
                 },3000)
             }
-
         }
     }
-    productAction.addEventListener('click', deleteProduct)
+    productAction.addEventListener('click', deleteProduct);
 
-
-</script>
-
-
-
-<script>
     $(document).ready(function () {
         $('#property').DataTable({
             scrollX: true,
