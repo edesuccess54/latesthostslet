@@ -8,13 +8,6 @@
             <h3>Profile</h3>
             <%  if(!user.host) { %>
                 <%- include('./partials/alert') %>
-            <% } %>
-
-        </div>
-
-        <% if(user.host) { %>
-            <%  if(!user.withDrawStatus) { %>
-                <%- include('./partials/alert2') %>
             <% } else { %>
 
                 <div class="tab-buttons">
@@ -127,22 +120,6 @@
                 </style>
 
                 <div class="tab-content large-show" style="margin-top: 40px;">
-                    <div class="propety_details">
-                        <div class="user-property">
-                            <p class="user-property-title">Property Name</p>
-                            <p class="user-property-doc"><%= property.pname  %></p>
-                        </div>
-
-                        <div class="user-property">
-                            <p class="user-property-title">Property Location</p>
-                            <p class="user-property-doc"><%= property.plocation  %></p>
-                        </div>
-
-                        <div class="user-property">
-                            <p class="user-property-title">Property Amount</p>
-                            <p class="user-property-doc">$<%= Number(property.pamount).toLocaleString()  %></p>
-                        </div>
-                    </div>
 
                     <div class="property-carousel" style="margin-top: 20px;">
                         <% if(property) { %>
@@ -154,10 +131,29 @@
                         <%} %>
 
                     </div>
+
+                    <div class="propety_details">
+                        <div class="user-property">
+                            <p class="user-property-title"> Name</p>
+                            <p class="user-property-doc"><%= property.pname  %></p>
+                        </div>
+
+                        <div class="user-property">
+                            <p class="user-property-title"> Location</p>
+                            <p class="user-property-doc"><%= property.plocation  %></p>
+                        </div>
+
+                        <div class="user-property">
+                            <p class="user-property-title"> Amount</p>
+                            <p class="user-property-doc">$<%= Number(property.pamount).toLocaleString()  %></p>
+                        </div>
+                    </div>
+                    
                 </div>
 
-            <%} %>
-        <%}%>
+            <% } %>
+
+        </div>
     </main>
 
     <script>

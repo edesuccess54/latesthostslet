@@ -29,8 +29,13 @@ const randomString2 = generateRandomString(40);
 
 
 const adminDashboard = async (req, res, next) => { 
-    const property = await Property.find();
-    res.render('admin/index', {title: 'Dashboard', property})
+    const adminId = req.user
+    const users = await User.find({ _id: { $ne: adminId } })
+
+    const totalProperty = await Property.countDocuments();
+    const totalUser = await User.countDocuments({ role: 'user' });
+    const onlineUser = await User.countDocuments({onlineStatus: true})
+    res.render('admin/index', {title: 'Dashboard', totalUser, totalProperty, onlineUser})
 }
 
 const createProductPage = async (req, res, next) => { 
@@ -513,6 +518,7 @@ const rejectPayment = async (req, res, next) => {
         transaction.status = false;
         transaction.statusMessage = "Rejected";
         user.host = false;
+        user.profit = Number(user.profit) + Number(transaction.amount)
         await user.save();
         await transaction.save();
 
@@ -660,6 +666,8 @@ const rejectDocument = async (req, res, next) => {
         }
 
         userDocument.status = false;
+        userDocument.doc = {}
+        userDocument.statusMessage == 'Rejected'
 
         const approvedDoc = await userDocument.save();
 

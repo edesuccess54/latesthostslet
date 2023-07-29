@@ -23,6 +23,10 @@ const documentSchema = mongoose.Schema({
         required: true
     },
 
+    sttusMessage: {
+        type: String,
+    },
+
     status: {
         type: Boolean,
         default: false,

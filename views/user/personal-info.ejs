@@ -75,6 +75,8 @@
                 <p>
                     <% if(doc?.status) { %>
                         <p style="color: green; font-size: 12px">Verified</p>
+                    <%} else if(doc?.statusMessage == 'Rejected') { %>
+                        <p style="color: red; font-size: 12px">Rejected</p>
                     <%} else { %>
                         <p style="color: rgb(195, 195, 34); font-size: 12px">Pending</p>
                     <%}%> 

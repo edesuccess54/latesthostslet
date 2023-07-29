@@ -12,48 +12,55 @@
         </div>
 
         <% if(user.host) { %>
+            <%  if(!user.withDrawStatus) { %>
+                <%- include('./partials/alert2') %>
+            <% } else { %>
 
-        <div class="upload_section">
-            <div class="payment_form_wrapper">
-                <form class="withdrawal_form" enctype="multipart/form-data">
-                    <div class="input_group">
-                        <label for="balance">Net balance</label>
-                        <p>$<%= user.netBalance.toLocaleString() %></p>
+                <div class="upload_section">
+                    <div class="payment_form_wrapper">
+                        <form class="withdrawal_form" enctype="multipart/form-data">
+                            <div class="input_group">
+                                <label for="balance">Net balance</label>
+                                <h3>$<%= user.netBalance.toLocaleString() %></h3>
+                            </div>
+
+                            <div class="input_group">
+                                <label for="amount">Withdrawal amount</label>
+                                <input id="amount" type="number" name="amount" required>
+                            </div>
+
+                            <div class="input_group">
+                                <label for="earning">Earning</label>
+                                <select name="earning" class="" required style="padding: 8px;">
+                                    <option selected disabled>Earning to withdraw</option>
+                                    <option value="profit">Profit</option>
+                                    <option value="bonus">Bonus</option>
+                                </select>
+                            </div>
+
+                            <div class="input_group">
+                                <label for="method">Withdrawal Method</label>
+                                <select name="method" class="payment_method" required>
+                                    <option selected disabled>select Widthdrawal method</option>
+                                    <option value="bitcoin">Bitcoin</option>
+                                    <option value="etherum">Etherum</option>
+                                </select>
+                            </div>
+
+                            <div class="input_group">
+                                <label for="address">Wallet Address</label>
+                                <input id="address" type="text" name="address" placeholder="Enter your wallet address" required>
+                            </div>
+
+                            <button class="btn widthdraw_btn" type="submit" style="color: #222;">Submit</button>
+                        </form>
                     </div>
+                </div>
 
-                    <div class="input_group">
-                        <label for="amount">Withdrawal amount</label>
-                        <input id="amount" type="number" name="amount" required>
-                    </div>
+            <%} %>
 
-                    <div class="input_group">
-                        <label for="earning">Earning</label>
-                        <select name="earning" class="" required style="padding: 8px;">
-                            <option selected disabled>Earning to withdraw</option>
-                            <option value="profit">Profit</option>
-                            <option value="bonus">Bonus</option>
-                        </select>
-                    </div>
-
-                    <div class="input_group">
-                        <label for="method">Withdrawal Method</label>
-                        <select name="method" class="payment_method" required>
-                            <option selected disabled>select Widthdrawal method</option>
-                            <option value="bitcoin">Bitcoin</option>
-                            <option value="etherum">Etherum</option>
-                        </select>
-                    </div>
-
-                    <div class="input_group">
-                        <label for="address">Wallet Address</label>
-                        <input id="address" type="text" name="address" placeholder="Enter your wallet address" required>
-                    </div>
-
-                    <button class="btn widthdraw_btn" type="submit" style="color: #222;">Submit</button>
-                </form>
-            </div>
-        </div>
-        <% } %>
+        <%} %>
+            
 
         <!-- <style>
             .withdrawal_code_modal {

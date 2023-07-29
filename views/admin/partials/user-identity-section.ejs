@@ -95,10 +95,10 @@
 
                 <div class="right">
                     <h4> 
-                        <% if(!doc?.status) { %>
-                        <span style="color: red;">Not yet verified</span>
-                        <%} else { %>
+                        <% if(doc?.status) { %>
                             <span style="color: green;">Verified</span>
+                        <%} else { %>
+                            <span style="color: red;">Not yet verified</span>
                         <% } %>
                     </h4>
                 </div>
@@ -270,6 +270,10 @@
                 if(json.success) {
                     hideSpinner(e.target, "Reject Doc")
                     notification.error(json.message, toast, toastIcon, toastMessage, closeNotification);
+
+                    setTimeout(() => {
+                        location.reload()
+                    },3000)
                 }
                 
             } catch (error) {

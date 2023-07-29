@@ -4,15 +4,84 @@
     <div class="content_wrapper">
         <%- include('./partials/sideNav') %>
 
+        <style>
+            .total_content {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 20px;
+            }
+
+            .total_number h3 {
+                font-weight: bold;
+                font-size: 20px;
+            }
+
+            .number {
+                padding: 5px;
+                background: green;
+                border-radius: 5px;
+                color: rgb(86, 238, 86);
+            }
+
+            .number_text {
+                font-size: 14px;
+                color: #1e1e1e;
+            }
+        </style>
+
         <div class="main_content_wrapper">
             <div class="main_content">
                 <section class="overview">
                     <div class="total_property">
+                        <div class="totalPropertytotalProperty">
+                            <div class="total_number">
+                                <p>No. of Clients</p>
+                                <h3><%= totalUser %></h3>
+                            </div>
 
+                            <!-- <div class="graph_side">
+                                <p>Graph goes here</p>
+                            </div> -->
+                        </div>
+
+                        <div>
+                            <span class="number">+<%= totalUser %></span>
+                            <span class="number_text">Since Hostslet was created</span>
+                        </div>
+                    </div>
+
+                    <div class="total_property">
+                        <div class="totalPropertytotalProperty">
+                            <div class="total_number">
+                                <p>No. of Clients Online</p>
+                                <h3><%= onlineUser %></h3>
+                            </div>
+
+                            <!-- <div class="graph_side">
+                                <p>Graph goes here</p>
+                            </div> -->
+                        </div>
+                        <div>
+                            <span class="number">+<%= onlineUser %></span>
+                            <span class="number_text">No. of Users Online</span>
+                        </div>
                     </div>
 
                     <div class="total_testimony">
+                        <div class="total_content">
+                            <div class="total_number">
+                                <p>No. of Property</p>
+                                <h3><%= totalProperty %></h3>
+                            </div>
 
+                            <!-- <div class="graph_side">
+                                <p>Graph goes here</p>
+                            </div> -->
+                        </div>
+                        <div>
+                            <span class="number">+<%= totalProperty %></span>
+                            <span class="number_text">Since Hostslet was created</span>
+                        </div>
                     </div>
                 </section>
 

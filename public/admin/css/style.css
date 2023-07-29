@@ -293,8 +293,12 @@ a  {
 }
 
 .total_property, .total_testimony {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     flex-basis: 200px;
-    height: 200px;
+    height: 150px;
+    padding: 20px;
     background: #fff;
     border-radius: 5px;
     box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.5);
