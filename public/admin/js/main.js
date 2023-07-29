@@ -1,36 +1,36 @@
 
 
 // delete property 
-const trashCans = document.querySelectorAll('.trash');
+// const trashCans = document.querySelectorAll('.trash');
 
-const deleteProperty = async (e) => {
-    const propertyId = e.target.dataset.trash;
+// const deleteProperty = async (e) => {
+//     const propertyId = e.target.dataset.trash;
 
-    try {
-        const response = await fetch(`/auth/admin/delete/${propertyId}`, {
-            method: 'DELETE',
-        });
+//     try {
+//         const response = await fetch(`/auth/admin/delete/${propertyId}`, {
+//             method: 'DELETE',
+//         });
 
-        if (!response) {
-            throw new Error('Property failed to delete')
-        }
+//         if (!response) {
+//             throw new Error('Property failed to delete')
+//         }
 
-        const json = await response.json();
+//         const json = await response.json();
 
-        if (json.error) {
-            throw new Error(json.error);
-        }
+//         if (json.error) {
+//             throw new Error(json.error);
+//         }
 
-        if (json.success) { 
-            alert(json.message);
-            location.reload();
-        }
+//         if (json.success) { 
+//             alert(json.message);
+//             location.reload();
+//         }
         
-    } catch (error) {
-        alert(error.message)
-    }
-}
-trashCans.forEach(trashCan => trashCan.addEventListener('click', deleteProperty));
+//     } catch (error) {
+//         alert(error.message)
+//     }
+// }
+// trashCans.forEach(trashCan => trashCan.addEventListener('click', deleteProperty));
 
 // const logout user 
 const logoutICons = document.querySelectorAll('.logout');

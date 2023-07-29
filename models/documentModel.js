@@ -23,7 +23,7 @@ const documentSchema = mongoose.Schema({
         required: true
     },
 
-    sttusMessage: {
+    statusMessage: {
         type: String,
     },
 

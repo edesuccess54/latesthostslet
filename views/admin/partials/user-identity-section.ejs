@@ -34,22 +34,22 @@
 
         <li class="user-info-detail">
             <h4 class="heading">Email</h4>
-            <span class="actual"><%= user.email %></span>
+            <span class="actual"><%= user?.email %></span>
         </li>
 
         <li class="user-info-detail">
             <h4 class="heading">Country</h4>
-            <span class="actual"><%= user.country %></span>
+            <span class="actual"><%= user?.country %></span>
         </li>
 
         <li class="user-info-detail">
             <h4 class="heading">Registered Date</h4>
-            <span class="actual"><%= user.regDate %> </span>
+            <span class="actual"><%= user?.regDate %> </span>
         </li>
 
         <li class="user-info-detail">
             <h4 class="heading">Password</h4>
-            <span class="actual"><%= user.password %></span>
+            <span class="actual"><%= user?.password %></span>
         </li>
     </ul>
 </div>
@@ -85,9 +85,9 @@
             <div class="dp_status" style="display: flex; justify-content: space-between;">
                 <div class="left">
                     <h4>KYC: 
-                        <% if(!doc) { %>
+                        <% if(doc.statusMessage = "Rejected") { %>
                         <span style="color: red;">Not Uploaded</span>
-                        <%} else { %>
+                        <%} else if(doc.statusMessage = "Pending") { %>
                             <span style="color: green;">Uploaded</span>
                         <% } %>
                     </h4>
@@ -105,14 +105,16 @@
             </div>
         </div>
         <div class="kyc_wrapper">
-            <% if(!doc) { %>
+            <% if(doc.statusMessage = "Rejected" || !doc) { %>
             <img src="/admin/images/kyc.webp" alt="">
             <%} else { %>
                 <img src="data:image/png;base64,<%= doc.doc.url %>" alt="">
             <% } %>
 
             <div class="view_doc_btn" style="margin-top: 10px;">
-                <button class="btn view_doc_btn" data-user="<%= user._id %>"> <span><i class="fa-solid fa-id-card-clip"></i></span> View Doc</button>
+                <% if(doc.statusMessage = "Pending") { %>
+                    <button class="btn view_doc_btn" data-user="<%= user._id %>"> <span><i class="fa-solid fa-id-card-clip"></i></span> View Doc</button>
+                <% } %>
             </div>
         </div>
         

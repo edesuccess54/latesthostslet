@@ -71,14 +71,16 @@
         <div class="profile legal_email">
             <div class="detail">
                 <h4 class="title">Document</h4>
-                <p>Verify your identity</p>
                 <p>
                     <% if(doc?.status) { %>
                         <p style="color: green; font-size: 12px">Verified</p>
+                    <%} else if(doc?.statusMessage == "Pending") { %>
+                        <p style="color: rgb(195, 195, 34); font-size: 12px">Pending</p>
+                        
                     <%} else if(doc?.statusMessage == 'Rejected') { %>
                         <p style="color: red; font-size: 12px">Rejected</p>
                     <%} else { %>
-                        <p style="color: rgb(195, 195, 34); font-size: 12px">Pending</p>
+                        <p>Verify your identity</p>
                     <%}%> 
                 </p>
             </div>

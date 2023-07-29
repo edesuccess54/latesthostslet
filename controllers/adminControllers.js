@@ -40,7 +40,8 @@ const adminDashboard = async (req, res, next) => {
 
 const createProductPage = async (req, res, next) => { 
     const propertys = await Property.find()
-    res.render('admin/create', {title: 'Create Property', propertys})
+
+    res.render('admin/create', {title: 'Create Property', propertys, randomString1, randomString2})
 }
 
 const walletPage = async (req, res, next) => { 
@@ -101,6 +102,9 @@ const userDetailPage = async (req, res, next) => {
     const doc = await UserDocument.findOne({ user: hostsletuser });
     const code = await Code.findOne({ user: hostsletuser });
 
+    const property = await Property.findOne({ _id: user.reference })
+
+
     const deposits = await Transaction.find({ transactionType: 'Deposit', user: hostsletuser })
     const withdraws = await Transaction.find({transactionType: 'Withdrawal', user: hostsletuser})
 
@@ -109,7 +113,7 @@ const userDetailPage = async (req, res, next) => {
         return
     }
 
-    res.render('admin/user-detail', {title: 'user detail', user, doc, code, randomString1, randomString2, deposits, withdraws})
+    res.render('admin/user-detail', {title: 'user detail',property, user, doc, code, randomString1, randomString2, deposits, withdraws})
 }
 
 // fund user deposit 
@@ -309,10 +313,10 @@ const updatePaymentDetail = async (req, res, next) => {
 }
 
 const editProopertyDetail = async (req, res, next) => { 
-    const { pname, plocation, pamount, hostname, guest, bedroom, bed, bath, rating, review, pcategory } = req.body
+    const { pname, plocation, pamount, guest, bedroom, bed, bath, rating, review, pcategory } = req.body
     const { propertyId } = req.params
 
-    if (!pname || !plocation || !pamount || !hostname || !guest || !bed || !bath || !rating || !review || !pcategory) {
+    if (!pname || !plocation || !pamount ||!bedroom || !guest || !bed || !bath || !rating || !review || !pcategory) {
         next(new ErrorResponse('please fill all field', 400))
         return
     }
@@ -353,7 +357,6 @@ const editProopertyDetail = async (req, res, next) => {
         property.pname = req.body.pname || pname
         property.plocation = req.body.plocation || plocation
         property.pamount = req.body.pamount || pamount
-        property.hostname = req.body.hostname || hostname
         property.guest = req.body.guest || guest
         property.bedroom = req.body.bedroom || bedroom
         property.bed = req.body.bed || bed
@@ -639,6 +642,7 @@ const approveDocument = async (req, res, next) => {
         }
 
         userDocument.status = true;
+        userDocument.statusMessage == 'Approved'
 
         const approvedDoc = await userDocument.save();
 
@@ -659,17 +663,19 @@ const rejectDocument = async (req, res, next) => {
     
     try {
 
-        const userDocument = await UserDocument.findOne({ user: id })
+        const userDocument = await UserDocument.deleteOne({ user: id })
         
         if (!userDocument) {
             throw new Error('This user has not uploaded any document');
         }
 
-        userDocument.status = false;
-        userDocument.doc = {}
-        userDocument.statusMessage == 'Rejected'
+        // userDocument.status = false;
+        // userDocument.doc = {}
+        // userDocument.statusMessage == 'Rejected'
 
-        const approvedDoc = await userDocument.save();
+        // const approvedDoc = await userDocument.save();
+
+        // send user email after rejection 
 
         if (!approvedDoc) {
             throw new Error('document failed to be rejected');

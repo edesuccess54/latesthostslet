@@ -27,7 +27,7 @@ const homePage = async (req, res, next) => {
 }
 
 const mansionPage = async (req, res, next) => {
-    const property = await Property.find({pcategory: 'omg'});
+    const property = await Property.find({pcategory: 'mansion'});
     res.render('mansion', {title: 'mansion', property, randomString1,randomString2})
 }
 

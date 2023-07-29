@@ -1,7 +1,22 @@
 <style>
     .action-td {
         display: flex;
-        gap: 10px;
+        gap: 20px;
+    }
+
+    .trash {
+        cursor: pointer;
+        color: #ff385c;
+        font-size: 18px;
+    }
+
+    .edit-icon a{
+        font-size: 18px;
+    }
+    .trash-btn {
+        border: none;
+        outline: none;
+        background: transparent;
     }
 </style>
 <div style="margin-top: 20px;">
@@ -17,18 +32,22 @@
         </thead>
         <tbody class="product-action">
             <% if(propertys) { %>
-                <% propertys.map(({_id, pname, plocation, pamount}) => { %>
+                <% propertys?.map(({_id, pname, plocation, pamount, pcategory}) => { %>
                     <tr>
                         <td><%= pname %></td>
                         <td><%= plocation %></td>
-                        <td><%= pamount %></td>
-                        <td><%= pamount %></td>
+                        <td>$<%= Number(pamount).toLocaleString() %></td>
+                        <td><%= pcategory %></td>
                         <td>
                            <div class="action-td">
-                                <span class="edit-icon" data-id="<%= _id %>">
-                                    <a href="/auth/admin/edit?hostslet=<%= randomString1  %>&host=<%= randomString2 %>&property=<%= _id %>"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <span class="edit-icon">
+                                    <a href="/auth/admin/edit?hostslet=<%= randomString1 %>&host=<%= randomString2 %>&property=<%= _id %>">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
                                 </span>
-                                <span class="delete-icon"><i class="fa-solid fa-trash trash" data-id="<%= _id %>"></i></span>
+                                <button class="trash-btn">
+                                    <i class="fa-solid fa-trash trash" data-id="<%= _id %>"></i>
+                                </button>
                            </div>
                         </td>
                     </tr>
@@ -38,20 +57,24 @@
     </table>
 </div>
 
-<%- include('./footer')  %>
+
 
 <script type="module">
     import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
     toastBtn.addEventListener('click', () => closeNotification(toast));
 
     const productAction = document.querySelector('.product-action');
-
+    
     // delete product 
     const deleteProduct = async(e) => {
-        if(e.target.classList.contain("trash")) {
+        if(e.target.classList.contains("trash")) {
+
+            const transhBtn = e.target.parentNode
             
             try {
+                showSpinner(transhBtn)
                 const propertyId = e.target.dataset.id;
+
 
                 const response = await fetch(`/auth/admin/delete/${propertyId}`, {
                     method: "DELETE",
@@ -62,14 +85,15 @@
                     throw new Error("something went wrong, please try again")
                 }
 
-                const json = response.json();
+                const json = await response.json();
 
                 if(json.error) {
                     throw new Error(json.error)
                 }
 
                 if(json.success) {
-                    notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
+                    showSpinner(transhBtn, '<i class="fa-solid fa-trash trash" data-id=""></i>')
+                    notification.error(json.message, toast, toastIcon, toastMessage, closeNotification);
 
                     setTimeout(() => {
                         location.reload()
@@ -77,6 +101,7 @@
                 }
 
             } catch(error) {
+                showSpinner(transhBtn, '<i class="fa-solid fa-trash trash" data-id=""></i>')
                 notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
 
                 setTimeout(() => {

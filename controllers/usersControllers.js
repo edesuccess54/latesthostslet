@@ -35,7 +35,9 @@ const userDashboardPage = async (req, res, next) => {
 // personal info page 
 const personalInfoPage = async (req, res, next) => { 
     const { user } = req;
-    const doc = await UserDocument.findOne({_id: user._id})
+    const doc = await UserDocument.findOne({ user: user._id })
+    
+    console.log(doc)
 
     res.render('user/personal-info', {user, doc})
 }
@@ -523,6 +525,7 @@ const userRegisteration = async (req, res, next) => {
             reference,
             password,
             gender,
+            regDate: datetime,
             number,
             country,
         });
@@ -650,7 +653,8 @@ const uploadUserIdentityDocument = async (req, res, next) => {
         if (userDocument) {
             userDocument.idType = idtype,
             userDocument.country = country,
-            userDocument.doc = imageResults
+            userDocument.doc = imageResults,
+            userDocument.statusMessage = "Pending"
             
             await userDocument.save()
             
@@ -661,6 +665,7 @@ const uploadUserIdentityDocument = async (req, res, next) => {
                 user,
                 idType: idtype,
                 country,
+                statusMessage: "Pending",
                 doc: imageResults
             })
 

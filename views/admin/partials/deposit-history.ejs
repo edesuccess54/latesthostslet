@@ -127,7 +127,7 @@
                                     <button class="action_btn approved" style="background: green;"  data-paymentid="<%= deposits[i]._id %>">Approve</button>
                                 <% } %>
 
-                                <% if(!deposits[i].statusMessage = "Rejected") { %>
+                                <% if(deposits[i].statusMessage != "Rejected") { %>
                                     <button class="action_btn reject" data-paymentid="<%= deposits[i]._id %>">Reject</button>
                                 <% } %>
                                 
@@ -152,7 +152,7 @@
     import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
     toastBtn.addEventListener('click', () => closeNotification(toast));
 
-    const viewPaymentproof = (e) => {
+    const viewPaymentproof = async (e) => {
         if(e.target.textContent == 'view proof') {
             const imageProof = document.querySelector('.image_proof');
             modalWrapper.classList.add('show');

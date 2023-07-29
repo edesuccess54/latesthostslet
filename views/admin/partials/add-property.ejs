@@ -141,25 +141,21 @@
                 <div class="input_group">
                     <button class="btn create_btn">Create</button>
                 </div>
-
-                <p class="message"></p>
             </form>
         </div>
     </div>
 
-<script>
+<script type="module">
+    import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+    toastBtn.addEventListener('click', () => closeNotification(toast));
+
     let createForm = document.querySelector('#property_form');
-    const message = document.querySelector('.message');
     const formBtn = document.querySelector('.create_btn');
 
     const createProperty = async (e) => {
+        showSpinner(formBtn)
+
         e.preventDefault();
-
-        formBtn.textContent = 'processing, please wait...';
-        message.textContent = '';
-
-        // const fileInput = document.querySelector('#pfile')
-        // const files = fileInput.files;
 
         try {
         
@@ -178,26 +174,15 @@
             }
 
             if(json.success) {
-                formBtn.textContent = 'Create property';
-                message.classList.add('success');
-                message.textContent = json.message;
-                createForm.reset();
+                hideSpinner(formBtn, "Create property")
+                notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
 
-                setTimeout(() => {
-                    message.classList.remove('success');
-                    message.textContent = "";
-                },3000)
+                // createForm.reset();
             }
             
         } catch (error) {
-            formBtn.textContent = 'Create property';
-            message.classList.add('error');
-            message.textContent = error.message;
-
-            setTimeout(() => {
-                message.classList.remove('error');
-                message.textContent = "";
-            },3000)
+            hideSpinner(formBtn, "Create property")
+            notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
         }
     }
     createForm.addEventListener('submit', createProperty)

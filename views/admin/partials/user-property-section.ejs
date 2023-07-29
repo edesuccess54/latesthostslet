@@ -48,9 +48,9 @@
                 display: block;
             }
 
-            .tab-buttons {
+            /* .tab-buttons {
                 display: none;
-            }
+            } */
 
             .responsive {
                 max-width: 600px;
@@ -59,7 +59,7 @@
     </style>
 
     <div class="tab-content large-show" style="margin-top: 40px;">
-        <div class="property-carousel" style="margin-top: 20px;">
+        <div class="property-carousel" id="property-carousel" style="margin-top: 20px;">
             <% if(property) { %>
                 <% property.pimages.map(({url}) => { %>
                     <div class="responsive">
@@ -73,19 +73,56 @@
         <div class="propety_details">
             <div class="user-property">
                 <p class="user-property-title"> Name</p>
-                <p class="user-property-doc"><%= property.pname  %></p>
+                <p class="user-property-doc"><%= property?.pname  %></p>
             </div>
 
             <div class="user-property">
                 <p class="user-property-title"> Location</p>
-                <p class="user-property-doc"><%= property.plocation  %></p>
+                <p class="user-property-doc"><%= property?.plocation  %></p>
             </div>
 
             <div class="user-property">
                 <p class="user-property-title"> Amount</p>
-                <p class="user-property-doc">$<%= Number(property.pamount).toLocaleString()  %></p>
+                <p class="user-property-doc">$<%= Number(property?.pamount).toLocaleString()  %></p>
             </div>
         </div>
     </div>
 </div>
 
+
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="/slick/slick.min.js"></script>
+
+    <script>
+        $('#property-carousel').slick({
+        autoplay: true,
+        autoplaySpeed: 2000,
+        responsive: [
+        {
+        breakpoint: 1024,
+        settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            infinite: true,
+            dots: true
+        }
+        },
+        {
+        breakpoint: 600,
+        settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3
+        }
+        },
+        {
+        breakpoint: 480,
+        settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+        }
+        }
+    ]
+    });
+			
+    </script>
