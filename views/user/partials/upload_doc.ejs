@@ -110,6 +110,10 @@
                 notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
 
                 documentUploadForm.reset()
+
+                setTimeout(() => {
+                    location.reload()
+                },3000)
             }
             
         } catch (error) {

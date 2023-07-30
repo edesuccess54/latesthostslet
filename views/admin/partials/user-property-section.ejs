@@ -1,4 +1,4 @@
-<div class="identity_section" style="margin-top: 10px; padding-top: 10px">
+    
     <style>
         .propety_details {
             display: grid;
@@ -23,14 +23,14 @@
         .property-carousel {
             display: flex;
             gap: 20px;
-            margin: 20px 0;
-            max-height: 400px;
         }
 
         .responsive {
-            max-width: 320px;
-            max-height: 100%;
-            margin: 0 10px;
+            display: flex;
+            max-width: 21.875rem;
+            margin: auto;
+            max-height: 25rem;
+            gap: 10px;
         }
 
         .responsive img {
@@ -44,12 +44,8 @@
                 grid-template-columns: repeat(3, 1fr);
             }
 
-            .large-show {
+            /* .large-show {
                 display: block;
-            }
-
-            /* .tab-buttons {
-                display: none;
             } */
 
             .responsive {
@@ -58,8 +54,8 @@
         }
     </style>
 
-    <div class="tab-content large-show" style="margin-top: 40px;">
-        <div class="property-carousel" id="property-carousel" style="margin-top: 20px;">
+    <div class="" style="margin-top: 40px;">
+        <div class="user_property_carousel" style="margin-top: 20px;">
             <% if(property) { %>
                 <% property.pimages.map(({url}) => { %>
                     <div class="responsive">
@@ -70,59 +66,53 @@
 
         </div>
 
-        <div class="propety_details">
+        <div class="propety_details" style="margin-top: 20px;">
             <div class="user-property">
                 <p class="user-property-title"> Name</p>
-                <p class="user-property-doc"><%= property?.pname  %></p>
+                <p class="user-property-doc"><%= property.pname  %></p>
             </div>
 
             <div class="user-property">
                 <p class="user-property-title"> Location</p>
-                <p class="user-property-doc"><%= property?.plocation  %></p>
+                <p class="user-property-doc"><%= property.plocation  %></p>
             </div>
 
             <div class="user-property">
                 <p class="user-property-title"> Amount</p>
-                <p class="user-property-doc">$<%= Number(property?.pamount).toLocaleString()  %></p>
+                <p class="user-property-doc">$<%= Number(property.pamount).toLocaleString()  %></p>
             </div>
         </div>
     </div>
-</div>
 
 
-<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script type="text/javascript" src="/slick/slick.min.js"></script>
+<!-- slick javascript  -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
-    <script>
-        $('#property-carousel').slick({
-        autoplay: true,
-        autoplaySpeed: 2000,
-        responsive: [
-        {
-        breakpoint: 1024,
-        settings: {
-            slidesToShow: 3,
-            slidesToScroll: 3,
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<script>
+    // activate slick on mobile devices 
+    $(document).ready(function() {
+        function initSlick() {
+            $('.user_property_carousel').slick({
+            speed: 300,
+            autoplay: true,
+            arrows: true,
             infinite: true,
-            dots: true
+            });
         }
-        },
-        {
-        breakpoint: 600,
-        settings: {
-            slidesToShow: 3,
-            slidesToScroll: 3
+
+        function destroySlick() {
+            if ($('.user_property_carousel').hasClass('slick-initialized')) {
+                $('.user_property_carousel').slick('unslick');
+            }
         }
-        },
-        {
-        breakpoint: 480,
-        settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1
+
+        // Initialize or destroy Slick based on screen width
+        function handleSlick() {
+            initSlick();
         }
-        }
-    ]
+
+        $(window).on('load resize', handleSlick);
     });
-			
-    </script>
+</script>

@@ -643,7 +643,7 @@ const approveDocument = async (req, res, next) => {
         }
 
         userDocument.status = true;
-        userDocument.statusMessage == 'Approved'
+        userDocument.statusMessage = 'Approved'
 
         const approvedDoc = await userDocument.save();
 
@@ -662,7 +662,9 @@ const approveDocument = async (req, res, next) => {
 const rejectDocument = async (req, res, next) => {
     const { id } = req.params
     
-    const user = await User.findOne({ _d: id });
+    const user = await User.findOne({ _id: id });
+    
+    console.log(user)
 
     if (!user) {
         next(new ErrorResponse('this user does not exits', 400))
@@ -684,10 +686,6 @@ const rejectDocument = async (req, res, next) => {
         // const approvedDoc = await userDocument.save();
 
         // send user email after rejection 
-
-        if (!approvedDoc) {
-            throw new Error('document failed to be rejected');
-        }
 
         await sendDocumentRejectionEmail(user)
         
