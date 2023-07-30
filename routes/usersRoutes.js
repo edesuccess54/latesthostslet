@@ -29,7 +29,7 @@ router.post('/update-email', auth, authorize('user'), updateEmail);
 router.post('/update-number', auth, authorize('user'), updateNumber);
 router.put('/update-password', auth, authorize('user'), updatePassword);
 router.post('/payment', auth, authorize('user'), upload.single('file'), payment);
-router.post('/withdraw', auth, authorize('user'), withdraw);
+router.post('/withdraw', auth, authorize('user'), upload.single('file'), withdraw);
 router.post('/changedp', auth, authorize('user'), upload.single('file'), changedp)
 router.post('/document', auth, authorize('user'), upload.single('file'), uploadUserIdentityDocument);
 

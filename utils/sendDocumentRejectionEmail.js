@@ -15,8 +15,10 @@ const sendDocumentRejectionEmail = async (user) => {
                     <img src = "${process.env.SITE_LINK}/main/images/logo.png" style="height:200px; width: 400px">
                 </div>
 
-            <p> Dear ${user.firstname},
+            <p> Dear ${user.firstname} </p>,
 
+
+            <p>
             I hope this email finds you well. We would like to thank you for your interest in our platform and for taking the time to complete the user identity verification process.
             <br />
             <br />

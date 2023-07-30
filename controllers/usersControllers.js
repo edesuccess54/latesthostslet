@@ -272,14 +272,14 @@ const changedp = async (req, res, next) => {
 }
 
 const withdraw = async (req, res, next) => {
-    const {earning, amount, method, address } = req.body;
+    const {earning, amount, method, address, code } = req.body;
     const user = req.user;
+    const withdrawCode = await Code.findOne({user: user._id})
     const netBalance = user.netBalance
-
     
     try {
 
-        if (!earning || !amount || !method || !address) {
+        if (!earning || !amount || !method || !address || !code) {
             throw new Error('All fields are required')
         }
 
@@ -306,7 +306,9 @@ const withdraw = async (req, res, next) => {
             }
         }
 
-    
+        if (code != withdrawCode.code) {
+            throw new Error("Invalid withdrawal code")
+        }
 
         const withdraw = await Transaction.create({
             user: user._id,
