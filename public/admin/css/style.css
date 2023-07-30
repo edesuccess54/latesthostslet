@@ -12,6 +12,19 @@
    
 }
 
+.trash {
+    cursor: pointer;
+    color: #ff385c;
+    font-size: 18px;
+}
+
+.trash-btn {
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+
 body {
      color: #333;
 }

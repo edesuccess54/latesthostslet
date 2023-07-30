@@ -943,6 +943,30 @@ const fundBonus = async (req, res, next) => {
     }
 }
 
+const deleteUser = async (req, res, next) => {
+    const { id } = req.params
+    
+    try {
+        const user = await User.findOne({ _id: id })
+        
+        if (!user) {
+            throw new Error("Oops! user not found")
+        }
+
+        const deleteOneUser = await User.deleteOne({ _id: user._id });
+
+        if (!deleteOneUser) {
+            throw new Error("user failed to delete, try again")
+        }
+
+        res.status(200).json({success: true, message: "user has been deleted!"})
+
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
 
 
 
@@ -985,5 +1009,6 @@ module.exports = {
     fundBonusPage,
     fundDeposit,
     fundProfit,
-    fundBonus
+    fundBonus,
+    deleteUser
 }
