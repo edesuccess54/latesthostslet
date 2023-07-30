@@ -85,9 +85,9 @@
             <div class="dp_status" style="display: flex; justify-content: space-between;">
                 <div class="left">
                     <h4>KYC: 
-                        <% if(doc?.statusMessage = "Rejected") { %>
+                        <% if(!doc) { %>
                         <span style="color: red;">Not Uploaded</span>
-                        <%} else if(doc?.statusMessage = "Pending") { %>
+                        <%} else { %>
                             <span style="color: green;">Uploaded</span>
                         <% } %>
                     </h4>
@@ -105,14 +105,14 @@
             </div>
         </div>
         <div class="kyc_wrapper">
-            <% if(doc?.statusMessage = "Rejected" || !doc) { %>
+            <% if(!doc) { %>
             <img src="/admin/images/kyc.webp" alt="">
             <%} else { %>
                 <img src="data:image/png;base64,<%= doc.doc.url %>" alt="">
             <% } %>
 
             <div class="view_doc_btn" style="margin-top: 10px;">
-                <% if(doc?.statusMessage = "Pending") { %>
+                <% if(doc.statusMessage != "Approved") { %>
                     <button class="btn view_doc_btn" data-user="<%= user._id %>"> <span><i class="fa-solid fa-id-card-clip"></i></span> View Doc</button>
                 <% } %>
             </div>
