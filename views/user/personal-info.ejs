@@ -72,7 +72,7 @@
             <div class="detail">
                 <h4 class="title">Document</h4>
                 <p>
-                    <% if(doc?.status) { %>
+                    <% if(doc?.statusMessage == "Approved") { %>
                         <p style="color: green; font-size: 12px">Verified</p>
                     <%} else if(doc?.statusMessage == "Pending") { %>
                         <p style="color: rgb(195, 195, 34); font-size: 12px">Pending</p>

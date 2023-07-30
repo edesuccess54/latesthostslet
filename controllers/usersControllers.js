@@ -463,10 +463,18 @@ const updatePassword = async (req, res, next) => {
 const userRegisteration = async (req, res, next) => { 
     const { firstname, lastname, email, gender, country, reference, password2, password, number, } = req.body
 
+
     let { clientIp } = getIP(req);
     
     if (!reference) { 
          next(new ErrorResponse('Please enter property reference', 400))
+        return
+    }
+
+    const property = await Property.findOne({ _id: reference })
+    
+    if (!property) {
+        next(new ErrorResponse('Invalid property reference', 400))
         return
     }
 

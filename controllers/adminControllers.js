@@ -9,6 +9,7 @@ const User =require('../models/usersModel')
 const ErrorResponse = require('../utils/errorResponse');
 const cloudinary = require('cloudinary').v2
 const fs = require('fs');
+const sendDocumentRejectionEmail = require('../utils/sendDocumentRejectionEmail')
 
 
 function generateRandomString(length) {
@@ -659,7 +660,14 @@ const approveDocument = async (req, res, next) => {
 }
 
 const rejectDocument = async (req, res, next) => {
-   const { id } = req.params
+    const { id } = req.params
+    
+    const user = await User.findOne({ _d: id });
+
+    if (!user) {
+        next(new ErrorResponse('this user does not exits', 400))
+        return
+    }
     
     try {
 
@@ -680,6 +688,8 @@ const rejectDocument = async (req, res, next) => {
         if (!approvedDoc) {
             throw new Error('document failed to be rejected');
         }
+
+        await sendDocumentRejectionEmail(user)
         
         res.status(200).json({success: true, message: 'Document has been rejected'})
         
