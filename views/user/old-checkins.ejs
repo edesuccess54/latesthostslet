@@ -1,0 +1,58 @@
+<%- include('./partials/head') %>
+    
+    <main>
+        <div class="avatar_bio_wrapper">
+            <div class="back">
+                <a href="/auth/users/dashboard"><span><i class="fa-solid fa-angle-left"></i></span></a>
+            </div>
+            <h3>Old Checkin History</h3>
+        </div>
+
+
+        <div class="trips_table_container checkins_table_container">
+             <h4 class="checkins_title">Old Checkins</h4>
+            <table id="checkins" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Name of Property</th>
+                        <th>Location</th>
+                        <th>Amount</th>
+                        <th>Checkin Date</th>
+                        <th>Checkout Date</th>
+                        <th>status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(checkins) { %>
+                        <% checkins.map(({name, amount, location, checkindate, checkoutdate, status}) => { %>
+                            <tr>
+                                <td><%= name %> </td>
+                                <td><%= location %></td>
+                                <td>$<%= Number(amount).toLocaleString() %></td>
+                                <td><%= checkindate %></td>
+                                <td><%= checkoutdate %></td>
+                                <td>
+                                    <% if(status == "active") { %>
+                                        <span style="color: rgb(178, 178, 16)"><%= status %></span>
+                                    <%} else { %>
+                                        <span style="color: green"><%= status %></span>
+                                    <%} %>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+
+    <script>
+         new DataTable('#checkins');
+    </script>
+</body>
+</html>

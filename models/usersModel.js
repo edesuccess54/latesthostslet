@@ -44,8 +44,9 @@ const userSchema = Schema({
     },
 
     reference: {
-        type: String,
-        required: true
+        type: Schema.Types.ObjectId,
+        required: true,
+        trim: true
     },
 
     deposit: {

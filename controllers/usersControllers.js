@@ -4,6 +4,7 @@ const Transaction = require('../models/transactionModel');
 const ErrorResponse = require('../utils/errorResponse');
 const UserDocument = require('../models/documentModel');
 const Property = require('../models/propertyModel');
+const Checkins = require('../models/checkinModel')
 const Wallet = require('../models/walletModel');
 const Token = require('../models/tokenModel');
 const jwt = require('jsonwebtoken');
@@ -91,8 +92,20 @@ const transactionPage = async (req, res, next) => {
 }
 
 // checkins page 
-const checkinsPage = (req, res, next) => {
-    res.render('user/checkins')
+const oldCheckinsPage = async (req, res, next) => {
+    const user = req.user
+
+    const checkins = await Checkins.find({user: user._id, checkins: "old checkins"});
+
+    res.render('user/old-checkins', {checkins})
+}
+
+const newCheckinsPage = async (req, res, next) => {
+    const user = req.user
+
+    const checkins = await Checkins.find({user: user._id, checkins: "new checkins"});
+
+    res.render('user/new-checkins', {checkins})
 }
 
 // email verification page 
@@ -759,7 +772,8 @@ module.exports = {
     profilePage,
     withdrawalPage,
     transactionPage,
-    checkinsPage,
+    oldCheckinsPage,
+    newCheckinsPage,
     payment,
     withdraw,
     changedp,

@@ -97,7 +97,7 @@
                     </a>
                 </li>
 
-                <li>
+                <!-- <li>
                     <a href="/auth/users/checkins">
                         <span class="profile_image">
                             <img src="/user/images/payment.svg" alt="">
@@ -105,7 +105,38 @@
                         </span>
                         <span><i class="fa-solid fa-angle-up"></i></span>
                     </a>
+                </li> -->
+
+
+                <li>
+                    <a href="#" class="checkins_toggle">
+                        <span class="profile_image">
+                            <img src="/user/images/payment.svg" alt="">
+                            <p>Checkins</p>
+                        </span>
+                        <span><i class="fa-solid fa-angle-up checkins_toggle_icon"></i></span>
+                    </a>
+                    <ul class="checkin_submenu">
+                        <li style="margin-left: 20px;">
+                            <a href="/auth/users/old-checkins">
+                                <span class="profile_image">
+                                    <img src="/user/images/payment.svg" alt="">
+                                    <p>Old Checkins</p>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li style="margin-left: 20px;">
+                            <a href="/auth/users/new-checkins">
+                                <span class="profile_image">
+                                    <img src="/user/images/payment.svg" alt="">
+                                    <p>New Checkins</p>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
             </ul>
         </div>
 
@@ -164,12 +195,6 @@
                 <button class="user_logout" type="button">Log out</button>
             </div>
 
-            <!-- <div class="footer_link">
-                <a href="#">Help & support</a> .
-                <a href="#">Terms of Service</a> .
-                <a href="#">Privacy Policy</a> .
-                <a href="#">Your Privacy Choices</a>
-            </div> -->
             <p class="copy">&copy 2023 Hostslet, Inc. All rights reserved.</p>
         </div>
     </main>
@@ -179,6 +204,10 @@
         const accountToggle = document.querySelector('.account_toggle');
         const accountSubMenu = document.querySelector('.account_submenu');
         const iconToggle = document.querySelector('.icon_toggle')
+
+        const checkinsToggle = document.querySelector('.checkins_toggle');
+        const checkinSubMenu = document.querySelector('.checkin_submenu');
+        const checkinsIconToggle = document.querySelector('.checkins_toggle_icon')
 
         const logUserOut = async (e) => {
 
@@ -209,6 +238,14 @@
             iconToggle.classList.toggle('show')
         }
         accountToggle.addEventListener('click', toggleAcount);
+
+
+        const toggleCheckins = (e) => {
+            e.preventDefault();
+            checkinSubMenu.classList.toggle('show');
+            checkinsIconToggle.classList.toggle('show')
+        }
+        checkinsToggle.addEventListener('click', toggleCheckins);
 
         // make request to change profile picture 
         const changeProfile = document.querySelector('.change_profile');

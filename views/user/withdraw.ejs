@@ -115,6 +115,7 @@
         <div class="withdrawal_overlay"></div>
         <div class="withdrawal_code_modal">
             <div class="code_modal_content">
+                <span style="text-align: right; display: block; cursor: pointer; font-size: 18px; padding-bottom: 10px;"><i class="fa-solid fa-xmark code-close-icon"></i></span>
                 <form class="code_form" enctype="multipart/form-data">
                     <div class="input_group">
                         <label id="withdrawaCode" for="code">Withdrawal Code</label>
@@ -148,6 +149,8 @@
     const withdrawalForm = document.querySelector('.withdrawal_form');
     const withdrawalBtn = document.querySelector('.widthdraw_btn');
 
+    const codeCloseIcon = document.querySelector('.code-close-icon');
+
 
 
     function showWithdrawalModal() {
@@ -157,8 +160,12 @@
 
     function hideWithdrawalModal() {
         withdrawalCodeModal.classList.remove('active');
-        overlay.classList.remove('active')
+        overlay.classList.remove('active');
+
+        codeForm.reset()
     }
+
+    codeCloseIcon.addEventListener('click', hideWithdrawalModal)
 
     function formParams() {
          const formData = {

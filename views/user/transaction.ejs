@@ -22,8 +22,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% if(transactions){ 
-                       transactions.map((transactions, index) => { %>
+                    <% if(transactions){ %>
+                       <% transactions.map((transactions, index) => { %>
                     <tr>
                         <td><%= index + 1 %></td>
                         <td>$<%= Number(transactions.amount).toLocaleString() %></td>
@@ -32,14 +32,16 @@
                         <td>
                             <% if(transactions.status) { %>
                                 <span class="complete">completed</span>
+                            <% } else if(transactions.statusMessage == "Rejected") { %>
+                                <span class="pending"><%= transactions.statusMessage %></span>
                             <% } else { %>
-                                <span class="pending">pending</span>
-                            <% } %>
+                                <span class="pending">Pending</span>
+                            <%} %>
                         </td>
                         <td><%= transactions.datetime %></td>
                     </tr>
-                    <% })
-                    } %>
+                    <% })%>
+                    <%} %>
                 </tbody>
             </table>
         </div>

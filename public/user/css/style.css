@@ -127,15 +127,15 @@ main {
     overflow: hidden;
 }
 
-.account_submenu {
+.account_submenu, .checkin_submenu {
     display: none;
 }
 
-.account_submenu.show {
+.account_submenu.show, .checkin_submenu.show {
     display: block;
 }
 
-.icon_toggle.show {
+.icon_toggle.show, .checkins_toggle_icon.show {
     transform: rotate(180deg);
 }
 

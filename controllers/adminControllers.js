@@ -603,6 +603,7 @@ const checkins = async (req, res, next) => {
 
         const checkin = await Checkins.create({
             user: user._id,
+            name: property.pname,
             property: property._id,
             amount: property.pamount,
             location: property.plocation,
