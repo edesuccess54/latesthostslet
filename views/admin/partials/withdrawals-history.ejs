@@ -98,7 +98,7 @@
                     <th>action</th>
                 </tr>
             </thead>
-            <tbody class="withdrawal_action_tab view_proof">
+            <tbody class="withdrawal_action_tab">
                 <% if(withdraws.length > 0) { %>
                     <% for(let i = 0; i < withdraws.length ; i++) { %>
                         <tr>
@@ -117,7 +117,7 @@
                                 
                                 </td>
                             <td>
-                                <button class="action_btn" style="background: green;" data-paymentid="<%= withdraws[i]._id %>">Approve</button>
+                                <button class="action_btn accept" style="background: green;" data-paymentid="<%= withdraws[i]._id %>">Approve</button>
                                 <button class="action_btn reject" data-paymentid="<%= withdraws[i]._id %>">Reject</button>
                             </td>
                         </tr>
@@ -130,17 +130,12 @@
     </section>
 
 
-<script>
-    const viewProof = document.querySelector('.view_proof');
+<script type="module">
+    import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+    toastBtn.addEventListener('click', () => closeNotification(toast));
+
     const modalWrapper = document.querySelector('.modal_wrapper');
     const withdrawwalActionTab = document.querySelector('.withdrawal_action_tab');
-
-
-
-
-
-
-    
 
     
     // function to approve user payment 
@@ -148,8 +143,10 @@
         try {
             const paymentId = e.target.dataset.paymentid;
             
-            if(e.target.classList.contains('approve')) {
-                e.target.textContent = 'Approving...'
+            if(e.target.classList.contains('accept')) {
+                
+                showSpinner(e.target)
+
                 const response = await fetch(`/auth/admin/approve-withdraw/${paymentId}`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
@@ -166,12 +163,15 @@
                 }
 
                 if(json.success) {
-                    e.target.textContent = 'Approve'
+                    hideSpinner(e.target, "Approve")
+                    notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
                     location.reload()
                 }
 
             } else if(e.target.classList.contains('reject')) {
-                e.target.textContent = 'Rejecting...'
+
+                showSpinner(e.target)
+                
                 const response = await fetch(`/auth/admin/reject-withdraw/${paymentId}`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
@@ -188,17 +188,20 @@
                 }
 
                 if(json.success) {
+                    hideSpinner(e.target, "Reject")
+                    notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
                     location.reload()
                 }
             }
             
         } catch (error) {
-            if(e.target.classList.contains('approve')) {
-                e.target.textContent = 'Approve'
+            if(e.target.classList.contains('accept')) {
+                hideSpinner(e.target, "Approve")
+                notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
             } else {
-                e.target.textContent = 'Reject'
+                hideSpinner(e.target, "Reject")
+                notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
             }
-            throw new Error(error.message, 400)
         }
     }
 

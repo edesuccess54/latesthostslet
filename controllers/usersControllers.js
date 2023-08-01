@@ -514,20 +514,6 @@ const userRegisteration = async (req, res, next) => {
     }
     
     try {
-
-        // const reservationCode = Code.findOne({ code: reference })
-
-        // if (!reservationCode) {
-        //     throw new Error('reservation code does not exist')
-        // }
-
-        // if (reservationCode.code !== reference) {
-        //     throw new Error('you have entered a wrong reservation code')
-        // }
-
-        // if (!reservationCode.userEmail !== email) {
-        //     throw new Error('email provided does not match reservation code email')
-        // }
     
         const userExist = await User.find();
 

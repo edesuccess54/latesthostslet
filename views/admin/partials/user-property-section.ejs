@@ -2,7 +2,8 @@
     <div class="property-container" style="margin-top: 20px;">
         <div class="property-tab-buttons" style="margin-bottom: 20px;">
             <button class="property-tab-button active" data-tab="tab1">View Property</button>
-            <button class="property-tab-button" data-tab="tab2">Add Checkin</button>
+            <button class="property-tab-button" data-tab="tab2">Add Checkins</button>
+            <button class="property-tab-button" data-tab="tab2">view Checkins</button>
         </div>
 
         <div class="user-property-wrapper" style="margin: 20px 0;">
@@ -12,6 +13,10 @@
     
             <div class="property-content">
                 <%- include('./user-property-checkins') %>
+            </div>
+
+            <div class="property-content">
+                <%- include('./view-user-checkins') %>
             </div>
         
         </div>

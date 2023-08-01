@@ -103,6 +103,7 @@ const userDetailPage = async (req, res, next) => {
     const doc = await UserDocument.findOne({ user: hostsletuser });
     const code = await Code.findOne({ user: hostsletuser });
 
+    const checkins = await Checkins.find({user: user._id})
     const property = await Property.findOne({ _id: user.reference })
 
 
@@ -114,7 +115,7 @@ const userDetailPage = async (req, res, next) => {
         return
     }
 
-    res.render('admin/user-detail', {title: 'user detail',property, user, doc, code, randomString1, randomString2, deposits, withdraws})
+    res.render('admin/user-detail', {title: 'user detail',property, checkins, user, doc, code, randomString1, randomString2, deposits, withdraws})
 }
 
 // fund user deposit 
@@ -522,7 +523,7 @@ const rejectPayment = async (req, res, next) => {
         transaction.status = false;
         transaction.statusMessage = "Rejected";
         user.host = false;
-        user.profit = Number(user.profit) + Number(transaction.amount)
+
         await user.save();
         await transaction.save();
 
@@ -542,6 +543,8 @@ const approveWithdrawal = async (req, res, next) => {
             throw new Error('No transaction was found')
         }
         transaction.status = true
+        transaction.statusMessage = 'Approved';
+
         const withdrawUpdate = await transaction.save();
 
         if (!withdrawUpdate) {
@@ -563,9 +566,15 @@ const rejectWithdrawal = async (req, res, next) => {
         if (!transaction) {
             throw new Error('No transaction was found')
         }
+
+        const user = await User.findOne({ _id: transaction.user });
+        user.profit = Number(user.profit) + Number(transaction.amount)
+
         transaction.status = false
         transaction.statusMessage = 'Rejected'
         const withdrawUpdate = await transaction.save();
+
+        await user.save()
 
         if (!withdrawUpdate) {
             next(new ErrorResponse('withdrawal has failed to update', 500))

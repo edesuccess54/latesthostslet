@@ -123,15 +123,8 @@
                                 
                             </td>
                             <td class="action_tab">
-                                <% if(!deposits[i].status) { %>
-                                    <button class="action_btn approved" style="background: green;"  data-paymentid="<%= deposits[i]._id %>">Approve</button>
-                                <% } %>
-
-                                <% if(deposits[i].statusMessage != "Rejected") { %>
-                                    <button class="action_btn reject" data-paymentid="<%= deposits[i]._id %>">Reject</button>
-                                <% } %>
-                                
-                                
+                                <button class="action_btn approved" style="background: green;"  data-paymentid="<%= deposits[i]._id %>">Approve</button>
+                                <button class="action_btn reject" data-paymentid="<%= deposits[i]._id %>">Reject</button>
                             </td>
                         </tr>
                 <%  }
