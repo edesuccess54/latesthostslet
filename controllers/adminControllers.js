@@ -52,7 +52,7 @@ const walletPage = async (req, res, next) => {
 const editProopertyPage = async (req, res, next) => { 
     const { property: propertyId } = req.query;
     const property = await Property.findById(propertyId);
-    res.render('admin/editproperty', { title: 'Edit Property', property,})
+    res.render('admin/edit', { title: 'Edit Property', property,})
 }
 
 const propertyReviewPage = async (req, res, next) => { 
