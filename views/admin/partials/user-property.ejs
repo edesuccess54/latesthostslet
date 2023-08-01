@@ -1,0 +1,121 @@
+<style>
+    .propety_details {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 20px;
+    }
+
+    .user-property {
+        flex-grow: 1;
+    }
+
+    .user-property-title {
+        font-weight: bold;
+        color: #222;
+    }
+
+    .user-property-doc {
+        color: #1e1e1e;
+        padding: 0;
+    }
+
+    .property-carousel {
+        display: flex;
+        gap: 20px;
+    }
+
+    .responsive {
+        display: flex;
+        max-width: 21.875rem;
+        margin: auto;
+        max-height: 25rem;
+        gap: 10px;
+    }
+
+    .responsive img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    @media screen and (min-width: 768px) {
+        .propety_details {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .user_property_carousel {
+            max-width: 1000px;
+        }
+
+        /* .large-show {
+            display: block;
+        } */
+
+        .responsive {
+            max-width: 600px;
+        }
+    }
+</style>
+
+<div class="" style="margin-top: 40px;">
+    <div class="user_property_carousel" style="margin-top: 20px; padding-top: 20px; overflow: hidden;">
+        <% if(property) { %>
+            <% property.pimages.map(({url}) => { %>
+                <div class="responsive">
+                    <img src="data:image/png;base64,<%= url %>" alt="">
+                </div>
+            <%})%>
+        <%} %>
+
+    </div>
+
+    <div class="propety_details" style="margin-top: 20px;">
+        <div class="user-property">
+            <p class="user-property-title"> Name</p>
+            <p class="user-property-doc"><%= property.pname  %></p>
+        </div>
+
+        <div class="user-property">
+            <p class="user-property-title"> Location</p>
+            <p class="user-property-doc"><%= property.plocation  %></p>
+        </div>
+
+        <div class="user-property">
+            <p class="user-property-title"> Amount</p>
+            <p class="user-property-doc">$<%= Number(property.pamount).toLocaleString()  %></p>
+        </div>
+    </div>
+</div>
+
+
+<!-- slick javascript  -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<script>
+// activate slick on mobile devices 
+$(document).ready(function() {
+    function initSlick() {
+        $('.user_property_carousel').slick({
+        speed: 300,
+        autoplay: true,
+        arrows: true,
+        infinite: true,
+        });
+    }
+
+    function destroySlick() {
+        if ($('.user_property_carousel').hasClass('slick-initialized')) {
+            $('.user_property_carousel').slick('unslick');
+        }
+    }
+
+    // Initialize or destroy Slick based on screen width
+    function handleSlick() {
+        initSlick();
+    }
+
+    $(window).on('load resize', handleSlick);
+});
+</script>

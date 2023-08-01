@@ -1,0 +1,97 @@
+<section class="form_section">
+    <h2>Update checkins</h2>
+    <div class="form_wrapper">
+        <div class="form_container">
+            <form class="checkin_form" enctype="multipart/form-data">
+                <div class="input_group">
+                    <label for="checkins">select the checkins</label>
+                    <select name="checkins" id="checkins" required>
+                         <option selected disabled>Select checkins</option>
+                        <option value="old checkins">Old Checkins</option>
+                         <option value="new checkins">New Checkins</option>
+                    </select>
+                </div>
+
+                <div class="input_group">
+                    <label for="checkindate">Checkin date</label>
+                    <input id="checkindate" type="text" name="checkindate" placeholder="Jun. 17, 2023" required>
+                </div>
+
+                <div class="input_group">
+                    <label for="checkoutdate">Checkout date</label>
+                    <input id="checkoutdate" type="text" name="checkoutdate" placeholder="Jun. 17, 2023" required>
+                </div>
+
+                <div class="input_group">
+                    <label for="status">Checkin status</label>
+                    <select name="status" id="status" required>
+                         <option selected disabled>Select status</option>
+                        <option value="active">active</option>
+                         <option value="setttled">setttled</option>
+                    </select>
+                </div>
+
+                <div class="input_group">
+                    <button class="btn checkin_btn">Update Checkins</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script type="module">
+
+    import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+    toastBtn.addEventListener('click', () => closeNotification(toast));
+
+
+    const queryStrings = new URLSearchParams(document.location.search)
+    const hostsletuser = queryStrings.get('hostsletuser');
+
+    const checkinForm = document.querySelector('.checkin_form');
+    const checkinBtn = document.querySelector('.checkin_btn');
+
+   async function updateCheckinDetails(e) {
+        e.preventDefault();
+
+        try {
+
+            showSpinner(checkinBtn)
+
+            let formData = {
+                checkins: checkinForm.checkins.value,
+                checkindate: checkinForm.checkindate.value,
+                checkoutdate: checkinForm.checkoutdate.value,
+                status: checkinForm.status.value,
+            }
+
+            const response = await fetch(`/auth/admin/checkins/${hostsletuser}`, {
+                method: 'POST',
+                headers: {'Content-Type' : 'application/json'},
+                body: JSON.stringify(formData)
+            })
+
+            if(!response.ok) {
+                throw new Error('something went wrong, please try again')
+            }
+
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error)
+            }
+
+            if(json.success) {
+                hideSpinner(checkinBtn, "Updated checkins")
+                notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
+                checkinForm.reset();
+            }
+            
+        } catch (error) {
+            hideSpinner(checkinBtn, "Updated checkins")
+            notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
+        }
+    }
+
+    checkinForm.addEventListener('submit', updateCheckinDetails);
+</script>

@@ -567,8 +567,6 @@ const rejectWithdrawal = async (req, res, next) => {
         transaction.statusMessage = 'Rejected'
         const withdrawUpdate = await transaction.save();
 
-        console.log(transaction)
-
         if (!withdrawUpdate) {
             next(new ErrorResponse('withdrawal has failed to update', 500))
             return
@@ -582,20 +580,35 @@ const rejectWithdrawal = async (req, res, next) => {
 }
 
 const checkins = async (req, res, next) => {
-    const { name, checkins, location, city, amount, date, status } = req.body
+    const { id } = req.params
+
+    const { checkins, checkindate, checkoutdate, status } = req.body
     
     try {
-        if (!name || !checkins || !location || !city || !amount || !date || !status) {
+        const user = await User.findOne({_id : id});
+
+        if(!user) {
+            throw new Error('User not found')
+        }
+
+        const property = await Property.findOne({_id: user.reference});
+
+        if(!property) {
+            throw new Error('Property not found')
+        }
+
+        if (!checkins || !checkindate || !checkoutdate || !status) {
             throw new Error('All fields are required')
         }
 
         const checkin = await Checkins.create({
-            name,
+            user: user._id,
+            property: property._id,
+            amount: property.pamount,
+            location: property.plocation,
             checkins,
-            location,
-            city,
-            amount,
-            date,
+            checkindate,
+            checkoutdate,
             status
         })
 
@@ -603,14 +616,12 @@ const checkins = async (req, res, next) => {
             next(new ErrorResponse('checkins failed to create, try again', 500))
         }
 
-        res.status(200).json({success: true, message: 'Checkins created', checkin})
+        res.status(200).json({success: true, message: checkins=="old checkins" ? 'Old Checkins created' : 'New Checkins created' , checkin})
 
     } catch (error) {
         next(new ErrorResponse(error.message, 400))
         return
     }
-    
-    console.log(req.body)
 }
 
 const viewUserDocument = async (req, res, next) => {

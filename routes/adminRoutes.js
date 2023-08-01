@@ -44,7 +44,7 @@ router.post('/activate-withdrawal/:id', auth, authorize('admin'), activateUserWi
 
 router.post('/approve-withdraw/:id', auth, authorize('admin'), approveWithdrawal);
 router.post('/reject-withdraw/:id', auth, authorize('admin'), rejectWithdrawal);
-router.post('/checkins', auth, authorize('admin'), checkins);
+router.post('/checkins/:id', auth, authorize('admin'), checkins);
 router.post('/doc/:id', auth, authorize('admin'), viewUserDocument);
 
 router.post('/user-account-status/:id', auth, authorize('admin'), updateUserAccountStatus);

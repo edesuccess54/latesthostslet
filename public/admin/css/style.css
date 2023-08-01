@@ -93,8 +93,13 @@ main {
 
 .tab-buttons {
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
     background: #fff;
+}
+
+.property-tab-buttons {
+    display: flex;
 }
 
 .tab-history-buttons {
@@ -104,7 +109,7 @@ main {
     background: #fff;
 }
 
-.tab-button {
+.tab-button, .property-tab-button {
     padding: 10px 20px;
     border: none;
     outline: none;
@@ -130,16 +135,16 @@ main {
     font-weight: bold;
 }
 
-.tab-button.active, .tab-history-button.active {
+.tab-button.active, .tab-history-button.active, .property-tab-button.active {
     color: #ff385c;
     border-bottom: 2px  solid #ff385c;
 }
 
-.tab-content, .account-history-content {
+.tab-content, .account-history-content, .property-content {
     display: none;
 }
 
-.tab-content.active, .account-history-content.active {
+.tab-content.active, .account-history-content.active, .property-content.active {
     display: block;
 }
 

@@ -1,8 +1,13 @@
 const mongoose = require('mongoose')
 
 const checkinSchema = mongoose.Schema({
-    name: {
-        type: String,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+
+    property: {
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
 
@@ -16,17 +21,17 @@ const checkinSchema = mongoose.Schema({
         required: true
     },
 
-    city: {
-        type: String,
-        required: true
-    },
-
     checkins: {
         type: String,
         required: true
     },
 
-    date: {
+    checkindate: {
+        type: String,
+        required: true
+    },
+
+    checkoutdate: {
         type: String,
         required: true
     },

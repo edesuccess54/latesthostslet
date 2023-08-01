@@ -1,118 +1,53 @@
     
-    <style>
-        .propety_details {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr);
-            gap: 20px;
-        }
-
-        .user-property {
-            flex-grow: 1;
-        }
-
-        .user-property-title {
-            font-weight: bold;
-            color: #222;
-        }
-
-        .user-property-doc {
-            color: #1e1e1e;
-            padding: 0;
-        }
-
-        .property-carousel {
-            display: flex;
-            gap: 20px;
-        }
-
-        .responsive {
-            display: flex;
-            max-width: 21.875rem;
-            margin: auto;
-            max-height: 25rem;
-            gap: 10px;
-        }
-
-        .responsive img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        @media screen and (min-width: 768px) {
-            .propety_details {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            /* .large-show {
-                display: block;
-            } */
-
-            .responsive {
-                max-width: 600px;
-            }
-        }
-    </style>
-
-    <div class="" style="margin-top: 40px;">
-        <div class="user_property_carousel" style="margin-top: 20px;">
-            <% if(property) { %>
-                <% property.pimages.map(({url}) => { %>
-                    <div class="responsive">
-                        <img src="data:image/png;base64,<%= url %>" alt="">
-                    </div>
-                <%})%>
-            <%} %>
-
+    <div class="property-container" style="margin-top: 20px;">
+        <div class="property-tab-buttons" style="margin-bottom: 20px;">
+            <button class="property-tab-button active" data-tab="tab1">View Property</button>
+            <button class="property-tab-button" data-tab="tab2">Add Checkin</button>
         </div>
 
-        <div class="propety_details" style="margin-top: 20px;">
-            <div class="user-property">
-                <p class="user-property-title"> Name</p>
-                <p class="user-property-doc"><%= property.pname  %></p>
+        <div class="user-property-wrapper" style="margin: 20px 0;">
+            <div class="property-content active">
+                <%- include('./user-property') %>
             </div>
-
-            <div class="user-property">
-                <p class="user-property-title"> Location</p>
-                <p class="user-property-doc"><%= property.plocation  %></p>
+    
+            <div class="property-content">
+                <%- include('./user-property-checkins') %>
             </div>
-
-            <div class="user-property">
-                <p class="user-property-title"> Amount</p>
-                <p class="user-property-doc">$<%= Number(property.pamount).toLocaleString()  %></p>
-            </div>
+        
         </div>
     </div>
+    
 
-
-<!-- slick javascript  -->
-<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-
-<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
 <script>
-    // activate slick on mobile devices 
-    $(document).ready(function() {
-        function initSlick() {
-            $('.user_property_carousel').slick({
-            speed: 300,
-            autoplay: true,
-            arrows: true,
-            infinite: true,
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabButtons = document.querySelectorAll('.property-tab-button');
+        const tabContents = document.querySelectorAll('.property-content');
+
+        // Show the initial tab on page load
+        showAccountHistoryTap(0);
+
+        tabButtons.forEach((button, index) => {
+            button.addEventListener('click', function () {
+            showAccountHistoryTap(index);
             });
-        }
+        });
 
-        function destroySlick() {
-            if ($('.user_property_carousel').hasClass('slick-initialized')) {
-                $('.user_property_carousel').slick('unslick');
-            }
-        }
+        function showAccountHistoryTap(index) {
+            // Hide all tab contents
+            tabContents.forEach(content => {
+            content.classList.remove('active');
+            });
 
-        // Initialize or destroy Slick based on screen width
-        function handleSlick() {
-            initSlick();
-        }
+            // Deactivate all tab buttons
+            tabButtons.forEach(button => {
+            button.classList.remove('active');
+            });
 
-        $(window).on('load resize', handleSlick);
+            // Show the selected tab content and activate the button
+            tabContents[index].classList.add('active');
+            tabButtons[index].classList.add('active');
+        }
     });
 </script>
+    
