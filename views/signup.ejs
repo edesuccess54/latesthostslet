@@ -132,10 +132,7 @@
 
         const message = document.querySelector('.message'); 
 
-        showSpinner(regBtn)
-        // message.textContent = '';
-        // regBtn.textContent = "Please wait...";
-        
+        showSpinner(regBtn)        
 
         const formData = {
             firstname: registerationForm.fname.value,
@@ -167,10 +164,6 @@
         }
 
         if(json.success) {
-            // message.classList.add('success')
-            // message.textContent = json.message
-            // regBtn.textContent = 'Continue';
-
             hideSpinner(regBtn, "Continue")
             notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
 
@@ -178,10 +171,7 @@
         }
         
         } catch (error) {
-        // regBtn.textContent = 'Continue'
         hideSpinner(regBtn, "Continue")
-        // message.classList.add('error')
-        // message.textContent = error.message
         notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
         }
     }

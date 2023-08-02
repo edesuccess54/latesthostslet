@@ -27,3 +27,5 @@ router.get('/rooms/property/details', generalAuth, propertyDetails)
 
 
 module.exports = router
+
+
