@@ -1,6 +1,6 @@
 <div class="trips_table_container checkins_table_container">
-    <h4 class="checkins_title">Old Checkins</h4>
-   <table id="checkins" class="display" style="width:100%">
+    <h4 class="checkins_title" style="margin: 20px 0;"> User property Checkins</h4>
+   <table id="user-checkins" class="display" style="width:100%">
        <thead>
            <tr>
                <th>Name of Property</th>
@@ -9,11 +9,12 @@
                <th>Checkin Date</th>
                <th>Checkout Date</th>
                <th>status</th>
+               <th>Action</th>
            </tr>
        </thead>
-       <tbody>
+       <tbody class="chekins-tbody">
            <% if(checkins) { %>
-               <% checkins.map(({name, amount, location, checkindate, checkoutdate, status}) => { %>
+               <% checkins.map(({_id, name, amount, location, checkindate, checkoutdate, status}) => { %>
                    <tr>
                        <td><%= name %> </td>
                        <td><%= location %></td>
@@ -27,9 +28,87 @@
                                <span style="color: green"><%= status %></span>
                            <%} %>
                        </td>
+                       <td style="display: flex; gap: 15px;">
+                        <a href="/auth/admin/edit-checkins?checkins=<%= randomString1 %>&usercheckins=<%= randomString2 %>&checkinId=<%= _id %>"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <button class="trash-btn">
+                            <i class="fa-solid fa-trash trash" data-checkin="<%= _id %>"></i>
+                        </button>
+                       </td>
                    </tr>
                <% }) %>
            <% } %>
        </tbody>
    </table>
 </div>
+
+<script type="module">
+    import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+    toastBtn.addEventListener('click', () => closeNotification(toast));
+
+    const queryStrings = new URLSearchParams(document.location.search)
+    const propertyreference = queryStrings.get('property_reference');
+
+    const checkinsTrashBtn = document.querySelector('.trash-btn');
+    const checkinsTbody = document.querySelector('.chekins-tbody')
+
+
+
+    const deleteUserCheckins = async (e) => {
+
+        if (e.target.classList.contains('trash')) {
+
+            e.preventDefault();
+            
+            const checkinId = e.target.dataset.checkin;
+            const clickedBtn = e.target.parentNode
+
+            showSpinner(clickedBtn)
+
+            try {
+                const response = await fetch(`/auth/admin/delete-checkins/${checkinId}`, {
+                    method: "DELETE",
+                    headers: {"Content-Type" : "application/json"}
+                })
+
+                if(!response.ok) {
+                    throw new Error("something went wrong please try again")
+                }
+
+                const json = await response.json()
+
+                if(json.error) {
+                    notification.error(json.error, toast, toastIcon, toastMessage, closeNotification);
+                }
+
+                if(json.success) {
+                    hideSpinner(clickedBtn, '<i class="fa-solid fa-trash trash" data-checkin=""></i>')
+                    notification.error(json.message, toast, toastIcon, toastMessage, closeNotification);
+
+                    setTimeout(() => {
+                        location.reload()
+                    }, 3000)
+                }
+            
+            } catch (error) {
+                hideSpinner(clickedBtn, '<i class="fa-solid fa-trash trash" data-checkin=""></i>')
+                notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
+
+                setTimeout(() => {
+                    location.reload()
+                }, 3000)
+            }
+        }
+    }
+    checkinsTbody.addEventListener('click', deleteUserCheckins)
+
+
+
+
+
+    // databale 
+    $(document).ready(function () {
+        $('#user-checkins').DataTable({
+            scrollX: true,
+        });
+    });
+</script>

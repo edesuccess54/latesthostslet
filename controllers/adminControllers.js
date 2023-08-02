@@ -132,6 +132,13 @@ const fundBonusPage = async (req, res, next) => {
     res.render('admin/fund-bonus', {title: 'Fund Bonus'})
 }
 
+const editCheckinsPage = async (req, res, next) => {
+    const {checkinId} = req.query
+    const checkin = await Checkins.findOne({_id: checkinId});
+
+    res.render('admin/edit-checkins', {title: 'Edit Checkins', checkin})
+}
+
 
 
 const createProperty = async (req, res, next) => { 
@@ -615,6 +622,7 @@ const checkins = async (req, res, next) => {
             name: property.pname,
             property: property._id,
             amount: property.pamount,
+            name: property.pname,
             location: property.plocation,
             checkins,
             checkindate,
@@ -988,6 +996,54 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
+const deleteUserCheckins = async (req, res, next) => {
+    const { id } = req.params
+        
+        try {
+            const checkin = await Checkins.findOne({ _id: id })
+            
+            if (!checkin) {
+                throw new Error("Oops! checkin not found")
+            }
+    
+            const deleteCheckin = await Checkins.deleteOne({ _id: checkin._id });
+    
+            if (!deleteCheckin) {
+                throw new Error("checkin failed to delete, try again")
+            }
+    
+            res.status(200).json({success: true, message: "checkin has been deleted!"})
+    
+        } catch (error) {
+            next(new ErrorResponse(error.message, 400))
+            return
+        }
+}
+
+const editUserCheckin = async (req, res, next) => {
+    const {id} = req.params
+
+    try {
+        const checkin = await Checkins.findOne({ _id: id })
+        
+        if (!checkin) {
+            throw new Error("Oops! checkin not found")
+        }
+
+        const editCheckin = await Checkins.updateOne({ _id: checkin._id }, req.body);
+
+        if (!editCheckin) {
+            throw new Error("checkin failed to edit, try again")
+        }
+
+        res.status(200).json({success: true, message: "checkin has been updated!"})
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
 
 
 
@@ -1031,5 +1087,8 @@ module.exports = {
     fundDeposit,
     fundProfit,
     fundBonus,
-    deleteUser
+    deleteUser,
+    deleteUserCheckins,
+    editCheckinsPage,
+    editUserCheckin
 }

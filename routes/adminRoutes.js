@@ -1,5 +1,5 @@
 const express = require('express');
-const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateWithdrawalCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument, approveDocument, rejectDocument, changePassword, changePasswordPage, userDetailPage, updateUserAccountStatus, blockUserAccount, activateUserWithdrawal, fundDepositPage, fundProfitPage, fundBonusPage, fundDeposit, fundProfit, fundBonus, deleteUser} = require('../controllers/adminControllers');
+const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateWithdrawalCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument, approveDocument, rejectDocument, changePassword, changePasswordPage, userDetailPage, updateUserAccountStatus, blockUserAccount, activateUserWithdrawal, fundDepositPage, fundProfitPage, fundBonusPage, fundDeposit, fundProfit, fundBonus, deleteUser, deleteUserCheckins, editCheckinsPage, editUserCheckin} = require('../controllers/adminControllers');
 const upload = require('../utils/fileUpload.js');
 const auth = require('../middleware/auth');
 const authorize = require('../middleware/authorize');
@@ -40,6 +40,11 @@ router.post('/reject-document/:id', auth, authorize('admin'), rejectDocument);
 
 router.post('/block/:id', auth, authorize('admin'), blockUserAccount);
 router.post('/activate-withdrawal/:id', auth, authorize('admin'), activateUserWithdrawal);
+
+router.delete('/delete-checkins/:id', auth, authorize('admin'), deleteUserCheckins)
+router.get('/edit-checkins', auth, authorize('admin'), editCheckinsPage)
+
+router.put('/edit-checkin/:id', auth, authorize('admin'), editUserCheckin)
 
 
 router.post('/approve-withdraw/:id', auth, authorize('admin'), approveWithdrawal);

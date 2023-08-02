@@ -1,3 +1,4 @@
+const mongoose = require('mongoose')
 const { model, Schema } = require('mongoose')
 
 const userSchema = Schema({
@@ -44,7 +45,7 @@ const userSchema = Schema({
     },
 
     reference: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         trim: true
     },

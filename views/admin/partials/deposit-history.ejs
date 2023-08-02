@@ -110,8 +110,8 @@
                             <td>$<%= Number(deposits[i].amount).toLocaleString() %> </td>
                             <td><%= deposits[i].unitAmount%></td>
                             <td><%= deposits[i].method %> </td>
-                            <td>
-                                <button class="action_btn" style="background: green;" data-image="<%= deposits[i].proof %>">view proof</button>
+                            <td style="text-align: center;">
+                                <i class="fa-solid fa-eye view" style="cursor: pointer; font-size: 20px;" data-image="<%= deposits[i].proof %>"></i>
                             </td>
                             <td><%= deposits[i].datetime %></td>
                             <td>
@@ -146,7 +146,7 @@
     toastBtn.addEventListener('click', () => closeNotification(toast));
 
     const viewPaymentproof = async (e) => {
-        if(e.target.textContent == 'view proof') {
+        if(e.target.classList.contains('view')) {
             const imageProof = document.querySelector('.image_proof');
             modalWrapper.classList.add('show');
 

@@ -13,7 +13,8 @@ const fs = require('fs');
 const getIP = require('ipware')().get_ip;
 const sendEmail = require('../utils/sendEmail');
 const sendVerificationEmail = require('../utils/sendVerificationEmail');
-const crypto = require('crypto')
+const crypto = require('crypto');
+const mongoose = require('mongoose')
 
 const generateToken = async (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
@@ -478,11 +479,15 @@ const updatePassword = async (req, res, next) => {
 const userRegisteration = async (req, res, next) => { 
     const { firstname, lastname, email, gender, country, reference, password2, password, number, } = req.body
 
-
     let { clientIp } = getIP(req);
     
     if (!reference) { 
          next(new ErrorResponse('Please enter property reference', 400))
+        return
+    }
+
+    if(!mongoose.Types.ObjectId.isValid(reference)) {
+        next(new ErrorResponse('Property reference is invalid', 400))
         return
     }
 
