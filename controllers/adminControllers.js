@@ -584,11 +584,10 @@ const rejectWithdrawal = async (req, res, next) => {
         await user.save()
 
         if (!withdrawUpdate) {
-            next(new ErrorResponse('withdrawal has failed to update', 500))
-            return
+            throw new Error('withdrawal has failed to update')
         }
 
-        res.status(200).json({success: true, message: 'withdrawal has been approved'})
+        res.status(200).json({success: true, message: 'withdrawal has been rejected'})
     } catch (error) {
         next(new ErrorResponse(error.message, 400))
         return

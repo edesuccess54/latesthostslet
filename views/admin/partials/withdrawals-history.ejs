@@ -72,7 +72,7 @@
                 const json = await response.json();
 
                 if(json.error) {
-                    throw new Error(json.Error)
+                    throw new Error(json.error)
                 }
 
                 if(json.success) {
@@ -97,12 +97,12 @@
                 const json = await response.json();
 
                 if(json.error) {
-                    throw new Error(json.Error)
+                    throw new Error(json.error)
                 }
 
                 if(json.success) {
                     hideSpinner(e.target, "Reject")
-                    notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
+                    notification.error(json.message, toast, toastIcon, toastMessage, closeNotification);
                     location.reload()
                 }
             }
