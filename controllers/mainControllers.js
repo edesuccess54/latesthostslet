@@ -47,7 +47,7 @@ const tropicalPage = async (req, res, next) => {
 }
 
 const islandPage = async (req, res, next) => {
-    const property = await Property.find({ pcategory: 'island' });
+    const property = await Property.find({ pcategory: 'Islands' });
     res.render('island', {title: 'island', property, randomString1,randomString2})
 }
 
