@@ -23,7 +23,7 @@
                     </div>
                     <div class="name">
                         <p class="username"><%= user.firstname %></p>
-                        <span class="show_profile">Show profile</span>
+                        <!-- <span class="show_profile">Show profile</span> -->
                         <% if(user.accountStatus == "active") {%>
                             <p class="show_profile">Status: <span style="color: green; font-size: 14px;"><%=  user.accountStatus%></span> </p>
                         <% } else { %>
@@ -96,17 +96,6 @@
                         <span><i class="fa-solid fa-angle-up"></i></span>
                     </a>
                 </li>
-
-                <!-- <li>
-                    <a href="/auth/users/checkins">
-                        <span class="profile_image">
-                            <img src="/user/images/payment.svg" alt="">
-                            <p>Checkins</p>
-                        </span>
-                        <span><i class="fa-solid fa-angle-up"></i></span>
-                    </a>
-                </li> -->
-
 
                 <li>
                     <a href="#" class="checkins_toggle">
