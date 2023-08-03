@@ -22,7 +22,7 @@
                                 <span><i class="fa-solid fa-money-check-dollar"></i></span>
                                 <div class="amount_section">
                                     <h5 style="text-align: right;">Amount Paid</h5>
-                                    <p style="text-align: right;">$<%=Number(user.deposit) %></p>
+                                    <p style="text-align: right;">$<%=Number(user.deposit).toLocaleString() %></p>
                                 </div>
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                                 
                             <div class="amount_section">
                                     <h5 style="text-align: right;">Profit</h5>
-                                    <p style="text-align: right;">$<%=Number(user.profit) %></p>
+                                    <p style="text-align: right;">$<%=Number(user.profit).toLocaleString() %></p>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                                 <span><i class="fa-solid fa-piggy-bank"></i></span>
                                 <div class="amount_section">
                                     <h5 style="text-align: right;">Bonus</h5>
-                                    <p style="text-align: right;">$<%=Number(user.bonus) %></p>
+                                    <p style="text-align: right;">$<%=Number(user.bonus).toLocaleString() %></p>
                                 </div>
                             </div>
                         </div>
