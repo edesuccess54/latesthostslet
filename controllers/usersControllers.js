@@ -285,15 +285,14 @@ const changedp = async (req, res, next) => {
     }
 }
 
-const withdraw = async (req, res, next) => {
-    const {earning, amount, method, address, code } = req.body;
+const verifyWithdrawal = async (req, res, next) => {
+    const {earning, amount, method, address } = req.body;
     const user = req.user;
-    const withdrawCode = await Code.findOne({user: user._id})
     const netBalance = user.netBalance
     
     try {
 
-        if (!earning || !amount || !method || !address || !code) {
+        if (!earning || !amount || !method || !address) {
             throw new Error('All fields are required')
         }
 
@@ -310,7 +309,6 @@ const withdraw = async (req, res, next) => {
             if (Number(amount) > Number(user.profit)) {
                 throw new Error('Insufficient balance')
             }
-
         }
 
         if(earning == 'bonus') {
@@ -319,6 +317,34 @@ const withdraw = async (req, res, next) => {
                 throw new Error('Insufficient balance')
             }
         }
+
+        const result = {
+            earning: earning,
+            amount: amount,
+            method: method,
+            address: address,
+            netBalance: netBalance
+        }
+
+        console.log(result)
+
+        res.status(200).json({success: true, result})
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
+    }
+}
+
+const withdraw = async (req, res, next) => {
+    const {code, earning, amount, method, address } = req.body
+    const user = req.user;
+    const withdrawCode = await Code.findOne({user: user._id})
+
+    console.log(req.body)
+    
+    
+    try {
 
         if (code != withdrawCode.code) {
             throw new Error("Invalid withdrawal code")
@@ -770,5 +796,6 @@ module.exports = {
     changedp,
     uploadUserIdentityDocument,
     emailVerificationPage,
-    resendVerificationEmail
+    resendVerificationEmail,
+    verifyWithdrawal
 }

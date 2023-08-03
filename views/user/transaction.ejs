@@ -35,7 +35,7 @@
                             <% } else if(transactions.statusMessage == "Rejected") { %>
                                 <span class="pending"><%= transactions.statusMessage %></span>
                             <% } else { %>
-                                <span class="pending">Pending</span>
+                                <span style="color: rgb(223, 223, 38);">Pending</span>
                             <%} %>
                         </td>
                         <td><%= transactions.datetime %></td>

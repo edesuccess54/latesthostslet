@@ -21,11 +21,10 @@ const sendVerificationEmail = async (user) => {
             user: user._id,
             token: hashedToken,
             createdAt: Date.now(),
-            expiresAt: Date.now() + 24 * (60 * 60 * 1000) // 24hr,
+            expiresAt: Date.now() + 24 * (60 * 60 * 1000),
         }).save()
     
     
-        // construct url to reset password 
       const verificationUrl = `${process.env.SITE_LINK}/auth/users/emailverification?verificationToken=${verificationToken}`
 
    const htmlMessage = `

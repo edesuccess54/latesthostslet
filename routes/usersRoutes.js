@@ -1,5 +1,5 @@
 const express = require('express');
-const { userRegisteration, loginUser, logoutUser, userDashboardPage, personalInfoPage, accountPage, helpPage, howItWorksPage, tripspage, paymentPage, updateName, updateEmail, updateNumber, updatePassword, profilePage, withdrawalPage, transactionPage, checkinsPage, payment, withdraw, changedp, uploadUserIdentityDocument, emailVerificationPage, resendVerificationEmail, oldCheckinsPage, newCheckinsPage} = require('../controllers/usersControllers');
+const { userRegisteration, loginUser, logoutUser, userDashboardPage, personalInfoPage, accountPage, helpPage, howItWorksPage, tripspage, paymentPage, updateName, updateEmail, updateNumber, updatePassword, profilePage, withdrawalPage, transactionPage, checkinsPage, payment, withdraw, changedp, uploadUserIdentityDocument, emailVerificationPage, resendVerificationEmail, oldCheckinsPage, newCheckinsPage, verifyWithdrawal} = require('../controllers/usersControllers');
 
 const upload = require('../utils/fileUpload.js');
 const auth = require('../middleware/auth');
@@ -31,6 +31,7 @@ router.post('/update-email', auth, authorize('user'), updateEmail);
 router.post('/update-number', auth, authorize('user'), updateNumber);
 router.put('/update-password', auth, authorize('user'), updatePassword);
 router.post('/payment', auth, authorize('user'), upload.single('file'), payment);
+router.post('/verify-withdraw', auth, authorize('user'), upload.single('file'), verifyWithdrawal);
 router.post('/withdraw', auth, authorize('user'), upload.single('file'), withdraw);
 router.post('/changedp', auth, authorize('user'), upload.single('file'), changedp)
 router.post('/document', auth, authorize('user'), upload.single('file'), uploadUserIdentityDocument);

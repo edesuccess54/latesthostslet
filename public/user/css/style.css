@@ -221,6 +221,46 @@ main {
     align-items: center;
 }
 
+.withdrawal_overlay {
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 111;
+}
+
+.withdrawal_overlay.active {
+    display: block;
+}
+
+ .withdrawal_code_modal {
+    position: fixed;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    top: 40%;
+    transform: translateY(-40%);
+    left: 0;
+    padding: 0 20px;
+    z-index: 999;
+}
+
+.withdrawal_code_modal.active {
+    display: flex;
+}
+
+.code_modal_content {
+    width: 350px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 5px;
+    background: #fff;
+}
+
 .profile_image {
     display: flex;
     gap: 20px;
@@ -505,6 +545,11 @@ main {
 
     .payment_form_wrapper form {
         max-width: 550px;
+        margin: auto;
+    }
+
+    .code_modal_content {
+        width: 600px;
         margin: auto;
     }
 

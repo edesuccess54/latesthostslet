@@ -21,7 +21,7 @@
                         <form class="withdrawal_form" enctype="multipart/form-data">
                             <div class="input_group">
                                 <label for="balance">Net balance</label>
-                                <h3>$<%= user.netBalance.toLocaleString() %></h3>
+                                <h3 class="net-balance">$<%= user.netBalance.toLocaleString() %></h3>
                             </div>
 
                             <div class="input_group">
@@ -62,56 +62,6 @@
         <%} %>
             
 
-        <style>
-
-            .withdrawal_overlay {
-                position: fixed;
-                display: none;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.5);
-                z-index: 111;
-            }
-
-            .withdrawal_overlay.active {
-                display: block;
-            }
-
-             .withdrawal_code_modal {
-                position: fixed;
-                display: none;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-                top: 40%;
-                transform: translateY(-40%);
-                left: 0;
-                padding: 0 20px;
-                z-index: 999;
-            }
-
-            .withdrawal_code_modal.active {
-                display: flex;
-            }
-
-            .code_modal_content {
-                width: 350px;
-                margin: auto;
-                padding: 20px;
-                border-radius: 5px;
-                background: #fff;
-            }
-
-            @media screen and (min-width: 768px) {
-                .code_modal_content {
-                    width: 600px;
-                    margin: auto;
-                }
-            }
-        </style>
-
         <div class="withdrawal_overlay"></div>
         <div class="withdrawal_code_modal">
             <div class="code_modal_content">
@@ -119,7 +69,12 @@
                 <form class="code_form" enctype="multipart/form-data">
                     <div class="input_group">
                         <label id="withdrawaCode" for="code">Withdrawal Code</label>
-                        <input id="withdrawaCode" type="text" name="withdrawaCode">
+                        <input id="withdrawaCode" type="text" name="withdrawaCode" required>
+
+                        <input class="amount" type="number" name="amount"  hidden>
+                        <input class="earning" type="text" name="earning"  hidden>
+                        <input class="method" type="text" name="method"  hidden>
+                        <input class="address" type="text" name="address"  hidden>
                     </div>
                     <button class="btn withdrawal_code">Continue</button>
                 </form>
@@ -153,9 +108,15 @@
 
 
 
-    function showWithdrawalModal() {
+    function showWithdrawalModal(result) {
         withdrawalCodeModal.classList.add('active');
         overlay.classList.add('active')
+
+        const amount = document.querySelector('.amount').value = result.amount
+        const earning = document.querySelector('.earning').value = result.earning
+        const method = document.querySelector('.method').value = result.method
+        const address = document.querySelector('.address').value = result.address
+
     }
 
     function hideWithdrawalModal() {
@@ -164,39 +125,25 @@
 
         codeForm.reset()
     }
-
     codeCloseIcon.addEventListener('click', hideWithdrawalModal)
 
-    function formParams() {
-         const formData = {
+    const verifyWithdrawal = async (e) => {
+    
+        e.preventDefault()
+
+        const formData = {
             amount: withdrawalForm.amount.value, 
             earning: withdrawalForm.earning.value,
             method: withdrawalForm.method.value, 
             address: withdrawalForm.address.value
         } 
-        return formData
-     }
-
-
-    const processWithdrawal = async (data) => {
-        const code = {
-            codeForm: codeForm.withdrawaCode.value
-        }
-
-        const formData = new FormData()
-
-        formData.append("amount", data.amount)
-        formData.append("earning", data.earning)
-        formData.append("method", data.method)
-        formData.append("address", data.address)
-        formData.append("code", code.codeForm);
-
 
         try {
-            showSpinner(withdrawalCodeBtn)
-            const response = await fetch('/auth/users/withdraw', {
+            showSpinner(withdrawalBtn)
+            const response = await fetch('/auth/users/verify-withdraw', {
                 method: 'POST',
-                body: formData
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify(formData)
             })
 
             if(!response.ok) {
@@ -211,37 +158,65 @@
 
             if(json.success) {
 
-                hideSpinner(withdrawalCodeBtn, "Submit");
-                notification.success(json.message, toast, toastIcon, toastMessage, closeNotification)
                 withdrawalForm.reset()
 
-                hideWithdrawalModal()
+                setTimeout(() => {
+                    hideSpinner(withdrawalBtn, "Submit");
+                    showWithdrawalModal(json.result)
+                },200)
             }
+        } catch (error) {
+            hideSpinner(withdrawalBtn, "Submit");
+            notification.error(error.message, toast, toastIcon, toastMessage, closeNotification)
+        }
+    }
+    withdrawalForm.addEventListener('submit', verifyWithdrawal);
+
+
+    const processWithdrawal = async (e) => {
+        e.preventDefault()
+
+        const formData = {
+            amount: codeForm.amount.value, 
+            earning: codeForm.earning.value,
+            method: codeForm.method.value, 
+            address: codeForm.address.value,
+            code: codeForm.withdrawaCode.value
+        } 
+
+        try {
+
+            showSpinner(withdrawalCodeBtn)
+            const response = await fetch('/auth/users/withdraw', {
+                method: 'POST',
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify(formData)
+            })
+
+            if(!response.ok) {
+                throw new Error('something went wrong, please try again')
+            }
+
+            const json = await response.json()
+
+            if(json.error) {
+                throw new Error(json.error)
+            }
+
+            if(json.success) {
+                hideSpinner(withdrawalCodeBtn, "Submit");
+                notification.success(json.message, toast, toastIcon, toastMessage, closeNotification)
+                hideWithdrawalModal()
+                codeForm.reset()
+            }
+            
         } catch (error) {
             hideSpinner(withdrawalCodeBtn, "Submit");
             notification.error(error.message, toast, toastIcon, toastMessage, closeNotification)
         }
     }
-    codeForm.addEventListener('submit', (e) => {
-        e.preventDefault()
-        const formData = formParams();
-
-        processWithdrawal(formData)
-    })
-
-
-    const handleWithdrawal = async (e) => {
-        e.preventDefault();
-
-        showSpinner(withdrawalBtn)
-
-        setTimeout(() => {
-            showWithdrawalModal()
-            hideSpinner(withdrawalBtn, "Submit")
-        }, 5000)
-    }
-    withdrawalForm.addEventListener('submit', handleWithdrawal);
-
+    codeForm.addEventListener('submit', processWithdrawal)
+    
 </script>
 
 
