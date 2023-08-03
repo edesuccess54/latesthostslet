@@ -13,8 +13,10 @@ const fs = require('fs');
 const getIP = require('ipware')().get_ip;
 const sendEmail = require('../utils/sendEmail');
 const sendVerificationEmail = require('../utils/sendVerificationEmail');
+const sendAdminEmailWhenUserRegister = require('../utils/sendAdminEmailWhenUserRegister')
 const crypto = require('crypto');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const { registered } = require('fontawesome');
 
 const generateToken = async (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
@@ -588,6 +590,9 @@ const userRegisteration = async (req, res, next) => {
 
         // send user verification email 
         await sendVerificationEmail(user);
+
+        // send email to admin when a user get registered
+        await sendAdminEmailWhenUserRegister(user)
 
         res.json({ success: true, message: 'successfully registered', user, token })
         
