@@ -747,7 +747,8 @@ const changePassword = async (req, res, next) => {
 
     try {
 
-        const user = await User.findOne({ _id: req.user });
+        const user = await User.findOne({ _id: req.user._id });
+
 
         if (!user) {
             throw new Error("user not found")
@@ -758,11 +759,13 @@ const changePassword = async (req, res, next) => {
             throw new Error("old password is not correct")
         }
 
-        user.password = password1;
+        const updateUserPassword = await User.findByIdAndUpdate(user._id, {password: password1});
 
-        await user.save();
+        if(!updateUserPassword) {
+            throw new Error("password update failed")
+        }
 
-        res.status(200).json({success: true, message: 'Password has been changed successfully'})
+        res.status(200).json({success: true, message: 'Password changed successfuly'})
  
     } catch (error) {
         next(new ErrorResponse(error.message, 400))

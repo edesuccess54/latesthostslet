@@ -37,7 +37,6 @@ const userSchema = Schema({
      
      ip: {
         type: String,
-        // required: true
     },
      
     lastseen: {
@@ -93,15 +92,8 @@ const userSchema = Schema({
         default: false
     },
 
-    //  block: {
-    //     type: Boolean,
-    //     required: true,
-    //     default: false
-    // },
-
     accountStatus: {
         type: String,
-        // required: true,
         default: 'active',
         enum: ['active', 'suspended', 'closed']
     },

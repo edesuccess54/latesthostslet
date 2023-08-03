@@ -578,8 +578,6 @@ const userRegisteration = async (req, res, next) => {
 
         const token = await generateToken(user._id);
 
-        console.log(9)
-
         res.cookie("token", token, {
             path: "/",
             httpOnly: true,
