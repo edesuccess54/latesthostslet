@@ -1,0 +1,72 @@
+<section class="form_section" style="margin-top: 20px; padding-top: 20px;">
+    <h2>Update User Property</h2>
+    <div class="form_wrapper">
+        <div class="form_container">
+            <form class="user_property_form" enctype="multipart/form-data">
+
+                <div class="input_group">
+                    <label for="property">Property Reference</label>
+                    <input id="property" type="text" name="property" placeholder="Enter the property reference" required>
+                </div>
+
+                <div class="input_group">
+                    <button class="btn user_property_btn">Update Property</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script type="module">
+
+    import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+    toastBtn.addEventListener('click', () => closeNotification(toast));
+
+
+    const queryStrings = new URLSearchParams(document.location.search)
+    const user = queryStrings.get('hostsletuser');
+
+    const propertyForm = document.querySelector('.user_property_form');
+    const propertyBtn = document.querySelector('.user_property_btn');
+
+   async function updateUserProperty(e) {
+        e.preventDefault();
+
+        try {
+
+            showSpinner(propertyBtn)
+
+            let formData = {
+                property: propertyForm.property.value,
+            }
+
+            const response = await fetch(`/auth/admin/property/${user}`, {
+                method: 'post',
+                headers: {'Content-Type' : 'application/json'},
+                body: JSON.stringify(formData)
+            })
+
+            if(!response.ok) {
+                throw new Error('something went wrong, please try again')
+            }
+
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error)
+            }
+
+            if(json.success) {
+                hideSpinner(propertyBtn, "Updated property")
+                notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
+                propertyForm.reset();
+            }
+            
+        } catch (error) {
+            hideSpinner(propertyBtn, "Updated property")
+            notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
+        }
+    }
+
+    propertyForm.addEventListener('submit', updateUserProperty);
+</script>

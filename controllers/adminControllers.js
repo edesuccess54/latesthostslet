@@ -9,7 +9,8 @@ const User =require('../models/usersModel')
 const ErrorResponse = require('../utils/errorResponse');
 const cloudinary = require('cloudinary').v2
 const fs = require('fs');
-const sendDocumentRejectionEmail = require('../utils/sendDocumentRejectionEmail')
+const sendDocumentRejectionEmail = require('../utils/sendDocumentRejectionEmail');
+const mongoose = require('mongoose')
 
 
 function generateRandomString(length) {
@@ -1046,6 +1047,38 @@ const editUserCheckin = async (req, res, next) => {
     }
 }
 
+const updateUserProperty = async (req, res, next) => {
+    const {id} = req.params;
+    const {property} = req.body
+    console.log(req.id);
+    try {
+
+        if(!property) {
+            throw new Error('Please provide property reference');
+        }
+
+        if(!mongoose.Types.ObjectId.isValid(property)) {
+            throw new Error('Property reference is invalid');
+        }
+
+        const user = await User.findOne({_id: id});
+
+        if(!user) {
+            throw new Error('This user is not found');
+        }
+
+        user.reference = property;
+
+        await user.save();
+
+        res.status(200).json({success: true, message: 'User property has been updated'})
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return;
+    }
+}
+
 
 
 
@@ -1092,5 +1125,6 @@ module.exports = {
     deleteUser,
     deleteUserCheckins,
     editCheckinsPage,
-    editUserCheckin
+    editUserCheckin,
+    updateUserProperty
 }

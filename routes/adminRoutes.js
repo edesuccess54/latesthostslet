@@ -1,5 +1,5 @@
 const express = require('express');
-const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateWithdrawalCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument, approveDocument, rejectDocument, changePassword, changePasswordPage, userDetailPage, updateUserAccountStatus, blockUserAccount, activateUserWithdrawal, fundDepositPage, fundProfitPage, fundBonusPage, fundDeposit, fundProfit, fundBonus, deleteUser, deleteUserCheckins, editCheckinsPage, editUserCheckin} = require('../controllers/adminControllers');
+const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateWithdrawalCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument, approveDocument, rejectDocument, changePassword, changePasswordPage, userDetailPage, updateUserAccountStatus, blockUserAccount, activateUserWithdrawal, fundDepositPage, fundProfitPage, fundBonusPage, fundDeposit, fundProfit, fundBonus, deleteUser, deleteUserCheckins, editCheckinsPage, editUserCheckin, updateUserProperty} = require('../controllers/adminControllers');
 const upload = require('../utils/fileUpload.js');
 const auth = require('../middleware/auth');
 const authorize = require('../middleware/authorize');
@@ -59,6 +59,7 @@ router.post('/fund-profit/:id', auth, authorize('admin'), fundProfit);
 router.post('/fund-bonus/:id', auth, authorize('admin'), fundBonus);
 
 router.delete('/delete-user/:id', auth, authorize('admin'), deleteUser)
+router.post('/property/:id', auth, authorize('admin'), updateUserProperty)
 
 
 
