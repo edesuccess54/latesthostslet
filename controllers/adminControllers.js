@@ -335,27 +335,54 @@ const editProopertyDetail = async (req, res, next) => {
 
     if (req.files) {
 
-        for (let i = 0; i < req.files.length; i++){
-            let fileData = {}
+        // for (let i = 0; i < req.files.length; i++){
+        //     let fileData = {}
 
-            let uploadedFile = await cloudinary.uploader.upload(req.files[i].path, { folder: "hostpro", resource_type: "image" })
+        //     let uploadedFile = await cloudinary.uploader.upload(req.files[i].path, { folder: "hostpro", resource_type: "image" })
 
-            if (!uploadedFile) {
-                next(new ErrorResponse("image could not be uploaded", 500));
-                return
-            }
+        //     if (!uploadedFile) {
+        //         next(new ErrorResponse("image could not be uploaded", 500));
+        //         return
+        //     }
 
-            fileData = {
-                fileName: req.files[i].originalname,
-                filePath: uploadedFile.secure_url,
-                fileType: req.files[i].mimetype,
-                fileSize: req.files[i].size,
-            }
-            images.push(fileData)
-        }
+        //     fileData = {
+        //         fileName: req.files[i].originalname,
+        //         filePath: uploadedFile.secure_url,
+        //         fileType: req.files[i].mimetype,
+        //         fileSize: req.files[i].size,
+        //     }
+        //     images.push(fileData)
+        // }
+
+        // Create a helper function to read a file and return a promise
+        function readFileAsync(path) {
+            return new Promise((resolve, reject) => {
+                fs.readFile(path, (err, data) => {
+                if (err) {
+                    console.error(err);
+                    reject(new ErrorResponse('Error reading image file', 500));
+                    return;
+                }
+        
+                const base64String = Buffer.from(data).toString('base64');
+                const fileData = {
+                    url: base64String
+                };
+        
+                resolve(fileData);
+                });
+            });
+        } 
     }
 
     try {
+
+        const filePromises = req.files.map(file => readFileAsync(file.path));
+        const imageResults = await Promise.all(filePromises);
+
+
+        images.push(...imageResults);
+
         const property = await Property.findOne({ _id: propertyId })
         
         if (!property) {
