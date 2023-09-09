@@ -377,11 +377,12 @@ const editProopertyDetail = async (req, res, next) => {
 
     try {
 
-        const filePromises = req.files.map(file => readFileAsync(file.path));
-        const imageResults = await Promise.all(filePromises);
+        if(req.files) {
+            const filePromises = req.files.map(file => readFileAsync(file.path));
+            const imageResults = await Promise.all(filePromises);
 
-
-        images.push(...imageResults);
+            images.push(...imageResults);
+        }
 
         const property = await Property.findOne({ _id: propertyId })
         
