@@ -808,7 +808,6 @@ const blockUserAccount = async (req, res, next) => {
     try {
         const user = await User.findOne({ _id: id });
 
-        console.log(user)
 
         if (!user) {
             throw new Error("This user does not exist");
