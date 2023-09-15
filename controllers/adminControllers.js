@@ -536,7 +536,8 @@ const approvePayment = async (req, res, next) => {
 
         transaction.status = true;
         user.host = true;
-        user.unitAmount = transaction.unitAmount
+        userCurrentUnit = user.unitAmount;
+        user.unitAmount = Number(userCurrentUnit) + Number(transaction.unitAmount)
         await user.save();
         await transaction.save();
 
