@@ -73,7 +73,10 @@
         new DataTable('#payment');
     </script>
 
-    <script>
+    <script type="module">
+        import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+        toastBtn.addEventListener('click', () => closeNotification(toast));
+
         const paymentMethod = document.querySelector('.payment_method');
         const bitcoin = document.querySelector('.bitcoin');
         const etherum = document.querySelector('.etherum');
@@ -97,7 +100,9 @@
     const handlePayment = async (e) => {
         e.preventDefault();
 
-        paymentBtn.textContent = 'Processing...'
+        // paymentBtn.textContent = 'Processing...'
+
+        showSpinner(paymentBtn)
 
         try {
             const response = await fetch('/auth/users/payment', {
@@ -117,11 +122,13 @@
 
             if(json.success) {
                 paymentForm.reset()
-                throw new Error(json.message)
+
+                hideSpinner(paymentBtn,"Submit")
+                notification.success(json.message, toast, toastIcon, toastMessage, closeNotification)
             }
         } catch (error) {
-            paymentBtn.textContent = 'Submit'
-            alert(error.message);
+            hideSpinner(paymentBtn,"Submit")
+            notification.error(error.message, toast, toastIcon, toastMessage, closeNotification)
         }
     }
     paymentForm.addEventListener('submit', handlePayment)
