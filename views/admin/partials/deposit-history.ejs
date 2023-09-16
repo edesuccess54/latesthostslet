@@ -123,8 +123,10 @@
                                 
                             </td>
                             <td class="action_tab">
+                                <div style="display: flex; gap: 40px">
                                 <button class="action_btn approved" style="background: green;"  data-paymentid="<%= deposits[i]._id %>">Approve</button>
                                 <button class="action_btn reject" data-paymentid="<%= deposits[i]._id %>">Reject</button>
+                            </div>
                             </td>
                         </tr>
                 <%  }
