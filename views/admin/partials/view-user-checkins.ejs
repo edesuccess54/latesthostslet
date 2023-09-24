@@ -58,45 +58,58 @@
         if (e.target.classList.contains('trash')) {
 
             e.preventDefault();
-            
-            const checkinId = e.target.dataset.checkin;
-            const clickedBtn = e.target.parentNode
 
-            showSpinner(clickedBtn)
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#ff385c',
+            confirmButtonText: 'Yes, delete it!'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
 
-            try {
-                const response = await fetch(`/auth/admin/delete-checkins/${checkinId}`, {
-                    method: "DELETE",
-                    headers: {"Content-Type" : "application/json"}
-                })
+                    const checkinId = e.target.dataset.checkin;
+                    const clickedBtn = e.target.parentNode
 
-                if(!response.ok) {
-                    throw new Error("something went wrong please try again")
-                }
+                    showSpinner(clickedBtn)
 
-                const json = await response.json()
+                    try {
+                        const response = await fetch(`/auth/admin/delete-checkins/${checkinId}`, {
+                            method: "DELETE",
+                            headers: {"Content-Type" : "application/json"}
+                        })
 
-                if(json.error) {
-                    notification.error(json.error, toast, toastIcon, toastMessage, closeNotification);
-                }
+                        if(!response.ok) {
+                            throw new Error("something went wrong please try again")
+                        }
 
-                if(json.success) {
-                    hideSpinner(clickedBtn, '<i class="fa-solid fa-trash trash" data-checkin=""></i>')
-                    notification.error(json.message, toast, toastIcon, toastMessage, closeNotification);
+                        const json = await response.json()
 
-                    setTimeout(() => {
-                        location.reload()
-                    }, 3000)
-                }
-            
-            } catch (error) {
-                hideSpinner(clickedBtn, '<i class="fa-solid fa-trash trash" data-checkin=""></i>')
-                notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
+                        if(json.error) {
+                            notification.error(json.error, toast, toastIcon, toastMessage, closeNotification);
+                        }
 
-                setTimeout(() => {
-                    location.reload()
-                }, 3000)
-            }
+                        if(json.success) {
+                            hideSpinner(clickedBtn, '<i class="fa-solid fa-trash trash" data-checkin=""></i>')
+                            notification.error(json.message, toast, toastIcon, toastMessage, closeNotification);
+
+                            setTimeout(() => {
+                                location.reload()
+                            }, 3000)
+                        }
+                    
+                    } catch (error) {
+                        hideSpinner(clickedBtn, '<i class="fa-solid fa-trash trash" data-checkin=""></i>')
+                        notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
+
+                        setTimeout(() => {
+                            location.reload()
+                        }, 3000)
+                    }
+                            
+                }})
         }
     }
     checkinsTbody.addEventListener('click', deleteUserCheckins)
