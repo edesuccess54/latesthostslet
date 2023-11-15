@@ -140,6 +140,12 @@ const editCheckinsPage = async (req, res, next) => {
     res.render('admin/edit-checkins', {title: 'Edit Checkins', checkin})
 }
 
+// view reviews page 
+const viewReviewPage = async (req, res, next) => {
+    const reviews = await Property.find()
+    res.render('admin/view-review', {title: 'View Review', reviews})
+}
+
 
 
 const createProperty = async (req, res, next) => { 
@@ -1154,5 +1160,6 @@ module.exports = {
     deleteUserCheckins,
     editCheckinsPage,
     editUserCheckin,
-    updateUserProperty
+    updateUserProperty,
+    viewReviewPage
 }

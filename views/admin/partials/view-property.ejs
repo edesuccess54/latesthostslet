@@ -17,6 +17,7 @@
                 <th>Location</th>
                 <th>Amount</th>
                 <th>Category</th>
+                <th>Review</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -28,6 +29,9 @@
                         <td><%= plocation %></td>
                         <td>$<%= Number(pamount).toLocaleString() %></td>
                         <td><%= pcategory %></td>
+                        <td>
+                            <span><a href="/auth/admin/review?hostslet=<%= randomString1 %>&host=<%= randomString2 %>&property=<%= _id %>">Add review</a></span>
+                        </td>
                         <td>
                            <div class="action-td">
                                 <span class="edit-icon">

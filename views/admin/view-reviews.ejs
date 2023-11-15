@@ -1,0 +1,131 @@
+<%- include('./partials/head') %>
+
+<main>
+    <div class="content_wrapper">
+        <%- include('./partials/sideNav') %>
+
+        <div class="main_content_wrapper">
+            <div class="main_content">
+
+                <!-- display all property section  -->
+                <section class="table_section" style="padding-top: 40px;">
+                    <table id="users" class="display responsive">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name of reviewer</th>
+                                <th>Property reviewd</th>
+                                <th>Review</th>
+                                <th>Country</th>
+                                <th>status</th>
+                                <th>View Client</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-body">
+                            <% if(users) { %>
+                                <% users.map(({_id, firstname, lastname, email, number, country, onlineStatus }, index) => { %>
+                            <tr>
+                                <td><%= index + 1 %></td>
+                                <td><%= firstname %> <%= lastname %></td>
+                                <td><%= email %></td>
+                                <td><%= number %></td>
+                                <td><%= country %></td>
+                                <td>
+                                    <% if(onlineStatus) { %>
+                                       <p class="online">online</p>
+                                    <% } else { %>
+                                        <p class="offline">offline</p>
+                                    <%} %> 
+                                </td>
+                                
+                                <td>
+                                    <a href="/auth/admin/user-detail?single=<%= randomString1 %>&hostnow=<%= randomString2 %>&hostsletuser=<%= _id %>">
+                                        <span><i class="fa-solid fa-address-book"></i></span>
+                                        <span>view</span>
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <button class="trash-btn">
+                                        <i class="fa-solid fa-trash trash" data-user="<%= _id %>"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <% })} %>
+                        
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script type="module">
+    import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+    toastBtn.addEventListener('click', () => closeNotification(toast));
+
+    const tableBody = document.querySelector('.table-body');
+
+    const deleteUser = async (e) => {
+        if(e.target.classList.contains('trash')) {
+
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#ff385c',
+            confirmButtonText: 'Yes, delete it!'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const userId = e.target.dataset.user
+                    const deleteBtn = e.target.parentNode
+
+                    try {
+
+                        const response = await fetch(`/auth/admin/delete-user/${userId}`, {
+                            method: "DELETE",
+                            headers: {"Content-Type" : "application/json"}
+                        })
+
+                        if(!response.ok) {
+                            throw new Error('something went wrong please try again')
+                        }
+
+                        const json = await response.json()
+
+                        if(json.error) {
+                            throw new Error(json.error)
+                        }
+
+                        if(json.success) {
+                            notification.error(json.message, toast, toastIcon, toastMessage, closeNotification);
+
+                            location.reload()
+                        }
+
+                    } catch(error) {
+                        notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
+
+                        location.reload()
+                    }
+                }
+            })
+        }
+    }
+    tableBody.addEventListener('click', deleteUser)
+   
+</script>
+    
+<%- include('./partials/footer')  %>
+
+<script>
+    $(document).ready(function () {
+        $('#users').DataTable({
+            scrollX: true,
+        });
+    });
+</script>

@@ -1,5 +1,5 @@
 const express = require('express');
-const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateWithdrawalCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument, approveDocument, rejectDocument, changePassword, changePasswordPage, userDetailPage, updateUserAccountStatus, blockUserAccount, activateUserWithdrawal, fundDepositPage, fundProfitPage, fundBonusPage, fundDeposit, fundProfit, fundBonus, deleteUser, deleteUserCheckins, editCheckinsPage, editUserCheckin, updateUserProperty} = require('../controllers/adminControllers');
+const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateWithdrawalCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument, approveDocument, rejectDocument, changePassword, changePasswordPage, userDetailPage, updateUserAccountStatus, blockUserAccount, activateUserWithdrawal, fundDepositPage, fundProfitPage, fundBonusPage, fundDeposit, fundProfit, fundBonus, deleteUser, deleteUserCheckins, editCheckinsPage, editUserCheckin, updateUserProperty, viewReviewPage} = require('../controllers/adminControllers');
 const upload = require('../utils/fileUpload.js');
 const auth = require('../middleware/auth');
 const authorize = require('../middleware/authorize');
@@ -22,6 +22,7 @@ router.get('/user-detail', auth, authorize('admin'), userDetailPage);
 router.get('/fund-deposit', auth, authorize('admin'), fundDepositPage);
 router.get('/fund-profit', auth, authorize('admin'), fundProfitPage);
 router.get('/fund-bonus', auth, authorize('admin'), fundBonusPage);
+router.get('/view-reviews', auth, authorize('admin'), viewReviewPage);
 
 
 router.post('/create', auth, authorize('admin'),  upload.array("images"), createProperty);

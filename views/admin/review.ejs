@@ -44,6 +44,9 @@
 </main>
 
 <script type="module" >
+    import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+    toastBtn.addEventListener('click', () => closeNotification(toast));
+
     const reviewForm = document.querySelector('.review_form');
     const message = document.querySelector('.message');
     const formBtn = document.querySelector('.review_btn');
@@ -54,9 +57,7 @@
     const addReview = async (e) => {
         e.preventDefault();
 
-        formBtn.textContent = 'processing, please wait...';
-        message.textContent = '';
-        message.className = 'message'
+        showSpinner(formBtn)
 
         let formData = new FormData(reviewForm);
 
@@ -77,16 +78,14 @@
             }
 
             if(json.success) {
-                formBtn.textContent = 'Create property';
-                message.classList.add('success');
-                message.textContent = json.message;
+                hideSpinner(formBtn, "Create property")
+                notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
                 reviewForm.reset();
             }
             
         } catch (error) {
-            formBtn.textContent = 'Create property';
-            message.classList.add('error');
-            message.textContent = error.message;
+            hideSpinner(formBtn, "Create property")
+            notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
         }
     }
     reviewForm.addEventListener('submit', addReview)
