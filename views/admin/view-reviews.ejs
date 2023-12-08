@@ -16,35 +16,18 @@
                                 <th>Name of reviewer</th>
                                 <th>Property reviewd</th>
                                 <th>Review</th>
-                                <th>Country</th>
-                                <th>status</th>
-                                <th>View Client</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody class="table-body">
-                            <% if(users) { %>
-                                <% users.map(({_id, firstname, lastname, email, number, country, onlineStatus }, index) => { %>
+                            <% if(reviews) { %>
+                                <% reviews.map(({_id, name, review }, index) => { %>
                             <tr>
                                 <td><%= index + 1 %></td>
-                                <td><%= firstname %> <%= lastname %></td>
-                                <td><%= email %></td>
+                                <td><%= name %></td>
+                                <td><%= review %></td>
                                 <td><%= number %></td>
                                 <td><%= country %></td>
-                                <td>
-                                    <% if(onlineStatus) { %>
-                                       <p class="online">online</p>
-                                    <% } else { %>
-                                        <p class="offline">offline</p>
-                                    <%} %> 
-                                </td>
-                                
-                                <td>
-                                    <a href="/auth/admin/user-detail?single=<%= randomString1 %>&hostnow=<%= randomString2 %>&hostsletuser=<%= _id %>">
-                                        <span><i class="fa-solid fa-address-book"></i></span>
-                                        <span>view</span>
-                                    </a>
-                                </td>
 
                                 <td>
                                     <button class="trash-btn">
