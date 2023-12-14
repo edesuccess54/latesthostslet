@@ -18,6 +18,22 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const { registered } = require('fontawesome');
 
+
+function generateRandomString(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    
+    return result;
+}
+
+const randomString1 = generateRandomString(26);
+const randomString2 = generateRandomString(40);
+
 const generateToken = async (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 }
@@ -56,7 +72,15 @@ const profilePage = async (req, res, next) => {
     const user = req.user
 
     const property = await Property.findOne({_id: user.reference})
-    res.render('user/profile', {user, property})
+    res.render('user/profile', {user, property, randomString1, randomString2})
+}
+
+// change property page 
+const changePropertyPage = async (req, res, next) => {
+    const user = req.user
+
+    // const property = await Property.findOne({_id: user.reference})
+    res.render('user/change-user-property', {user})
 }
 
 // help page 
@@ -773,6 +797,37 @@ const resendVerificationEmail = async (req, res, next) => {
 }
 
 
+const updateUserProperty = async (req, res, next) => {
+    const {id} = req.params;
+    const {property} = req.body
+    try {
+
+        if(!property) {
+            throw new Error('Please provide property reference');
+        }
+
+        if(!mongoose.Types.ObjectId.isValid(property)) {
+            throw new Error('Property reference is invalid');
+        }
+
+        const user = await User.findOne({_id: id});
+
+        if(!user) {
+            throw new Error('This user is not found');
+        }
+
+        user.reference = property;
+        user.unitAmount = 0;
+
+        await user.save();
+
+        res.status(200).json({success: true, message: 'User property has been updated'})
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return;
+    }
+}
 
 module.exports = {
     userRegisteration,
@@ -800,5 +855,7 @@ module.exports = {
     uploadUserIdentityDocument,
     emailVerificationPage,
     resendVerificationEmail,
-    verifyWithdrawal
+    verifyWithdrawal,
+    changePropertyPage,
+    updateUserProperty,
 }

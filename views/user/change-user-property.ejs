@@ -1,0 +1,86 @@
+<%- include('./partials/head') %>
+    
+    <main>
+        <div class="avatar_bio_wrapper">
+            <div class="back">
+                <a href="/auth/users/dashboard"><span><i class="fa-solid fa-angle-left"></i></span></a>
+            </div>
+            <h3>Change Property</h3>
+        </div>
+
+        <div class="upload_section">
+            <div class="payment_form_wrapper">
+                <form class="user_property_form" enctype="multipart/form-data">
+
+                    <div class="input_group">
+                        <label for="property">Property Reference</label>
+                        <input id="property" type="text" name="property" placeholder="Enter the property reference" required>
+                    </div>
+
+                    <button class="btn user_property_btn" type="submit" style="color: black;">Change Property</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        new DataTable('#payment');
+    </script>
+
+    <script type="module">
+        import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+        toastBtn.addEventListener('click', () => closeNotification(toast));
+
+        const queryStrings = new URLSearchParams(document.location.search)
+        const user = queryStrings.get('hostsletuser');
+
+        const propertyForm = document.querySelector('.user_property_form');
+        const propertyBtn = document.querySelector('.user_property_btn');
+
+        async function updateUserProperty(e) {
+            e.preventDefault();
+
+            try {
+
+                showSpinner(propertyBtn)
+
+                let formData = {
+                    property: propertyForm.property.value,
+                }
+
+                const response = await fetch(`/auth/users/property/${user}`, {
+                    method: 'post',
+                    headers: {'Content-Type' : 'application/json'},
+                    body: JSON.stringify(formData)
+                })
+
+                if(!response.ok) {
+                    throw new Error('something went wrong, please try again')
+                }
+
+                const json = await response.json();
+
+                if(json.error) {
+                    throw new Error(json.error)
+                }
+
+                if(json.success) {
+                    hideSpinner(propertyBtn, "Updated property")
+                    notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
+                    propertyForm.reset();
+                }
+                
+            } catch (error) {
+                hideSpinner(propertyBtn, "Updated property")
+                notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
+            }
+        }
+
+        propertyForm.addEventListener('submit', updateUserProperty);
+    </script>
+</body>
+</html>

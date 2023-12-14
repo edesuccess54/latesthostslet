@@ -1,0 +1,86 @@
+<%- include('./partials/head') %>
+
+<main>
+    <div class="content_wrapper">
+        <%- include('./partials/sideNav') %>
+
+        <div class="main_content_wrapper">
+            <div class="main_content">
+            
+                <!-- create propety section  -->
+                <section class="form_section">
+                    <h3>Top-up User Shares</h3>
+                    <div class="form_wrapper">
+                        <div class="form_container">
+                            <form class="shares_form">
+                                <div class="input_group">
+                                    <label for="share">Shares</label>
+                                    <input id="share" type="text" name="share" required>
+                                </div>
+
+                                <div class="input_group">
+                                    <button class="btn shares_btn">Top-up Shares</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script type="module">
+    import {notification, showSpinner, hideSpinner, closeNotification} from '/main/js/notification.js';
+    toastBtn.addEventListener('click', () => closeNotification(toast));
+
+    const queryStrings = new URLSearchParams(document.location.search)
+    const hostsletuser = queryStrings.get('hostsletuser');
+
+    let sharesForm = document.querySelector('.shares_form');
+    const formBtn = document.querySelector('.shares_btn');
+
+    const topUpUserShares = async (e) => {
+        e.preventDefault();
+
+        const formData = {
+            share: sharesForm.share.value,
+        }
+
+        try {
+            showSpinner(formBtn);
+
+            const response = await fetch(`/auth/admin/top-up-shares/${hostsletuser}`, {
+                method: "POST",
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify(formData)
+            })
+
+            if(!response.ok) {
+                throw new Error("something went wrong, please try again")
+            }
+
+            const json = await response.json();
+
+            if(json.error) {
+                throw new Error(json.error)
+            }
+
+            if(json.success) {
+                hideSpinner(formBtn, "Top-up Shares")
+                notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
+            }
+            
+        } catch (error) {
+            hideSpinner(formBtn, "Top-up Shares")
+            notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
+        }
+
+    }
+    sharesForm.addEventListener('submit', topUpUserShares)
+
+  
+</script>
+    
+<%- include('./partials/footer')  %>

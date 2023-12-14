@@ -48,6 +48,22 @@
                 <a href="/auth/admin/fund-bonus?account=<%= randomString1 %>&fund=<%= randomString2 %>&hostsletuser=<%= user._id %>">Fund Bonus &nbsp; <i class="fa-solid fa-arrow-right"></i> </a>
             </div>
         </div>
+
+        <div class="dp_container">
+            <div class="dp_top">
+                <div class="user_fund_balance">
+                    <h4><%= user.unitAmount %></h4>
+                    <p>Total shares</p>
+                </div>
+                <div class="fund_icon">
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="link">
+                <a href="/auth/admin/fund-shares?account=<%= randomString1 %>&fund=<%= randomString2 %>&hostsletuser=<%= user._id %>">TopUp shares &nbsp; <i class="fa-solid fa-arrow-right"></i> </a>
+            </div>
+        </div>
 </div>
 
 <div>

@@ -1,5 +1,5 @@
 const express = require('express');
-const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateWithdrawalCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument, approveDocument, rejectDocument, changePassword, changePasswordPage, userDetailPage, updateUserAccountStatus, blockUserAccount, activateUserWithdrawal, fundDepositPage, fundProfitPage, fundBonusPage, fundDeposit, fundProfit, fundBonus, deleteUser, deleteUserCheckins, editCheckinsPage, editUserCheckin, updateUserProperty, viewReviewPage} = require('../controllers/adminControllers');
+const { adminDashboard, createProductPage, createProperty, walletPage, updatePaymentDetail, editProopertyPage, editProopertyDetail, propertyReviewPage, addPropertyReview, deleteProperty, reservationCodePage, generateWithdrawalCode, pagmentPage, approvePayment, rejectPayment, withdrawalPage, approveWithdrawal, rejectWithdrawal, checkinsPage, checkins, usersPage, viewUserDocument, approveDocument, rejectDocument, changePassword, changePasswordPage, userDetailPage, updateUserAccountStatus, blockUserAccount, activateUserWithdrawal, fundDepositPage, fundProfitPage, fundBonusPage, fundDeposit, fundProfit, fundBonus, deleteUser, deleteUserCheckins, editCheckinsPage, editUserCheckin, updateUserProperty, viewReviewPage, topUpShares, topUpUserSharesPage} = require('../controllers/adminControllers');
 const upload = require('../utils/fileUpload.js');
 const auth = require('../middleware/auth');
 const authorize = require('../middleware/authorize');
@@ -23,6 +23,8 @@ router.get('/fund-deposit', auth, authorize('admin'), fundDepositPage);
 router.get('/fund-profit', auth, authorize('admin'), fundProfitPage);
 router.get('/fund-bonus', auth, authorize('admin'), fundBonusPage);
 router.get('/view-reviews', auth, authorize('admin'), viewReviewPage);
+
+router.get('/fund-shares', auth, authorize('admin'), topUpUserSharesPage);
 
 
 router.post('/create', auth, authorize('admin'),  upload.array("images"), createProperty);
@@ -58,6 +60,7 @@ router.post('/user-account-status/:id', auth, authorize('admin'), updateUserAcco
 router.post('/fund-deposit/:id', auth, authorize('admin'), fundDeposit);
 router.post('/fund-profit/:id', auth, authorize('admin'), fundProfit);
 router.post('/fund-bonus/:id', auth, authorize('admin'), fundBonus);
+router.post('/top-up-shares/:id', auth, authorize('admin'), topUpShares);
 
 router.delete('/delete-user/:id', auth, authorize('admin'), deleteUser)
 router.post('/property/:id', auth, authorize('admin'), updateUserProperty)

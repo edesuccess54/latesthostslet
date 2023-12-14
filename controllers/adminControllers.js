@@ -133,6 +133,11 @@ const fundBonusPage = async (req, res, next) => {
     res.render('admin/fund-bonus', {title: 'Fund Bonus'})
 }
 
+// top up user shares 
+const topUpUserSharesPage = async (req, res, next) => {
+    res.render('admin/fund-shares', {title: 'fund-shares'})
+}
+
 const editCheckinsPage = async (req, res, next) => {
     const {checkinId} = req.query
     const checkin = await Checkins.findOne({_id: checkinId});
@@ -1102,6 +1107,7 @@ const updateUserProperty = async (req, res, next) => {
         }
 
         user.reference = property;
+        user.unitAmount = 0;
 
         await user.save();
 
@@ -1110,6 +1116,40 @@ const updateUserProperty = async (req, res, next) => {
     } catch (error) {
         next(new ErrorResponse(error.message, 400))
         return;
+    }
+}
+
+
+const topUpShares = async (req, res, next) => {
+    const { share} = req.body
+    const { id } = req.params
+    
+    try {
+        if (!share) {
+           throw new Error("Please fill all field") 
+        }
+
+        const user = await User.findOne({ _id: id });
+
+        if (!user) {
+            throw new Error("user does not exits")
+        }
+
+        const currentShares = user.unitAmount;
+        let newShares =  Number(currentShares) + Number(share);
+
+        user.unitAmount = newShares
+        await user.save();
+
+        res.status(200).json(
+            {
+                success: true,
+                message:  "user shares top-up successfuly"
+            })
+        
+    } catch (error) {
+        next(new ErrorResponse(error.message, 400))
+        return
     }
 }
 
@@ -1161,5 +1201,7 @@ module.exports = {
     editCheckinsPage,
     editUserCheckin,
     updateUserProperty,
-    viewReviewPage
+    viewReviewPage,
+    topUpShares,
+    topUpUserSharesPage
 }

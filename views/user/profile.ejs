@@ -57,6 +57,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -102,7 +103,7 @@
 
                     @media screen and (min-width: 768px) {
                         .propety_details {
-                            grid-template-columns: repeat(3, 1fr);
+                            grid-template-columns: repeat(4, 1fr);
                         }
 
                         .large-show {
@@ -147,6 +148,12 @@
                             <p class="user-property-title"> Amount</p>
                             <p class="user-property-doc">$<%= Number(property.pamount).toLocaleString()  %></p>
                         </div>
+
+                        <div class="user-property">
+                            <p class="user-property-title"> Property</p>
+                            <a href="/auth/users/change-user-property?host=<%= randomString1 %>&morgan=<%= randomString2 %>&hostsletuser=<%= user._id %>" style="color: #fff; padding: 5px; border-radius: 5px; background: blue ">Change your property</a>
+                        </div>
+                        
                     </div>
                     
                 </div>
