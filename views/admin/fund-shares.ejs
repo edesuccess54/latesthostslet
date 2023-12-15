@@ -19,6 +19,14 @@
                                 </div>
 
                                 <div class="input_group">
+                                    <label for="amount">Top-up/Reduce shares</label>
+                                    <select name="action" id="">
+                                        <option value="increase">Topup Shares</option>
+                                        <option value="reduce">Reduce Shares</option>
+                                    </select>
+                                </div>
+
+                                <div class="input_group">
                                     <button class="btn shares_btn">Top-up Shares</button>
                                 </div>
 
@@ -46,6 +54,7 @@
 
         const formData = {
             share: sharesForm.share.value,
+            action: sharesForm.action.value
         }
 
         try {

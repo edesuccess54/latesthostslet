@@ -1121,11 +1121,11 @@ const updateUserProperty = async (req, res, next) => {
 
 
 const topUpShares = async (req, res, next) => {
-    const { share} = req.body
+    const { share, action} = req.body
     const { id } = req.params
     
     try {
-        if (!share) {
+        if (!share || !action) {
            throw new Error("Please fill all field") 
         }
 
@@ -1136,7 +1136,15 @@ const topUpShares = async (req, res, next) => {
         }
 
         const currentShares = user.unitAmount;
-        let newShares =  Number(currentShares) + Number(share);
+        let newShares;
+
+        if (action == 'increase') {
+            newShares = Number(currentShares) + Number(share);
+       }
+       
+        if (action == 'reduce') {
+            newShares = Number(currentShares) - Number(share);
+       }
 
         user.unitAmount = newShares
         await user.save();
@@ -1144,7 +1152,7 @@ const topUpShares = async (req, res, next) => {
         res.status(200).json(
             {
                 success: true,
-                message:  "user shares top-up successfuly"
+                message: action == "increase" ? "user shares top-up successful" : "user shares has been reduced"
             })
         
     } catch (error) {

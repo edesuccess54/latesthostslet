@@ -31,6 +31,10 @@ app.use('/', mainRoutes);
 app.use('/auth/users', userRoutes);
 app.use('/auth/admin', adminRoutes);
 
+app.use('*', (req, res) => {
+    res.redirect('/')
+})
+
 
 app.use(errorHandler)
 

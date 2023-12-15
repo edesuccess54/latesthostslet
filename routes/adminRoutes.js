@@ -62,8 +62,8 @@ router.post('/fund-profit/:id', auth, authorize('admin'), fundProfit);
 router.post('/fund-bonus/:id', auth, authorize('admin'), fundBonus);
 router.post('/top-up-shares/:id', auth, authorize('admin'), topUpShares);
 
-router.delete('/delete-user/:id', auth, authorize('admin'), deleteUser)
-router.post('/property/:id', auth, authorize('admin'), updateUserProperty)
+router.delete('/delete-user/:id', auth, authorize('admin'), deleteUser);
+router.post('/property/:id', auth, authorize('admin'), updateUserProperty);
 
 
 

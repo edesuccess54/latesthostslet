@@ -821,7 +821,7 @@ const updateUserProperty = async (req, res, next) => {
 
         await user.save();
 
-        res.status(200).json({success: true, message: 'User property has been updated'})
+        res.status(200).json({success: true, message: 'Your property has been updated'})
         
     } catch (error) {
         next(new ErrorResponse(error.message, 400))

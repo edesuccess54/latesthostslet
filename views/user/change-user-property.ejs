@@ -69,13 +69,13 @@
                 }
 
                 if(json.success) {
-                    hideSpinner(propertyBtn, "Updated property")
+                    hideSpinner(propertyBtn, "Change Property")
                     notification.success(json.message, toast, toastIcon, toastMessage, closeNotification);
                     propertyForm.reset();
                 }
                 
             } catch (error) {
-                hideSpinner(propertyBtn, "Updated property")
+                hideSpinner(propertyBtn, "Change Property")
                 notification.error(error.message, toast, toastIcon, toastMessage, closeNotification);
             }
         }
